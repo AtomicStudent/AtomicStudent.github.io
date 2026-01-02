@@ -81,7 +81,7 @@ function init() {
     container.appendChild(loadingText);
     
     // ПУТЬ К МОДЕЛИ - ИЗМЕНИТЕ ЭТУ СТРОКУ!
-    const modelPath = 'https://github.com/AtomicStudent/AtomicStudent.github.io/raw/main/models/Reactor.glb; // ← ЗАМЕНИТЕ НА СВОЙ ФАЙЛ
+    const modelPath = 'https://github.com/AtomicStudent/AtomicStudent.github.io/raw/main/models/Reactor.glb;// ← ЗАМЕНИТЕ НА СВОЙ ФАЙЛ
     
     loader.load(
         // URL модели
