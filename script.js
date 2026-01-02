@@ -19,7 +19,7 @@ function init() {
         // Эмпирические значения - подбирайте:
         SPACING_SMALL: 120,          // Собранное состояние - близко
         SPACING_LARGE: 450,          // Разобранное состояние - далеко
-        DELAY: 1600,
+        DELAY: 800,
         ANIMATION_DURATION: 2400,
         
         // Угол поворота всей сборки ТВС (в градусах)
@@ -38,7 +38,7 @@ function init() {
     
     const ANIMATION_DURATION = {
         FADE: 1500,
-        MOVE: 3000
+        MOVE: 1000
     };
     
     const MANUAL_POSITION_CORRECTION = {
@@ -53,7 +53,7 @@ function init() {
     
     const container = document.getElementById('model-container');
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.1, 50000);
-    camera.position.set(0, 50, 150);
+    camera.position.set(0, 100, 300);
     
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
