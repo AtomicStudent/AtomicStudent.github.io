@@ -20,7 +20,7 @@ function init() {
         SPACING_SMALL: 120,          // Собранное состояние - близко
         SPACING_LARGE: 450,          // Разобранное состояние - далеко
         DELAY: 1600,
-        ANIMATION_DURATION: 1200,
+        ANIMATION_DURATION: 3600,
         
         // Угол поворота всей сборки ТВС (в градусах)
         HEX_ROTATION: 30,
