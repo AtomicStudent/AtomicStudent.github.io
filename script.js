@@ -85,6 +85,31 @@ function init() {
             // Удаляем сообщение о загрузке
             container.removeChild(loadingText);
             
+            // Позиционирование и масштабирование модели
+model.position.set(0, 0, 0);
+model.scale.set(1, 1, 1);
+
+// Центрирование модели
+const box = new THREE.Box3().setFromObject(model);
+const center = box.getCenter(new THREE.Vector3());
+const size = box.getSize(new THREE.Vector3());
+
+// Перемещаем модель в центр сцены
+model.position.sub(center);
+
+// Автоматическая настройка камеры под размеры модели
+const maxDim = Math.max(size.x, size.y, size.z);
+const cameraDistance = maxDim * 2; // Увеличиваем множитель для больших моделей
+camera.position.set(cameraDistance, cameraDistance/2, cameraDistance);
+camera.lookAt(0, 0, 0);
+
+// Обновляем контролы
+controls.target.set(0, 0, 0);
+controls.update();
+
+console.log(`Размер модели: ${size.x.toFixed(2)} × ${size.y.toFixed(2)} × ${size.z.toFixed(2)} единиц`);
+console.log(`Центр модели: ${center.x.toFixed(2)}, ${center.y.toFixed(2)}, ${center.z.toFixed(2)}`);
+            
             // Настраиваем тени
             model.traverse(function(child) {
                 if (child.isMesh) {
