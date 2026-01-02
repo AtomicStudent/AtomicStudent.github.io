@@ -8,10 +8,10 @@ function init() {
     
     // ---------- 2. КАМЕРА ----------
     const camera = new THREE.PerspectiveCamera(
-        75, // угол обзора
+        45, // угол обзора
         window.innerWidth / window.innerHeight, // соотношение сторон
-        0.1, // ближняя плоскость
-        1000 // дальняя плоскость
+        0.01, // ближняя плоскость
+        50000 // дальняя плоскость
     );
     camera.position.set(5, 3, 10); // x, y, z
     
