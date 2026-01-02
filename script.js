@@ -359,10 +359,10 @@ function init() {
         const maxDim = Math.max(size.x, size.y, size.z);
         
         let cameraDistance = maxDim * 2;
-        cameraDistance = Math.max(cameraDistance, 200);
+        cameraDistance = Math.max(cameraDistance, 400);
         
-        camera.position.set(0, cameraDistance * 0.4, cameraDistance);
-        camera.lookAt(0, 1000, 0);
+        camera.position.set(0, cameraDistance * 0.8, cameraDistance);
+        camera.lookAt(0, 2000, 0);
         
         controls.target.set(0, 0, 0);
         controls.maxDistance = cameraDistance * 4;
