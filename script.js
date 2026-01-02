@@ -69,7 +69,7 @@ function init() {
     container.appendChild(loadingText);
     
     // ПУТЬ К МОДЕЛИ - ИЗМЕНИТЕ ЭТУ СТРОКУ!
-    const modelPath = 'models/your-model.glb'; // ← ЗАМЕНИТЕ НА СВОЙ ФАЙЛ
+    const modelPath = 'models/Для презентации.glb'; // ← ЗАМЕНИТЕ НА СВОЙ ФАЙЛ
     
     loader.load(
         // URL модели
