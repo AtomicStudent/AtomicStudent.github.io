@@ -113,7 +113,7 @@ function init() {
             console.log('📍 Оригинальный центр:', center.x.toFixed(1), center.y.toFixed(1), center.z.toFixed(1));
             
             // УВЕЛИЧИВАЕМ МОДЕЛЬ
-            const scale = 0.25;
+            const scale = 0.1;
             model.scale.setScalar(scale);
             console.log('⚖️ Масштаб применен:', scale, '(модель увеличена)');
             
