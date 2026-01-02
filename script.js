@@ -358,11 +358,11 @@ function init() {
         const size = box.getSize(new THREE.Vector3());
         const maxDim = Math.max(size.x, size.y, size.z);
         
-        let cameraDistance = maxDim * 2;
-        cameraDistance = Math.max(cameraDistance, 400);
+        let cameraDistance = maxDim * 1.8;
+        cameraDistance = Math.max(cameraDistance, 150);
         
-        camera.position.set(0, cameraDistance * 0.8, cameraDistance);
-        camera.lookAt(0, 2000, 0);
+        camera.position.set(0, cameraDistance * 0.5, cameraDistance);
+        camera.lookAt(0, 2500, 0);
         
         controls.target.set(0, 0, 0);
         controls.maxDistance = cameraDistance * 4;
