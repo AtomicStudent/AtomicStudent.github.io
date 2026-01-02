@@ -113,7 +113,7 @@ function init() {
             console.log('📍 Оригинальный центр:', center.x.toFixed(1), center.y.toFixed(1), center.z.toFixed(1));
             
             // УВЕЛИЧИВАЕМ МОДЕЛЬ (уменьшаем масштабирование)
-            const scale = 0.1;
+            const scale = 0.2;
             model.scale.setScalar(scale);
             console.log('⚖️ Масштаб применен:', scale, '(модель увеличена)');
             
@@ -130,8 +130,8 @@ function init() {
             
             // ЦЕНТРИРОВАНИЕ: сдвигаем модель так, чтобы ее центр был в (0,0,0)
             model.position.x = -newCenter.x;
-            model.position.y = -newCenter.y;
-            model.position.z = -newCenter.z;
+            model.position.y = -newCenter.y-33;
+            model.position.z = -newCenter.z+119.3;
             
             // Поднимаем модель, чтобы она стояла на сетке (y=0)
             // После центрирования низ модели находится на -newSize.y/2
