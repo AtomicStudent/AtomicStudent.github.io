@@ -9,7 +9,7 @@ function init() {
     // ---------- 2. КАМЕРА ----------
     const container = document.getElementById('model-container');
     const camera = new THREE.PerspectiveCamera(
-        45, // угол обзора
+        90, // угол обзора
         container.clientWidth / container.clientHeight,
         0.01, // ближняя плоскость (очень маленькая)
         50000 // дальняя плоскость (очень большая)
