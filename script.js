@@ -3,8 +3,8 @@ function init() {
     
     // ========== НАСТРОЙКИ ДЛЯ РУЧНОЙ КОРРЕКТИРОВКИ ==========
     const DISASSEMBLY_DISTANCE = {
-        CORPUS_DOWN: -1000,
-        LID_UP: 1000,
+        CORPUS_DOWN: -2000,
+        LID_UP: 2000,
         TVS_STAYS: 0
     };
     
@@ -18,7 +18,7 @@ function init() {
         
         // Эмпирические значения - подбирайте:
         SPACING_SMALL: 120,          // Собранное состояние - близко
-        SPACING_LARGE: 300,          // Разобранное состояние - далеко
+        SPACING_LARGE: 400,          // Разобранное состояние - далеко
         DELAY: 1600,
         ANIMATION_DURATION: 1200,
         
@@ -44,7 +44,7 @@ function init() {
     const MANUAL_POSITION_CORRECTION = {
         CORPUS: { x: 0, y: 0, z: 0 },
         TVS: { x: 0, y: 0, z: 0 },
-        LID: { x: 0, y: 200, z: 0 }
+        LID: { x: 0, y: 2000, z: 0 }
     };
     // ========== КОНЕЦ НАСТРОЕК ==========
     
