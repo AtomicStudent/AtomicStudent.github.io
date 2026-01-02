@@ -37,8 +37,8 @@ function init() {
     };
     
     const ANIMATION_DURATION = {
-        FADE: 300,
-        MOVE: 300
+        FADE: 1500,
+        MOVE: 3000
     };
     
     const MANUAL_POSITION_CORRECTION = {
@@ -53,7 +53,7 @@ function init() {
     
     const container = document.getElementById('model-container');
     const camera = new THREE.PerspectiveCamera(45, container.clientWidth/container.clientHeight, 0.1, 50000);
-    camera.position.set(0, 100, 300);
+    camera.position.set(0, 50, 150);
     
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -726,7 +726,7 @@ function init() {
         
         if (selectedPart) {
             selectedPart = null;
-            updateSelectionIndicator(tvsDisassembled ? 'ТВС разъехались' : 'Разобран');
+            updateSelectionIndicator(tvsDisassembled ? 'Разобран' : 'Разобран');
         }
     }
     
