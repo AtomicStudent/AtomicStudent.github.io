@@ -44,7 +44,7 @@ function init() {
     const MANUAL_POSITION_CORRECTION = {
         CORPUS: { x: 0, y: 0, z: 0 },
         TVS: { x: 0, y: 0, z: 0 },
-        LID: { x: 0, y: 2100, z: 0 }
+        LID: { x: 0, y: 2150, z: 0 }
     };
     // ========== КОНЕЦ НАСТРОЕК ==========
     
@@ -100,7 +100,7 @@ function init() {
     const partPositions = {
         assembled: {
             corpus: new THREE.Vector3(0, 0, 0),
-            lid: new THREE.Vector3(0, 2100, 0)
+            lid: new THREE.Vector3(0, 2150, 0)
         },
         disassembled: {
             corpus: new THREE.Vector3(0, DISASSEMBLY_DISTANCE.CORPUS_DOWN, 0),
