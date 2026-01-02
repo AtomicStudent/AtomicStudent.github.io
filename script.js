@@ -32,7 +32,7 @@ function init() {
     const PART_COLORS = {
         ASSEMBLY: 0x6699CC,
         CORPUS: 0x4a90e2,
-        TVS: 0x88B39B,
+        TVS: 0x4CAF50,
         LID: 0xed8936
     };
     
