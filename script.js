@@ -37,8 +37,8 @@ function init() {
     };
     
     const ANIMATION_DURATION = {
-        FADE: 1500,
-        MOVE: 1000
+        FADE: 300,
+        MOVE: 2400
     };
     
     const MANUAL_POSITION_CORRECTION = {
