@@ -87,7 +87,7 @@ function init() {
             
             // Позиционирование и масштабирование модели
 model.position.set(0, 0, 0);
-model.scale.set(1, 1, 1);
+model.scale.set(10, 10, 10);
 
 // Центрирование модели
 const box = new THREE.Box3().setFromObject(model);
