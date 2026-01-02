@@ -37,7 +37,7 @@ function init() {
     };
     
     const ANIMATION_DURATION = {
-        FADE: 300,
+        FADE: 500,
         MOVE: 2400
     };
     
@@ -100,7 +100,7 @@ function init() {
     const partPositions = {
         assembled: {
             corpus: new THREE.Vector3(0, 0, 0),
-            lid: new THREE.Vector3(0, 0, 0)
+            lid: new THREE.Vector3(0, 2000, 0)
         },
         disassembled: {
             corpus: new THREE.Vector3(0, DISASSEMBLY_DISTANCE.CORPUS_DOWN, 0),
