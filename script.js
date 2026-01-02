@@ -20,7 +20,7 @@ function init() {
         SPACING_SMALL: 120,          // Собранное состояние - близко
         SPACING_LARGE: 450,          // Разобранное состояние - далеко
         DELAY: 1600,
-        ANIMATION_DURATION: 3600,
+        ANIMATION_DURATION: 2400,
         
         // Угол поворота всей сборки ТВС (в градусах)
         HEX_ROTATION: 30,
@@ -37,8 +37,8 @@ function init() {
     };
     
     const ANIMATION_DURATION = {
-        FADE: 500,
-        MOVE: 1000
+        FADE: 300,
+        MOVE: 300
     };
     
     const MANUAL_POSITION_CORRECTION = {
