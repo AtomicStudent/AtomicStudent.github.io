@@ -3,8 +3,8 @@ function init() {
     
     // ========== НАСТРОЙКИ ДЛЯ РУЧНОЙ КОРРЕКТИРОВКИ ==========
     const DISASSEMBLY_DISTANCE = {
-        CORPUS_DOWN: -3000,
-        LID_UP: 4000,
+        CORPUS_DOWN: -2500,
+        LID_UP: 4100,
         TVS_STAYS: 0
     };
     
