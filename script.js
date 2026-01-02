@@ -404,7 +404,7 @@ function init() {
         });
         
         Promise.all(animations).then(() => {
-            updateSelectionIndicator('Реактор разобран');
+            updateSelectionIndicator('разобран');
             console.log('✅ ТВС разъехались');
         });
     }
