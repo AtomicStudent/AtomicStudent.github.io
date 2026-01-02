@@ -11,7 +11,7 @@ function init() {
     const camera = new THREE.PerspectiveCamera(
         75, // угол обзора
         container.clientWidth / container.clientHeight,
-        0.01, // ближняя плоскость (очень маленькая)
+        0.1, // ближняя плоскость (очень маленькая)
         50000 // дальняя плоскость (очень большая)
     );
     camera.position.set(10, 5, 10);
