@@ -123,35 +123,35 @@ class ReactorViewer {
     }
 
     setupScene() {
-        const scene = new THREE.Scene();
+        this.scene = new THREE.Scene();
         // Темно-синий фон с глубиной
-        const scene.background = new THREE.Color(0x0a0a14);
+        this.scene.background = new THREE.Color(0x3C1B1B);
     }
 
     setupCamera() {
         const container = document.getElementById('model-container');
-        const camera = new THREE.PerspectiveCamera(
+        this.camera = new THREE.PerspectiveCamera(
             45,
             container.clientWidth / container.clientHeight,
             0.1,
             50000
         );
         // Камера ближе
-        const camera.position.set(0, 800, 1500);
+        this.camera.position.set(0, 800, 1500);
     }
 
     setupRenderer() {
         const container = document.getElementById('model-container');
-        const renderer = new THREE.WebGLRenderer({
+        this.renderer = new THREE.WebGLRenderer({
             antialias: true,
             alpha: true,
             powerPreference: "high-performance"
         });
         
-        const renderer.setSize(container.clientWidth, container.clientHeight);
-        const renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        const renderer.shadowMap.enabled = true;
-        const renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        this.renderer.setSize(container.clientWidth, container.clientHeight);
+        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         
         container.appendChild(const renderer.domElement);
     }
