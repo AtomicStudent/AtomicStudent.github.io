@@ -572,7 +572,7 @@ body {
     height: 15px;
     background: #68d391;
     border-radius: 50%;
-    animation: orbit 1.5s linear infinite;
+    animation: orbit 2s linear infinite;
     box-shadow: 0 0 0px #68d391;
 }
 
@@ -590,6 +590,7 @@ body {
     left: 50%;
     margin-top: 0px;
     margin-left: 0px;
+    animation-delay: 0.5s;
     background: #4fff9c;
     box-shadow: 0 0 15px #ed8936;
 }
@@ -599,6 +600,7 @@ body {
     left: 50%;
     margin-top: 0px;
     margin-left: 0px;
+    animation-delay: 1s;
     background: #4f5aff;
     box-shadow: 0 0 15px #9f7aea;
 }
@@ -608,6 +610,7 @@ body {
     left: 50%;
     margin-top: 0px;
     margin-left: 0px;
+    animation-delay: 1.5s;
     background: #ff4fb2;
     box-shadow: 0 0 15px #4CAF50;
 }
