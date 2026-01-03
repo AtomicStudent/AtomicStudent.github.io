@@ -539,88 +539,112 @@ body {
 /* Атом загрузки */
 .atom-loader {
     position: relative;
-    width: 140px;
-    height: 140px;
+    width: 120px;
+    height: 120px;
     margin: 0 auto 40px;
 }
 
+/* Ядро атома - насыщенный синий с пульсацией */
 .nucleus {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 30px;
-    height: 30px;
-    background: #4a90e2;
+    width: 35px;
+    height: 35px;
+    background: #2563eb; /* Насыщенный синий */
     border-radius: 50%;
-    box-shadow: 0 0 30px #4a90e2;
-    opacity: 0.7;
-    z-index: 2;
+    box-shadow: 
+        0 0 20px #2563eb,
+        0 0 40px rgba(37, 99, 235, 0.7);
+    opacity: 0.9;
+    z-index: 3;
+    /* Пульсация ядра */
+    animation: pulse 1.5s ease-in-out infinite;
 }
 
+/* Траектория (орбита) - полупрозрачная синяя */
 .orbit {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100px;
+    width: 100px; /* Радиус 50px */
     height: 100px;
-    border: 2px solid rgba(74, 144, 226, 0.3);
+    border: 2px solid rgba(37, 99, 235, 0.25); /* Полупрозрачный синий */
     border-radius: 50%;
     z-index: 1;
 }
 
+/* Электрон - комплиментарный оранжевый с пульсацией */
 .electron {
     position: absolute;
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     opacity: 1;
     top: 50%;
     left: 50%;
-    margin-left: -9px;
-    margin-top: -9px;
-    z-index: 3;
-    animation: orbit 4s linear infinite;
+    margin-left: -10px;
+    margin-top: -10px;
+    background: #f59e0b; /* Комплиментарный оранжевый к синему */
+    box-shadow: 
+        0 0 15px #f59e0b,
+        0 0 30px rgba(245, 158, 11, 0.6);
+    z-index: 2;
+    /* Вращение + пульсация в такт с ядром */
+    animation: 
+        orbit 4s linear infinite,
+        pulse 1.5s ease-in-out infinite; /* Такая же пульсация как у ядра */
+    /* Стартовая позиция: сверху */
+    transform: rotate(0deg) translate(50px) rotate(0deg);
 }
 
-/* Определяем стартовые углы через CSS переменные */
-.electron:nth-child(1) {
-    --start-angle: 0deg;
-    background: #fff44f;
-    box-shadow: 0 0 20px #ed8936;
-}
-
-.electron:nth-child(2) {
-    --start-angle: 90deg;
-    background: #4fff9c;
-    box-shadow: 0 0 20px #4CAF50;
-}
-
-.electron:nth-child(3) {
-    --start-angle: 180deg;
-    background: #4f5aff;
-    box-shadow: 0 0 20px #9f7aea;
-}
-
-.electron:nth-child(4) {
-    --start-angle: 270deg;
-    background: #ff4fb2;
-    box-shadow: 0 0 20px #ff4fb2;
-}
-
+/* Анимация вращения электрона по орбите */
 @keyframes orbit {
     0% {
-        transform: 
-            rotate(var(--start-angle, 0deg)) 
-            translate(50px) 
-            rotate(calc(-1 * var(--start-angle, 0deg)));
+        transform: rotate(0deg) translate(50px) rotate(0deg);
     }
     100% {
-        transform: 
-            rotate(calc(360deg + var(--start-angle, 0deg))) 
-            translate(50px) 
-            rotate(calc(-360deg - var(--start-angle, 0deg)));
+        transform: rotate(360deg) translate(50px) rotate(-360deg);
+    }
+}
+
+/* Анимация пульсации для ядра и электрона */
+@keyframes pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        box-shadow: 
+            0 0 20px #2563eb,
+            0 0 40px rgba(37, 99, 235, 0.7);
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.1);
+        box-shadow: 
+            0 0 30px #2563eb,
+            0 0 60px rgba(37, 99, 235, 0.9);
+    }
+}
+
+/* Адаптация пульсации для электрона (чтобы работала с вращением) */
+.electron {
+    animation: 
+        orbit 4s linear infinite,
+        electronPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes electronPulse {
+    0%, 100% {
+        transform: rotate(var(--current-angle, 0deg)) translate(50px) rotate(calc(-1 * var(--current-angle, 0deg))) scale(1);
+        box-shadow: 
+            0 0 15px #f59e0b,
+            0 0 30px rgba(245, 158, 11, 0.6);
+    }
+    50% {
+        transform: rotate(var(--current-angle, 0deg)) translate(50px) rotate(calc(-1 * var(--current-angle, 0deg))) scale(1.15);
+        box-shadow: 
+            0 0 25px #f59e0b,
+            0 0 50px rgba(245, 158, 11, 0.8);
     }
 }
 
