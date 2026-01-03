@@ -537,6 +537,7 @@ body {
 }
 
 /* Атом загрузки */
+/* Атом загрузки */
 .atom-loader {
     position: relative;
     width: 120px;
@@ -555,7 +556,8 @@ body {
     background: #4a90e2;
     border-radius: 50%;
     box-shadow: 0 0 30px #4a90e2;
-    opacity: 0.7; /* Полупрозрачное как и траектория */
+    opacity: 0.7;
+    z-index: 2; /* Чтобы ядро было поверх орбиты */
 }
 
 /* Траектория (орбита) - полупрозрачный круг */
@@ -564,67 +566,73 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 120px;
-    height: 120px;
-    border: 2px solid rgba(74, 144, 226, 0.3); /* Полупрозрачная синяя траектория */
+    width: 80px; /* Уменьшено с 120px для меньшего радиуса */
+    height: 80px; /* Уменьшено с 120px для меньшего радиуса */
+    border: 2px solid rgba(74, 144, 226, 0.3);
     border-radius: 50%;
+    z-index: 1;
 }
 
-/* Альтернатива: все электроны вращаются синхронно */
+/* Электроны - сразу видны */
 .electron {
     position: absolute;
     width: 15px;
     height: 15px;
     border-radius: 50%;
     opacity: 1;
+    /* Центрируем электроны */
     top: 50%;
     left: 50%;
     margin-left: -7.5px;
     margin-top: -7.5px;
+    z-index: 3; /* Чтобы электроны были поверх всего */
 }
 
+/* Электрон 1 (верх) - стартовая позиция */
 .electron:nth-child(1) {
     background: #fff44f;
     box-shadow: 0 0 15px #ed8936;
+    /* Начальная позиция: 0 градусов (вверху) */
+    transform: rotate(0deg) translate(40px) rotate(0deg); /* 40px вместо 60px - меньший радиус */
     animation: orbit 4s linear infinite;
 }
 
+/* Электрон 2 (право) - стартовая позиция с поворотом 90 градусов */
 .electron:nth-child(2) {
     background: #4fff9c;
     box-shadow: 0 0 15px #4CAF50;
-    /* Начальный поворот 90 градусов */
+    /* Начальная позиция: 90 градусов (справа) */
+    transform: rotate(90deg) translate(40px) rotate(-90deg); /* 40px вместо 60px - меньший радиус */
     animation: orbit 4s linear infinite;
-    transform: rotate(90deg) translate(60px) rotate(-90deg);
-    animation-delay: -1s; /* Смещение на 1/4 цикла */
 }
 
+/* Электрон 3 (низ) - стартовая позиция с поворотом 180 градусов */
 .electron:nth-child(3) {
     background: #4f5aff;
     box-shadow: 0 0 15px #9f7aea;
-    /* Начальный поворот 180 градусов */
+    /* Начальная позиция: 180 градусов (внизу) */
+    transform: rotate(180deg) translate(40px) rotate(-180deg); /* 40px вместо 60px - меньший радиус */
     animation: orbit 4s linear infinite;
-    transform: rotate(180deg) translate(60px) rotate(-180deg);
-    animation-delay: -2s; /* Смещение на 1/2 цикла */
 }
 
+/* Электрон 4 (лево) - стартовая позиция с поворотом 270 градусов */
 .electron:nth-child(4) {
     background: #ff4fb2;
     box-shadow: 0 0 15px #ff4fb2;
-    /* Начальный поворот 270 градусов */
+    /* Начальная позиция: 270 градусов (слева) */
+    transform: rotate(270deg) translate(40px) rotate(-270deg); /* 40px вместо 60px - меньший радиус */
     animation: orbit 4s linear infinite;
-    transform: rotate(270deg) translate(60px) rotate(-270deg);
-    animation-delay: -3s; /* Смещение на 3/4 цикла */
 }
 
+/* Анимация вращения по окружности */
 @keyframes orbit {
     0% {
-        transform: rotate(0deg) translate(60px) rotate(0deg);
+        transform: rotate(0deg) translate(40px) rotate(0deg); /* 40px вместо 60px - меньший радиус */
     }
     100% {
-        transform: rotate(360deg) translate(60px) rotate(-360deg);
+        transform: rotate(360deg) translate(40px) rotate(-360deg); /* 40px вместо 60px - меньший радиус */
     }
 }
-
 .loading-content h2 {
     font-size: 1.8rem;
     margin-bottom: 20px;
