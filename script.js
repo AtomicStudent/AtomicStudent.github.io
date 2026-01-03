@@ -3,31 +3,41 @@ class ReactorViewer {
     constructor() {
         this.config = {
             DISASSEMBLY_DISTANCE: {
-                CORPUS_DOWN: -1500,
-                LID_UP: 2500,
+                CORPUS_DOWN: -2500,
+                LID_UP: 4100,
                 TVS_SPREAD: 800
             },
-            COLORS: {
+            TVS_HEX_GRID: {
+                SPACING_SMALL: 120,
+                SPACING_LARGE: 450,
+                DELAY: 800,
+                ANIMATION_DURATION: 2400,
+                HEX_ROTATION: 30,
+                CENTER_OFFSET: { x: 0, y: 0, z: 0 }
+            },
+            
+            PART_COLORS: {
+                ASSEMBLY: 0x6699CC,
                 CORPUS: 0x4a90e2,
                 TVS: 0x4CAF50,
                 LID: 0xed8936
             },
             INITIAL_CAMERA: {
                 x: 0,
-                y: 3800, // Поднята на 800 единиц
+                y: 3900, // Поднята на 800 единиц
                 z: 2500  // В 2 раза ближе
             },
             LIGHTING: {
                 ambient: 0xffffff,
-                ambientIntensity: 0.6,
+                ambientIntensity: 0.2,
                 directional1: {
                     color: 0xffffff,
-                    intensity: 0.8,
+                    intensity: 0.2,
                     position: { x: 100, y: 200, z: 150 }
                 },
                 directional2: {
                     color: 0xffffff,
-                    intensity: 0.4,
+                    intensity: 0.2,
                     position: { x: -150, y: 100, z: -100 }
                 }
             }
