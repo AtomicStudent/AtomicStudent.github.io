@@ -2,7 +2,7 @@
 class ReactorViewer {
     constructor() {
         // Конфигурация из ОРИГИНАЛЬНОГО кода
-        this.config = {
+        const config = {
             DISASSEMBLY_DISTANCE: {
                 CORPUS_DOWN: -2500,
                 LID_UP: 4100,
@@ -19,7 +19,7 @@ class ReactorViewer {
             },
             
             PART_COLORS: {
-                ASSEMBLY: 0x6699CC,
+                ASSEMBLY: 0x7C8B9B,
                 CORPUS: 0x4a90e2,
                 TVS: 0x4CAF50,
                 LID: 0xed8936
@@ -39,7 +39,7 @@ class ReactorViewer {
         };
 
         // Информация о деталях из ОРИГИНАЛЬНОГО кода
-        this.partInfo = {
+        const partInfo = {
             corpus: {
                 name: "Корпус реактора",
                 description: "Основная несущая конструкция реактора, выполненная из ферритно-мартенситной стали.",
@@ -49,7 +49,7 @@ class ReactorViewer {
                     "Внешний диаметр: 500 мм",
                     "Внутренний диаметр: 400 мм",
                     "Толщина стенки: 50 мм",
-                    "Диапазон температур: 500 - 620 Цельсия"
+                    "Диапазон температур: 500 - 620 Градусов Цельсия"
                 ]
             },
             tvs: {
@@ -77,44 +77,44 @@ class ReactorViewer {
         };
 
         // Состояние
-        this.currentState = 'assembled';
-        this.selectedPart = null;
-        this.tvsDisassembled = false;
-        this.isMobile = false;
-        this.minLoadingTime = 2500; // 2.5 секунды минимальной загрузки
-        this.loadingStartTime = null;
+        const currentState = 'assembled';
+        const selectedPart = null;
+        const tvsDisassembled = false;
+        const isMobile = false;
+        const minLoadingTime = 2500; // 2.5 секунды минимальной загрузки
+        const loadingStartTime = null;
         
         // Модели
-        this.models = {
+        const models = {
             corpus: null,
             lid: null
         };
-        this.tvsModels = [];
-        this.tvsCount = 7;
+        const tvsModels = [];
+        const tvsCount = 7;
         
         // Маркеры
-        this.markers = [];
+        const markers = [];
         
         // Запуск
-        this.init();
+        const init();
     }
 
     init() {
         console.log("🚀 Запуск интерактивного 3D просмотрщика реактора РИМ-К-4,5...");
         
         // Определяем мобильное устройство
-        this.isMobile = this.checkIfMobile();
+        const isMobile = const checkIfMobile();
         
-        this.setupScene();
-        this.setupCamera();
-        this.setupRenderer();
-        this.setupLighting(); // ПРАВИЛЬНОЕ освещение
-        this.setupControls();
-        this.setupUI();
-        this.setupEventListeners();
+        const setupScene();
+        const setupCamera();
+        const setupRenderer();
+        const setupLighting(); // ПРАВИЛЬНОЕ освещение
+        const setupControls();
+        const setupUI();
+        const setupEventListeners();
         
-        this.loadingStartTime = Date.now();
-        this.loadModels();
+        const loadingStartTime = Date.now();
+        const loadModels();
     }
 
     checkIfMobile() {
@@ -123,253 +123,253 @@ class ReactorViewer {
     }
 
     setupScene() {
-        this.scene = new THREE.Scene();
+        const scene = new THREE.Scene();
         // Темно-синий фон с глубиной
-        this.scene.background = new THREE.Color(0x0a0a14);
+        const scene.background = new THREE.Color(0x0a0a14);
     }
 
     setupCamera() {
         const container = document.getElementById('model-container');
-        this.camera = new THREE.PerspectiveCamera(
+        const camera = new THREE.PerspectiveCamera(
             45,
             container.clientWidth / container.clientHeight,
             0.1,
             50000
         );
         // Камера ближе
-        this.camera.position.set(0, 800, 1500);
+        const camera.position.set(0, 800, 1500);
     }
 
     setupRenderer() {
         const container = document.getElementById('model-container');
-        this.renderer = new THREE.WebGLRenderer({
+        const renderer = new THREE.WebGLRenderer({
             antialias: true,
             alpha: true,
             powerPreference: "high-performance"
         });
         
-        this.renderer.setSize(container.clientWidth, container.clientHeight);
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        this.renderer.shadowMap.enabled = true;
-        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        const renderer.setSize(container.clientWidth, container.clientHeight);
+        const renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        const renderer.shadowMap.enabled = true;
+        const renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         
-        container.appendChild(this.renderer.domElement);
+        container.appendChild(const renderer.domElement);
     }
 
     setupLighting() {
         // ТОЛЬКО правильное освещение из оригинального кода
         // Ambient light
         const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
-        this.scene.add(ambientLight);
+        const scene.add(ambientLight);
         
         // Directional light
         const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
         directionalLight.position.set(100, 200, 100);
         directionalLight.castShadow = true;
-        this.scene.add(directionalLight);
+        const scene.add(directionalLight);
         
         // Back light
         const backLight = new THREE.DirectionalLight(0xffffff, 1);
         backLight.position.set(-100, 150, -100);
-        this.scene.add(backLight);
+        const scene.add(backLight);
     }
 
     setupControls() {
-        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        this.controls.enableDamping = true;
-        this.controls.dampingFactor = 0.05;
-        this.controls.rotateSpeed = 0.5;
-        this.controls.panSpeed = 0.5;
-        this.controls.zoomSpeed = 0.8;
-        this.controls.minDistance = 10;
-        this.controls.maxDistance = 2000;
+        const controls = new THREE.OrbitControls(const camera, const renderer.domElement);
+        const controls.enableDamping = true;
+        const controls.dampingFactor = 0.05;
+        const controls.rotateSpeed = 0.5;
+        const controls.panSpeed = 0.5;
+        const controls.zoomSpeed = 0.8;
+        const controls.minDistance = 10;
+        const controls.maxDistance = 2000;
         
-        if (this.isMobile) {
-            this.controls.enablePan = false;
-            this.controls.rotateSpeed = 0.3;
-            this.controls.zoomSpeed = 0.5;
+        if (const isMobile) {
+            const controls.enablePan = false;
+            const controls.rotateSpeed = 0.3;
+            const controls.zoomSpeed = 0.5;
         }
     }
 
     setupUI() {
-        this.loadingScreen = document.getElementById('loading-screen');
-        this.loadingText = document.getElementById('loading-text');
-        this.loadingProgress = document.getElementById('loading-progress');
-        this.loadingError = document.getElementById('loading-error');
+        const loadingScreen = document.getElementById('loading-screen');
+        const loadingText = document.getElementById('loading-text');
+        const loadingProgress = document.getElementById('loading-progress');
+        const loadingError = document.getElementById('loading-error');
         
-        this.assembleBtn = document.getElementById('assemble-btn');
-        this.disassembleBtn = document.getElementById('disassemble-btn');
-        this.resetCameraBtn = document.getElementById('reset-camera');
-        this.closeInfoBtn = document.getElementById('close-info-btn');
+        const assembleBtn = document.getElementById('assemble-btn');
+        const disassembleBtn = document.getElementById('disassemble-btn');
+        const resetCameraBtn = document.getElementById('reset-camera');
+        const closeInfoBtn = document.getElementById('close-info-btn');
         
         // Мобильные кнопки
-        this.mobileAssembleBtn = document.getElementById('mobile-assemble');
-        this.mobileDisassembleBtn = document.getElementById('mobile-disassemble');
-        this.mobileResetBtn = document.getElementById('mobile-reset');
-        this.mobileOverlay = document.getElementById('mobile-overlay');
+        const mobileAssembleBtn = document.getElementById('mobile-assemble');
+        const mobileDisassembleBtn = document.getElementById('mobile-disassemble');
+        const mobileResetBtn = document.getElementById('mobile-reset');
+        const mobileOverlay = document.getElementById('mobile-overlay');
         
-        this.infoPanel = document.getElementById('info-panel');
-        this.selectedPartText = document.getElementById('selected-part');
-        this.stateStatus = document.getElementById('state-status');
+        const infoPanel = document.getElementById('info-panel');
+        const selectedPartText = document.getElementById('selected-part');
+        const stateStatus = document.getElementById('state-status');
         
-        this.partName = document.getElementById('part-name');
-        this.partDescription = document.getElementById('part-description');
-        this.specsList = document.getElementById('specs-list');
+        const partName = document.getElementById('part-name');
+        const partDescription = document.getElementById('part-description');
+        const specsList = document.getElementById('specs-list');
         
-        if (this.isMobile) {
+        if (const isMobile) {
             document.getElementById('mobile-controls').style.display = 'block';
         }
         
-        this.updateLoadingText('Инициализация 3D среды...');
-        this.updateLoadingProgress(10);
+        const updateLoadingText('Инициализация 3D среды...');
+        const updateLoadingProgress(10);
     }
 
     setupEventListeners() {
-        this.assembleBtn.addEventListener('click', () => this.assembleReactor());
-        this.disassembleBtn.addEventListener('click', () => this.disassembleReactor());
-        this.resetCameraBtn.addEventListener('click', () => this.resetCamera());
-        this.closeInfoBtn.addEventListener('click', () => this.closeInfoPanel());
+        const assembleBtn.addEventListener('click', () => const assembleReactor());
+        const disassembleBtn.addEventListener('click', () => const disassembleReactor());
+        const resetCameraBtn.addEventListener('click', () => const resetCamera());
+        const closeInfoBtn.addEventListener('click', () => const closeInfoPanel());
         
-        this.mobileAssembleBtn.addEventListener('click', () => {
-            this.assembleReactor();
-            this.hideMobileOverlay();
+        const mobileAssembleBtn.addEventListener('click', () => {
+            const assembleReactor();
+            const hideMobileOverlay();
         });
-        this.mobileDisassembleBtn.addEventListener('click', () => {
-            this.disassembleReactor();
-            this.hideMobileOverlay();
+        const mobileDisassembleBtn.addEventListener('click', () => {
+            const disassembleReactor();
+            const hideMobileOverlay();
         });
-        this.mobileResetBtn.addEventListener('click', () => {
-            this.resetCamera();
-            this.hideMobileOverlay();
+        const mobileResetBtn.addEventListener('click', () => {
+            const resetCamera();
+            const hideMobileOverlay();
         });
         
-        this.renderer.domElement.addEventListener('click', (e) => this.onModelClick(e));
+        const renderer.domElement.addEventListener('click', (e) => const onModelClick(e));
         
-        if (this.isMobile) {
-            this.renderer.domElement.addEventListener('touchstart', (e) => {
+        if (const isMobile) {
+            const renderer.domElement.addEventListener('touchstart', (e) => {
                 if (e.touches.length === 1) {
-                    this.onModelClick(e);
+                    const onModelClick(e);
                 }
             }, { passive: true });
         }
         
-        this.mobileOverlay.addEventListener('click', () => this.hideMobileOverlay());
-        window.addEventListener('resize', () => this.onWindowResize());
+        const mobileOverlay.addEventListener('click', () => const hideMobileOverlay());
+        window.addEventListener('resize', () => const onWindowResize());
         
-        this.animate();
+        const animate();
     }
 
     showMobileOverlay() {
-        if (this.isMobile) {
-            this.mobileOverlay.style.display = 'block';
+        if (const isMobile) {
+            const mobileOverlay.style.display = 'block';
             setTimeout(() => {
-                this.mobileOverlay.style.opacity = '1';
+                const mobileOverlay.style.opacity = '1';
             }, 10);
         }
     }
 
     hideMobileOverlay() {
-        if (this.isMobile) {
-            this.mobileOverlay.style.opacity = '0';
+        if (const isMobile) {
+            const mobileOverlay.style.opacity = '0';
             setTimeout(() => {
-                this.mobileOverlay.style.display = 'none';
+                const mobileOverlay.style.display = 'none';
             }, 300);
         }
     }
 
     updateLoadingText(text) {
-        if (this.loadingText) {
-            this.loadingText.textContent = text;
+        if (const loadingText) {
+            const loadingText.textContent = text;
         }
     }
 
     updateLoadingProgress(percent) {
-        if (this.loadingProgress) {
-            this.loadingProgress.style.width = `${Math.min(percent, 100)}%`;
+        if (const loadingProgress) {
+            const loadingProgress.style.width = `${Math.min(percent, 100)}%`;
         }
     }
 
     showError(message) {
         console.error('❌ Ошибка:', message);
         
-        if (this.loadingText) {
-            this.loadingText.textContent = 'Ошибка загрузки';
+        if (const loadingText) {
+            const loadingText.textContent = 'Ошибка загрузки';
         }
         
-        if (this.loadingError) {
-            this.loadingError.textContent = message;
-            this.loadingError.style.display = 'block';
+        if (const loadingError) {
+            const loadingError.textContent = message;
+            const loadingError.style.display = 'block';
         }
     }
 
     async loadModels() {
         try {
-            this.updateLoadingText('Подготовка моделей реактора...');
-            this.updateLoadingProgress(20);
-            await this.delay(500);
+            const updateLoadingText('Подготовка моделей реактора...');
+            const updateLoadingProgress(20);
+            await const delay(500);
             
             const loader = new THREE.GLTFLoader();
             
             // Загрузка корпуса
-            this.updateLoadingText('Загрузка корпуса реактора...');
-            this.updateLoadingProgress(40);
-            await this.delay(400);
+            const updateLoadingText('Загрузка корпуса реактора...');
+            const updateLoadingProgress(40);
+            await const delay(400);
             
-            this.models.corpus = await this.loadModel('corpus', 'models/reactor_corpus.glb');
+            const models.corpus = await const loadModel('corpus', 'models/reactor_corpus.glb');
             
             // Загрузка ТВС
-            this.updateLoadingText('Загрузка тепловыделяющих сборок...');
-            this.updateLoadingProgress(60);
-            await this.delay(500);
+            const updateLoadingText('Загрузка тепловыделяющих сборок...');
+            const updateLoadingProgress(60);
+            await const delay(500);
             
-            await this.loadTVSModels();
+            await const loadTVSModels();
             
             // Загрузка крышки
-            this.updateLoadingText('Загрузка крышки реактора...');
-            this.updateLoadingProgress(80);
-            await this.delay(400);
+            const updateLoadingText('Загрузка крышки реактора...');
+            const updateLoadingProgress(80);
+            await const delay(400);
             
-            this.models.lid = await this.loadModel('lid', 'models/reactor_lid.glb');
+            const models.lid = await const loadModel('lid', 'models/reactor_lid.glb');
             
             // Добавление моделей в сцену
-            this.updateLoadingText('Добавление моделей в сцену...');
-            this.updateLoadingProgress(90);
-            await this.delay(300);
+            const updateLoadingText('Добавление моделей в сцену...');
+            const updateLoadingProgress(90);
+            await const delay(300);
             
-            this.scene.add(this.models.corpus);
-            this.scene.add(this.models.lid);
-            this.tvsModels.forEach(tvs => this.scene.add(tvs));
+            const scene.add(const models.corpus);
+            const scene.add(const models.lid);
+            const tvsModels.forEach(tvs => const scene.add(tvs));
             
             // Настройка камеры
-            this.setupInitialCamera();
+            const setupInitialCamera();
             
             // Ждем минимум 2.5 секунды
-            const elapsed = Date.now() - this.loadingStartTime;
-            const remaining = Math.max(0, this.minLoadingTime - elapsed);
+            const elapsed = Date.now() - const loadingStartTime;
+            const remaining = Math.max(0, const minLoadingTime - elapsed);
             
-            this.updateLoadingText('Завершение инициализации...');
-            this.updateLoadingProgress(95);
+            const updateLoadingText('Завершение инициализации...');
+            const updateLoadingProgress(95);
             
-            await this.delay(remaining);
+            await const delay(remaining);
             
             // Добавляем шутку
-            this.updateLoadingText('Запускаем Реактор в космос! А, нет, отмена....');
-            await this.delay(800);
+            const updateLoadingText('Запускаем Реактор в космос! А, нет, отмена....');
+            await const delay(800);
             
             // Финальные шаги
-            this.updateLoadingText('Готово!');
-            this.updateLoadingProgress(100);
+            const updateLoadingText('Готово!');
+            const updateLoadingProgress(100);
             
-            await this.delay(300);
+            await const delay(300);
             
             // Скрытие экрана загрузки
-            this.hideLoadingScreen();
+            const hideLoadingScreen();
             
             console.log('✅ Все модели загружены!');
-            console.log(`✅ Создано ${this.tvsModels.length} ТВС`);
+            console.log(`✅ Создано ${const tvsModels.length} ТВС`);
             
         } catch (error) {
-            this.showError(`Ошибка загрузки: ${error.message}`);
+            const showError(`Ошибка загрузки: ${error.message}`);
             console.error('❌ Ошибка при загрузке моделей:', error);
         }
     }
@@ -394,9 +394,9 @@ class ReactorViewer {
                             child.castShadow = true;
                             child.receiveShadow = true;
                             
-                            const partColor = this.config.PART_COLORS[key.toUpperCase()] || this.config.PART_COLORS.ASSEMBLY;
+                            const partColor = const config.PART_COLORS[key.toUpperCase()] || const config.PART_COLORS.ASSEMBLY;
                             child.material = new THREE.MeshStandardMaterial({
-                                color: this.config.PART_COLORS.ASSEMBLY,
+                                color: const config.PART_COLORS.ASSEMBLY,
                                 roughness: 0.6,
                                 metalness: 0.5,
                                 side: THREE.DoubleSide
@@ -411,7 +411,7 @@ class ReactorViewer {
                     
                     // Применяем ручную корректировку позиции
                     const correctionKey = key.toUpperCase();
-                    const correction = this.config.MANUAL_POSITION_CORRECTION[correctionKey] || { x: 0, y: 0, z: 0 };
+                    const correction = const config.MANUAL_POSITION_CORRECTION[correctionKey] || { x: 0, y: 0, z: 0 };
                     model.position.x += correction.x;
                     model.position.y += correction.y;
                     model.position.z += correction.z;
@@ -434,19 +434,19 @@ class ReactorViewer {
                 'models/reactor_tvs.glb',
                 (gltf) => {
                     // Создаем 7 ТВС
-                    const assembledPositions = this.generateTvsPositions(
-                        this.tvsCount,
-                        this.config.TVS_HEX_GRID.SPACING_SMALL,
-                        this.config.TVS_HEX_GRID.HEX_ROTATION
+                    const assembledPositions = const generateTvsPositions(
+                        const tvsCount,
+                        const config.TVS_HEX_GRID.SPACING_SMALL,
+                        const config.TVS_HEX_GRID.HEX_ROTATION
                     );
                     
-                    const disassembledPositions = this.generateTvsPositions(
-                        this.tvsCount,
-                        this.config.TVS_HEX_GRID.SPACING_LARGE,
-                        this.config.TVS_HEX_GRID.HEX_ROTATION
+                    const disassembledPositions = const generateTvsPositions(
+                        const tvsCount,
+                        const config.TVS_HEX_GRID.SPACING_LARGE,
+                        const config.TVS_HEX_GRID.HEX_ROTATION
                     );
                     
-                    for (let i = 0; i < this.tvsCount; i++) {
+                    for (let i = 0; i < const tvsCount; i++) {
                         const model = gltf.scene.clone();
                         
                         model.traverse((child) => {
@@ -455,13 +455,13 @@ class ReactorViewer {
                                 child.receiveShadow = true;
                                 
                                 child.material = new THREE.MeshStandardMaterial({
-                                    color: this.config.PART_COLORS.ASSEMBLY,
+                                    color: const config.PART_COLORS.ASSEMBLY,
                                     roughness: 0.6,
                                     metalness: 0.5,
                                     side: THREE.DoubleSide
                                 });
                                 
-                                child.userData.targetColor = new THREE.Color(this.config.PART_COLORS.TVS);
+                                child.userData.targetColor = new THREE.Color(const config.PART_COLORS.TVS);
                                 child.userData.partType = 'tvs';
                                 child.userData.tvsIndex = i;
                                 child.userData.isInteractive = true;
@@ -470,17 +470,17 @@ class ReactorViewer {
                         
                         // Применяем позицию (учитываем смещение на -800)
                         const assembledPos = assembledPositions[i].clone();
-                        assembledPos.y += this.config.MANUAL_POSITION_CORRECTION.TVS.y;
+                        assembledPos.y += const config.MANUAL_POSITION_CORRECTION.TVS.y;
                         model.position.copy(assembledPos);
                         
                         // Сохраняем позиции для анимации (учитываем смещение)
                         const disassembledPos = disassembledPositions[i].clone();
-                        disassembledPos.y += this.config.MANUAL_POSITION_CORRECTION.TVS.y;
+                        disassembledPos.y += const config.MANUAL_POSITION_CORRECTION.TVS.y;
                         
                         model.userData.assembledPosition = assembledPos.clone();
                         model.userData.disassembledPosition = disassembledPos.clone();
                         
-                        this.tvsModels.push(model);
+                        const tvsModels.push(model);
                     }
                     
                     resolve();
@@ -518,9 +518,9 @@ class ReactorViewer {
     setupInitialCamera() {
         const box = new THREE.Box3();
         
-        this.tvsModels.forEach(tvs => box.expandByObject(tvs));
-        if (this.models.corpus) box.expandByObject(this.models.corpus);
-        if (this.models.lid) box.expandByObject(this.models.lid);
+        const tvsModels.forEach(tvs => box.expandByObject(tvs));
+        if (const models.corpus) box.expandByObject(const models.corpus);
+        if (const models.lid) box.expandByObject(const models.lid);
         
         const size = box.getSize(new THREE.Vector3());
         const center = box.getCenter(new THREE.Vector3());
@@ -529,34 +529,34 @@ class ReactorViewer {
         let cameraDistance = maxDim * 1.5;
         cameraDistance = Math.max(cameraDistance, 100);
         
-        this.camera.position.set(0, cameraDistance * 0.6, cameraDistance * 0.8);
-        this.camera.lookAt(center.x, center.y, center.z);
+        const camera.position.set(0, cameraDistance * 0.6, cameraDistance * 0.8);
+        const camera.lookAt(center.x, center.y, center.z);
         
-        this.controls.target.copy(center);
-        this.controls.maxDistance = cameraDistance * 3;
-        this.controls.minDistance = maxDim * 0.3;
-        this.controls.update();
+        const controls.target.copy(center);
+        const controls.maxDistance = cameraDistance * 3;
+        const controls.minDistance = maxDim * 0.3;
+        const controls.update();
     }
 
     hideLoadingScreen() {
-        if (this.loadingScreen) {
-            this.loadingScreen.style.opacity = '0';
+        if (const loadingScreen) {
+            const loadingScreen.style.opacity = '0';
             setTimeout(() => {
-                this.loadingScreen.style.display = 'none';
+                const loadingScreen.style.display = 'none';
             }, 500);
         }
     }
 
     async disassembleReactor() {
-        if (this.currentState === 'disassembled') return;
+        if (const currentState === 'disassembled') return;
         
         console.log('🔧 Разборка реактора...');
-        this.currentState = 'disassembled';
-        this.tvsDisassembled = false;
-        this.updateState('Разобран');
+        const currentState = 'disassembled';
+        const tvsDisassembled = false;
+        const updateState('Разобран');
         
         // Меняем цвета на яркие
-        this.changePartsColorToVibrant();
+        const changePartsColorToVibrant();
         
         // ИСПРАВЛЯЕМ: правильные расстояния для корпуса и крышки
         // Корпус: из (0, -800) должен опуститься на 2500 единиц → (0, -3300)
@@ -565,14 +565,14 @@ class ReactorViewer {
         const lidTarget = new THREE.Vector3(0, 3300, 0);
         
         await Promise.all([
-            this.animatePart(this.models.corpus, corpusTarget, this.config.ANIMATION_DURATION.MOVE),
-            this.animatePart(this.models.lid, lidTarget, this.config.ANIMATION_DURATION.MOVE)
+            const animatePart(const models.corpus, corpusTarget, const config.ANIMATION_DURATION.MOVE),
+            const animatePart(const models.lid, lidTarget, const config.ANIMATION_DURATION.MOVE)
         ]);
         
         // Разъезд ТВС с задержкой
         setTimeout(() => {
-            this.disassembleTVS();
-        }, this.config.TVS_HEX_GRID.DELAY);
+            const disassembleTVS();
+        }, const config.TVS_HEX_GRID.DELAY);
     }
 
     animatePart(part, targetPosition, duration) {
@@ -585,7 +585,7 @@ class ReactorViewer {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
                 
-                const easeProgress = this.easeInOutCubic(progress);
+                const easeProgress = const easeInOutCubic(progress);
                 part.position.lerpVectors(startPosition, targetPosition, easeProgress);
                 
                 if (progress < 1) {
@@ -605,35 +605,35 @@ class ReactorViewer {
 
     disassembleTVS() {
         console.log('🔧 Разъезд ТВС...');
-        this.tvsDisassembled = true;
+        const tvsDisassembled = true;
         
-        const animations = this.tvsModels.map((tvs, index) => {
+        const animations = const tvsModels.map((tvs, index) => {
             const targetPos = index === 0 
                 ? tvs.userData.assembledPosition.clone()
                 : tvs.userData.disassembledPosition.clone();
             
-            return this.animatePart(tvs, targetPos, this.config.TVS_HEX_GRID.ANIMATION_DURATION);
+            return const animatePart(tvs, targetPos, const config.TVS_HEX_GRID.ANIMATION_DURATION);
         });
         
         Promise.all(animations).then(() => {
             // Создаем маркеры для взаимодействия
-            this.createMarkers();
+            const createMarkers();
             console.log('✅ ТВС разъехались');
         });
     }
 
     createMarkers() {
         // Очищаем старые маркеры
-        this.clearMarkers();
+        const clearMarkers();
         
         // Создаем маркеры для каждой детали
-        this.createMarker(this.models.corpus, 'Корпус реактора', 'fas fa-cube');
-        this.createMarker(this.models.lid, 'Крышка реактора', 'fas fa-circle');
+        const createMarker(const models.corpus, 'Корпус реактора', 'fas fa-cube');
+        const createMarker(const models.lid, 'Крышка реактора', 'fas fa-circle');
         
         // Маркеры для ТВС
-        this.tvsModels.forEach((tvs, index) => {
+        const tvsModels.forEach((tvs, index) => {
             const name = index === 0 ? 'Центральная ТВС' : `ТВС ${index}`;
-            this.createMarker(tvs, name, 'fas fa-bolt');
+            const createMarker(tvs, name, 'fas fa-bolt');
         });
     }
 
@@ -658,7 +658,7 @@ class ReactorViewer {
             part.getWorldPosition(worldPosition);
             
             // Проецируем мировую позицию в координаты экрана
-            const vector = worldPosition.clone().project(this.camera);
+            const vector = worldPosition.clone().project(const camera);
             
             // Проверяем, что объект перед камерой
             if (vector.z >= 1 || vector.z <= -1) {
@@ -684,21 +684,21 @@ class ReactorViewer {
         
         // Сохраняем функцию обновления
         marker.updatePosition = updatePosition;
-        this.markers.push({ marker, updatePosition, part });
+        const markers.push({ marker, updatePosition, part });
         
         // Обработчик клика/тапа
         const handleClick = (e) => {
             e.preventDefault();
             e.stopPropagation();
             
-            if (this.isMobile && part.userData.partType === 'tvs') {
-                this.selectPart('tvs', 0);
+            if (const isMobile && part.userData.partType === 'tvs') {
+                const selectPart('tvs', 0);
             } else {
-                this.selectPart(part.userData.partType, part.userData.tvsIndex);
+                const selectPart(part.userData.partType, part.userData.tvsIndex);
             }
             
-            if (this.isMobile) {
-                this.showMobileOverlay();
+            if (const isMobile) {
+                const showMobileOverlay();
             }
         };
         
@@ -709,10 +709,10 @@ class ReactorViewer {
     }
 
     updateMarkers() {
-        if (!this.markers || this.currentState !== 'disassembled') return;
+        if (!const markers || const currentState !== 'disassembled') return;
         
         // Обновляем позиции ВСЕХ маркеров каждый кадр
-        this.markers.forEach(({ updatePosition }) => {
+        const markers.forEach(({ updatePosition }) => {
             updatePosition();
         });
     }
@@ -722,56 +722,56 @@ class ReactorViewer {
         if (container) {
             container.innerHTML = '';
         }
-        this.markers = [];
+        const markers = [];
     }
 
     async assembleReactor() {
-        if (this.currentState === 'assembled') return;
+        if (const currentState === 'assembled') return;
         
         console.log('🔧 Сборка реактора...');
-        this.updateState('Сборка...');
+        const updateState('Сборка...');
         
         // Очищаем маркеры
-        this.clearMarkers();
+        const clearMarkers();
         
         // Сборка ТВС
-        if (this.tvsDisassembled) {
-            await this.assembleTVS();
+        if (const tvsDisassembled) {
+            await const assembleTVS();
         }
         
         // Сборка корпуса и крышки (возвращаем в исходные позиции с учетом смещения)
-        const corpusTarget = new THREE.Vector3(0, this.config.MANUAL_POSITION_CORRECTION.CORPUS.y, 0);
-        const lidTarget = new THREE.Vector3(0, this.config.MANUAL_POSITION_CORRECTION.LID.y, 0);
+        const corpusTarget = new THREE.Vector3(0, const config.MANUAL_POSITION_CORRECTION.CORPUS.y, 0);
+        const lidTarget = new THREE.Vector3(0, const config.MANUAL_POSITION_CORRECTION.LID.y, 0);
         
         await Promise.all([
-            this.animatePart(this.models.corpus, corpusTarget, this.config.ANIMATION_DURATION.MOVE),
-            this.animatePart(this.models.lid, lidTarget, this.config.ANIMATION_DURATION.MOVE)
+            const animatePart(const models.corpus, corpusTarget, const config.ANIMATION_DURATION.MOVE),
+            const animatePart(const models.lid, lidTarget, const config.ANIMATION_DURATION.MOVE)
         ]);
         
         // Возвращаем серый цвет
-        this.changePartsColorToGray();
+        const changePartsColorToGray();
         
-        this.currentState = 'assembled';
-        this.tvsDisassembled = false;
-        this.updateState('Собран');
+        const currentState = 'assembled';
+        const tvsDisassembled = false;
+        const updateState('Собран');
         
         console.log('✅ Сборка завершена');
     }
 
     assembleTVS() {
-        const animations = this.tvsModels.map(tvs => {
-            return this.animatePart(tvs, tvs.userData.assembledPosition, this.config.TVS_HEX_GRID.ANIMATION_DURATION);
+        const animations = const tvsModels.map(tvs => {
+            return const animatePart(tvs, tvs.userData.assembledPosition, const config.TVS_HEX_GRID.ANIMATION_DURATION);
         });
         
         return Promise.all(animations).then(() => {
-            this.tvsDisassembled = false;
+            const tvsDisassembled = false;
         });
     }
 
     changePartsColorToVibrant() {
         // Корпус
-        if (this.models.corpus) {
-            this.models.corpus.traverse((child) => {
+        if (const models.corpus) {
+            const models.corpus.traverse((child) => {
                 if (child.isMesh && child.userData.targetColor) {
                     child.material.color = child.userData.targetColor;
                     child.material.needsUpdate = true;
@@ -780,8 +780,8 @@ class ReactorViewer {
         }
         
         // Крышка
-        if (this.models.lid) {
-            this.models.lid.traverse((child) => {
+        if (const models.lid) {
+            const models.lid.traverse((child) => {
                 if (child.isMesh && child.userData.targetColor) {
                     child.material.color = child.userData.targetColor;
                     child.material.needsUpdate = true;
@@ -790,7 +790,7 @@ class ReactorViewer {
         }
         
         // ТВС
-        this.tvsModels.forEach(tvs => {
+        const tvsModels.forEach(tvs => {
             tvs.traverse((child) => {
                 if (child.isMesh && child.userData.targetColor) {
                     child.material.color = child.userData.targetColor;
@@ -801,11 +801,11 @@ class ReactorViewer {
     }
 
     changePartsColorToGray() {
-        const grayColor = new THREE.Color(this.config.PART_COLORS.ASSEMBLY);
+        const grayColor = new THREE.Color(const config.PART_COLORS.ASSEMBLY);
         
         // Корпус
-        if (this.models.corpus) {
-            this.models.corpus.traverse((child) => {
+        if (const models.corpus) {
+            const models.corpus.traverse((child) => {
                 if (child.isMesh) {
                     child.material.color = grayColor;
                     child.material.needsUpdate = true;
@@ -814,8 +814,8 @@ class ReactorViewer {
         }
         
         // Крышка
-        if (this.models.lid) {
-            this.models.lid.traverse((child) => {
+        if (const models.lid) {
+            const models.lid.traverse((child) => {
                 if (child.isMesh) {
                     child.material.color = grayColor;
                     child.material.needsUpdate = true;
@@ -824,7 +824,7 @@ class ReactorViewer {
         }
         
         // ТВС
-        this.tvsModels.forEach(tvs => {
+        const tvsModels.forEach(tvs => {
             tvs.traverse((child) => {
                 if (child.isMesh) {
                     child.material.color = grayColor;
@@ -835,13 +835,13 @@ class ReactorViewer {
     }
 
     onModelClick(event) {
-        if (this.currentState !== 'disassembled') return;
+        if (const currentState !== 'disassembled') return;
         
         if (event.type === 'touchstart') {
             event.preventDefault();
         }
         
-        const rect = this.renderer.domElement.getBoundingClientRect();
+        const rect = const renderer.domElement.getBoundingClientRect();
         const mouse = new THREE.Vector2();
         
         if (event.type === 'touchstart') {
@@ -854,12 +854,12 @@ class ReactorViewer {
         }
         
         const raycaster = new THREE.Raycaster();
-        raycaster.setFromCamera(mouse, this.camera);
+        raycaster.setFromCamera(mouse, const camera);
         
         const interactiveObjects = [
-            this.models.corpus,
-            this.models.lid,
-            ...this.tvsModels
+            const models.corpus,
+            const models.lid,
+            ...const tvsModels
         ].filter(obj => obj !== null);
         
         const intersects = raycaster.intersectObjects(interactiveObjects, true);
@@ -873,47 +873,47 @@ class ReactorViewer {
             }
             
             if (currentObj && currentObj.userData.partType) {
-                if (this.isMobile && currentObj.userData.partType === 'tvs') {
-                    this.selectPart('tvs', 0);
+                if (const isMobile && currentObj.userData.partType === 'tvs') {
+                    const selectPart('tvs', 0);
                 } else {
-                    this.selectPart(currentObj.userData.partType, currentObj.userData.tvsIndex);
+                    const selectPart(currentObj.userData.partType, currentObj.userData.tvsIndex);
                 }
                 
-                if (this.isMobile) {
-                    this.showMobileOverlay();
+                if (const isMobile) {
+                    const showMobileOverlay();
                 }
             }
-        } else if (this.isMobile && this.infoPanel.classList.contains('active')) {
-            this.closeInfoPanel();
+        } else if (const isMobile && const infoPanel.classList.contains('active')) {
+            const closeInfoPanel();
         }
     }
 
     selectPart(partType, tvsIndex = null) {
-        this.selectedPart = { type: partType, tvsIndex };
+        const selectedPart = { type: partType, tvsIndex };
         
         // Обновляем текст
         let partName = '';
         let partData = null;
         
         if (partType === 'tvs') {
-            partData = this.partInfo.tvs;
+            partData = const partInfo.tvs;
             partName = partData.name;
         } else {
-            partData = this.partInfo[partType];
+            partData = const partInfo[partType];
             partName = partData ? partData.name : 'Деталь реактора';
         }
         
-        this.selectedPartText.textContent = partName;
+        const selectedPartText.textContent = partName;
         
         // Показываем информацию о детали
-        this.showPartInfo(partType, tvsIndex);
+        const showPartInfo(partType, tvsIndex);
         
         // Подсвечиваем деталь
-        this.highlightPart(partType, tvsIndex);
+        const highlightPart(partType, tvsIndex);
         
         // Перемещаем камеру к детали
         setTimeout(() => {
-            this.focusOnPart(partType, tvsIndex);
+            const focusOnPart(partType, tvsIndex);
         }, 100);
     }
 
@@ -921,9 +921,9 @@ class ReactorViewer {
         let info = null;
         
         if (partType === 'tvs') {
-            info = this.partInfo.tvs;
+            info = const partInfo.tvs;
         } else {
-            info = this.partInfo[partType];
+            info = const partInfo[partType];
         }
         
         if (!info) {
@@ -935,15 +935,15 @@ class ReactorViewer {
         }
         
         // Обновляем содержимое - ИСПРАВЛЕНО!
-        this.partName.textContent = info.name;
-        this.partDescription.textContent = info.description;
+        const partName.textContent = info.name;
+        const partDescription.textContent = info.description;
         
         // Обновляем характеристики - ИСПРАВЛЕНО!
-        this.specsList.innerHTML = '';
+        const specsList.innerHTML = '';
         info.specs.forEach(spec => {
             const li = document.createElement('li');
             li.textContent = spec;
-            this.specsList.appendChild(li);
+            const specsList.appendChild(li);
         });
         
         // Обновляем иконку
@@ -955,26 +955,26 @@ class ReactorViewer {
         document.getElementById('part-icon').className = iconMap[partType] || 'fas fa-cube';
         
         // Показываем панель
-        this.infoPanel.classList.remove('panel-hidden');
-        this.infoPanel.classList.add('active');
+        const infoPanel.classList.remove('panel-hidden');
+        const infoPanel.classList.add('active');
         
-        if (this.isMobile) {
-            this.showMobileOverlay();
+        if (const isMobile) {
+            const showMobileOverlay();
         }
     }
 
     highlightPart(partType, tvsIndex = null) {
-        this.removeHighlight();
+        const removeHighlight();
         
         let targetPart = null;
         
         if (partType === 'corpus') {
-            targetPart = this.models.corpus;
+            targetPart = const models.corpus;
         } else if (partType === 'lid') {
-            targetPart = this.models.lid;
+            targetPart = const models.lid;
         } else if (partType === 'tvs') {
-            if (tvsIndex !== null && tvsIndex < this.tvsModels.length) {
-                targetPart = this.tvsModels[tvsIndex];
+            if (tvsIndex !== null && tvsIndex < const tvsModels.length) {
+                targetPart = const tvsModels[tvsIndex];
             }
         }
         
@@ -991,8 +991,8 @@ class ReactorViewer {
 
     removeHighlight() {
         // Корпус
-        if (this.models.corpus) {
-            this.models.corpus.traverse((child) => {
+        if (const models.corpus) {
+            const models.corpus.traverse((child) => {
                 if (child.isMesh) {
                     child.material.emissive = new THREE.Color(0x000000);
                     child.material.emissiveIntensity = 0;
@@ -1002,8 +1002,8 @@ class ReactorViewer {
         }
         
         // Крышка
-        if (this.models.lid) {
-            this.models.lid.traverse((child) => {
+        if (const models.lid) {
+            const models.lid.traverse((child) => {
                 if (child.isMesh) {
                     child.material.emissive = new THREE.Color(0x000000);
                     child.material.emissiveIntensity = 0;
@@ -1013,7 +1013,7 @@ class ReactorViewer {
         }
         
         // ТВС
-        this.tvsModels.forEach(tvs => {
+        const tvsModels.forEach(tvs => {
             tvs.traverse((child) => {
                 if (child.isMesh) {
                     child.material.emissive = new THREE.Color(0x000000);
@@ -1030,35 +1030,35 @@ class ReactorViewer {
         
         switch (partType) {
             case 'corpus':
-                targetPosition = new THREE.Vector3(0, this.config.MANUAL_POSITION_CORRECTION.CORPUS.y + 300, 0);
-                cameraPosition = new THREE.Vector3(0, this.config.MANUAL_POSITION_CORRECTION.CORPUS.y + 800, 1200);
+                targetPosition = new THREE.Vector3(0, const config.MANUAL_POSITION_CORRECTION.CORPUS.y + 300, 0);
+                cameraPosition = new THREE.Vector3(0, const config.MANUAL_POSITION_CORRECTION.CORPUS.y + 800, 1200);
                 break;
                 
             case 'lid':
-                targetPosition = new THREE.Vector3(0, this.config.MANUAL_POSITION_CORRECTION.LID.y, 0);
-                cameraPosition = new THREE.Vector3(0, this.config.MANUAL_POSITION_CORRECTION.LID.y + 600, 1000);
+                targetPosition = new THREE.Vector3(0, const config.MANUAL_POSITION_CORRECTION.LID.y, 0);
+                cameraPosition = new THREE.Vector3(0, const config.MANUAL_POSITION_CORRECTION.LID.y + 600, 1000);
                 break;
                 
             case 'tvs':
-                if (tvsIndex !== null && tvsIndex < this.tvsModels.length) {
-                    const tvs = this.tvsModels[tvsIndex];
+                if (tvsIndex !== null && tvsIndex < const tvsModels.length) {
+                    const tvs = const tvsModels[tvsIndex];
                     targetPosition = tvs.position.clone();
                     cameraPosition = tvs.position.clone().add(new THREE.Vector3(300, 300, 300));
                 } else {
-                    targetPosition = new THREE.Vector3(0, this.config.MANUAL_POSITION_CORRECTION.TVS.y + 500, 0);
-                    cameraPosition = new THREE.Vector3(0, this.config.MANUAL_POSITION_CORRECTION.TVS.y + 800, 1000);
+                    targetPosition = new THREE.Vector3(0, const config.MANUAL_POSITION_CORRECTION.TVS.y + 500, 0);
+                    cameraPosition = new THREE.Vector3(0, const config.MANUAL_POSITION_CORRECTION.TVS.y + 800, 1000);
                 }
                 break;
         }
         
         if (targetPosition && cameraPosition) {
-            this.animateCameraTo(cameraPosition, targetPosition);
+            const animateCameraTo(cameraPosition, targetPosition);
         }
     }
 
     animateCameraTo(position, target) {
-        const startPosition = this.camera.position.clone();
-        const startTarget = this.controls.target.clone();
+        const startPosition = const camera.position.clone();
+        const startTarget = const controls.target.clone();
         const duration = 800;
         const startTime = Date.now();
         
@@ -1067,13 +1067,13 @@ class ReactorViewer {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
             
-            const easeProgress = this.easeInOutCubic(progress);
+            const easeProgress = const easeInOutCubic(progress);
             
-            this.camera.position.lerpVectors(startPosition, position, easeProgress);
+            const camera.position.lerpVectors(startPosition, position, easeProgress);
             
             const currentTarget = startTarget.clone().lerp(target, easeProgress);
-            this.controls.target.copy(currentTarget);
-            this.controls.update();
+            const controls.target.copy(currentTarget);
+            const controls.update();
             
             if (progress < 1) {
                 requestAnimationFrame(animate);
@@ -1084,21 +1084,21 @@ class ReactorViewer {
     }
 
     closeInfoPanel() {
-        this.infoPanel.classList.remove('active');
-        this.infoPanel.classList.add('panel-hidden');
-        this.selectedPart = null;
-        this.selectedPartText.textContent = 'Ничего';
-        this.removeHighlight();
-        this.hideMobileOverlay();
+        const infoPanel.classList.remove('active');
+        const infoPanel.classList.add('panel-hidden');
+        const selectedPart = null;
+        const selectedPartText.textContent = 'Ничего';
+        const removeHighlight();
+        const hideMobileOverlay();
     }
 
     resetCamera() {
-        this.setupInitialCamera();
+        const setupInitialCamera();
     }
 
     updateState(state) {
-        if (this.stateStatus) {
-            this.stateStatus.textContent = state;
+        if (const stateStatus) {
+            const stateStatus.textContent = state;
         }
         
         const stateIcon = document.getElementById('state-main-icon');
@@ -1121,23 +1121,23 @@ class ReactorViewer {
 
     onWindowResize() {
         const container = document.getElementById('model-container');
-        this.camera.aspect = container.clientWidth / container.clientHeight;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(container.clientWidth, container.clientHeight);
+        const camera.aspect = container.clientWidth / container.clientHeight;
+        const camera.updateProjectionMatrix();
+        const renderer.setSize(container.clientWidth, container.clientHeight);
         
-        this.updateMarkers();
+        const updateMarkers();
     }
 
     animate() {
-        requestAnimationFrame(() => this.animate());
+        requestAnimationFrame(() => const animate());
         
-        if (this.controls) {
-            this.controls.update();
+        if (const controls) {
+            const controls.update();
         }
         
-        this.updateMarkers();
+        const updateMarkers();
         
-        this.renderer.render(this.scene, this.camera);
+        const renderer.render(const scene, const camera);
     }
 }
 
