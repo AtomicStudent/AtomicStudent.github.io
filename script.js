@@ -39,7 +39,7 @@ class ReactorViewer {
         };
 
         // Информация о деталях из ОРИГИНАЛЬНОГО кода
-        const partInfo = {
+        this.partInfo = {
             corpus: {
                 name: "Корпус реактора",
                 description: "Основная несущая конструкция реактора, выполненная из ферритно-мартенситной стали.",
@@ -81,7 +81,7 @@ class ReactorViewer {
         this.selectedPart = null;
         this.tvsDisassembled = false;
         this.isMobile = false;
-        this.minLoadingTime = 2500; // 2.5 секунды минимальной загрузки
+        this.minLoadingTime = 3000; // 2.5 секунды минимальной загрузки
         this.loadingStartTime = null;
         
         // Модели
@@ -125,7 +125,7 @@ class ReactorViewer {
     setupScene() {
         this.scene = new THREE.Scene();
         // Темно-синий фон с глубиной
-        this.scene.background = new THREE.Color(0x1C2833);
+        this.scene.background = new THREE.Color(0x000000);
     }
 
     setupCamera() {
@@ -354,7 +354,7 @@ class ReactorViewer {
             
             // Добавляем шутку
             this.updateLoadingText('Запускаем Реактор в космос! А, нет, отмена....');
-            await this.delay(800);
+            await this.delay(2500);
             
             // Финальные шаги
             this.updateLoadingText('Готово!');
@@ -924,14 +924,6 @@ class ReactorViewer {
             info = this.partInfo.tvs;
         } else {
             info = this.partInfo[partType];
-        }
-        
-        if (!info) {
-            info = {
-                name: "Деталь реактора",
-                description: "Описание детали",
-                specs: ["Характеристики не доступны"]
-            };
         }
         
         // Обновляем содержимое - ИСПРАВЛЕНО!
