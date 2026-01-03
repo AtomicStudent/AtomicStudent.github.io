@@ -260,7 +260,8 @@ class ReactorViewer {
             
             sizes[i] = Math.random() * 2;
         }
-        
+    }
+
     setupUI() {
         this.loadingScreen = document.getElementById('loading-screen');
         this.loadingText = document.getElementById('loading-text');
@@ -292,7 +293,8 @@ class ReactorViewer {
         
         this.updateLoadingText('Инициализация 3D среды...');
         this.updateLoadingProgress(10);
-        }
+    }
+
 
     setupEventListeners() {
         this.assembleBtn.addEventListener('click', () => this.assembleReactor());
