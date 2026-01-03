@@ -582,8 +582,8 @@ body {
     left: 50%;
     margin-top: 0px;
     margin-left: 0px;
-    animation-delay: 0s;
     background: #fff44f;
+    animation: orbit2 2.5s linear infinite;
 }
 
 .electron:nth-child(2) {
@@ -591,8 +591,8 @@ body {
     left: 50%;
     margin-top: 0px;
     margin-left: 0px;
-    animation-delay: 0s;
     background: #4fff9c;
+    animation: orbit2 1.5s linear infinite;
     box-shadow: 0 0 15px #ed8936;
 }
 
@@ -601,8 +601,8 @@ body {
     left: 50%;
     margin-top: 0px;
     margin-left: 0px;
-    animation-delay: 0s;
     background: #4f5aff;
+    animation: orbit2 1s linear infinite;
     box-shadow: 0 0 15px #9f7aea;
 }
 
@@ -611,8 +611,8 @@ body {
     left: 50%;
     margin-top: 0px;
     margin-left: 0px;
-    animation-delay: 0s;
     background: #ff4fb2;
+    animation: orbit2 3s linear infinite;
     box-shadow: 0 0 15px #4CAF50;
 }
 
