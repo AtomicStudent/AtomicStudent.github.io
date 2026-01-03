@@ -539,28 +539,30 @@ body {
 /* Атом загрузки */
 .atom-loader {
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 140px;
+    height: 140px;
     margin: 0 auto 40px;
 }
 
-/* Ядро атома - насыщенный синий с пульсацией */
+/* Ядро атома - ДОМИНИРУЮЩЕЕ свечение */
 .nucleus {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
     background: #2563eb; /* Насыщенный синий */
     border-radius: 50%;
+    /* Многослойное мощное свечение */
     box-shadow: 
-        0 0 20px #2563eb,
-        0 0 40px rgba(37, 99, 235, 0.7);
-    opacity: 0.9;
-    z-index: 3;
+        0 0 25px #2563eb,
+        0 0 50px rgba(37, 99, 235, 0.8),
+        0 0 80px rgba(37, 99, 235, 0.6),
+        0 0 120px rgba(37, 99, 235, 0.4);
+    z-index: 10; /* Самый высокий z-index */
     /* Пульсация ядра */
-    animation: pulse 1.5s ease-in-out infinite;
+    animation: nucleusPulse 2s ease-in-out infinite;
 }
 
 /* Траектория (орбита) - полупрозрачная синяя */
@@ -571,32 +573,32 @@ body {
     transform: translate(-50%, -50%);
     width: 100px; /* Радиус 50px */
     height: 100px;
-    border: 2px solid rgba(37, 99, 235, 0.25); /* Полупрозрачный синий */
+    border: 2px solid rgba(37, 99, 235, 0.2); /* Очень полупрозрачная */
     border-radius: 50%;
-    z-index: 1;
+    z-index: 5;
 }
 
-/* Электрон - комплиментарный оранжевый с пульсацией */
+/* Электрон - комплиментарный оранжевый, НЕ перекрывает ядро */
 .electron {
     position: absolute;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    opacity: 1;
+    background: #f59e0b; /* Оранжевый */
+    /* Слабое свечение, чтобы не перекрывало ядро */
+    box-shadow: 
+        0 0 10px #f59e0b,
+        0 0 20px rgba(245, 158, 11, 0.4);
+    z-index: 8; /* Ниже ядра, но выше орбиты */
+    /* Вращение по орбите + пульсация */
+    animation: 
+        orbit 3.5s linear infinite,
+        electronPulse 2s ease-in-out infinite;
+    /* Стартовая позиция: сверху */
     top: 50%;
     left: 50%;
-    margin-left: -10px;
-    margin-top: -10px;
-    background: #f59e0b; /* Комплиментарный оранжевый к синему */
-    box-shadow: 
-        0 0 15px #f59e0b,
-        0 0 30px rgba(245, 158, 11, 0.6);
-    z-index: 2;
-    /* Вращение + пульсация в такт с ядром */
-    animation: 
-        orbit 4s linear infinite,
-        pulse 1.5s ease-in-out infinite; /* Такая же пульсация как у ядра */
-    /* Стартовая позиция: сверху */
+    margin-left: -9px;
+    margin-top: -9px;
     transform: rotate(0deg) translate(50px) rotate(0deg);
 }
 
@@ -610,27 +612,40 @@ body {
     }
 }
 
-/* Анимация пульсации для ядра и электрона */
-@keyframes pulse {
+/* Мощная пульсация ядра */
+@keyframes nucleusPulse {
     0%, 100% {
         transform: translate(-50%, -50%) scale(1);
         box-shadow: 
-            0 0 20px #2563eb,
-            0 0 40px rgba(37, 99, 235, 0.7);
+            0 0 25px #2563eb,
+            0 0 50px rgba(37, 99, 235, 0.8),
+            0 0 80px rgba(37, 99, 235, 0.6),
+            0 0 120px rgba(37, 99, 235, 0.4);
     }
     50% {
-        transform: translate(-50%, -50%) scale(1.1);
+        transform: translate(-50%, -50%) scale(1.15);
         box-shadow: 
-            0 0 30px #2563eb,
-            0 0 60px rgba(37, 99, 235, 0.9);
+            0 0 35px #2563eb,
+            0 0 70px rgba(37, 99, 235, 0.9),
+            0 0 100px rgba(37, 99, 235, 0.7),
+            0 0 140px rgba(37, 99, 235, 0.5);
     }
 }
 
-/* Адаптация пульсации для электрона (чтобы работала с вращением) */
-.electron {
-    animation: 
-        orbit 4s linear infinite,
-        electronPulse 1.5s ease-in-out infinite;
+/* Синхронная пульсация электрона (но слабее) */
+@keyframes electronPulse {
+    0%, 100% {
+        transform: rotate(var(--current-angle, 0deg)) translate(50px) rotate(calc(-1 * var(--current-angle, 0deg))) scale(1);
+        box-shadow: 
+            0 0 10px #f59e0b,
+            0 0 20px rgba(245, 158, 11, 0.4);
+    }
+    50% {
+        transform: rotate(var(--current-angle, 0deg)) translate(50px) rotate(calc(-1 * var(--current-angle, 0deg))) scale(1.2);
+        box-shadow: 
+            0 0 15px #f59e0b,
+            0 0 30px rgba(245, 158, 11, 0.6);
+    }
 }
 
 @keyframes electronPulse {
