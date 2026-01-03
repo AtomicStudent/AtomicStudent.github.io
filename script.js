@@ -19,7 +19,7 @@ class ReactorViewer {
             },
             
             PART_COLORS: {
-                ASSEMBLY: 0x7C8B9B,
+                ASSEMBLY: 0x4a5568,
                 CORPUS: 0x4a90e2,
                 TVS: 0x4CAF50,
                 LID: 0xed8936
