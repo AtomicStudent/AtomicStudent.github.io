@@ -582,9 +582,11 @@ body {
 .electron:nth-child(1) {
     top: 50%;
     left: 50%;
-    margin-top: 20px;
-    margin-left: 20px;
+    margin-top: 0px;
+    margin-left: 0px;
+    animation-delay: 0s;
     background: #fff44f;
+    box-shadow: 0 0 15px #ed8936;
 }
 
 .electron:nth-child(2) {
