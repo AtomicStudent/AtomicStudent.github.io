@@ -371,17 +371,6 @@ class ReactorViewer {
         
         return positions;
     }
-    
-            // Скрываем экран загрузки
-            setTimeout() => {
-                this.hideLoadingScreen();
-                console.log('✅ Демо-модели загружены!');
-            }, 1000);
-            
-        } catch (error) {
-            this.showError(`Ошибка создания моделей: ${error.message}`);
-        }
-    }
 
     generateTVSPositions(count, spacing) {
         const positions = [];
