@@ -371,10 +371,7 @@ class ReactorViewer {
         
         return positions;
     }
-
-            this.updateLoadingProgress(90);
-            this.updateLoadingText('Настройка интерфейса...');
-            
+    
             // Скрываем экран загрузки
             setTimeout(() => {
                 this.hideLoadingScreen();
