@@ -553,7 +553,7 @@ body {
     background: #4a90e2;
     border-radius: 50%;
     box-shadow: 0 0 30px #4a90e2;
-    animation: pulse 1.5s ease-in-out infinite;
+    animation: pulse 2s ease-in-out infinite;
 }
 
 .electron-path {
@@ -570,6 +570,8 @@ body {
     position: absolute;
     width: 15px;
     height: 15px;
+    margin-top: 0px;
+    margin-left: 0px;
     background: #68d391;
     border-radius: 50%;
     animation: orbit 2s linear infinite;
