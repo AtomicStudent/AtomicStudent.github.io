@@ -537,10 +537,9 @@ body {
 }
 
 /* Атом загрузки */
-/* Атом загрузки */
 .atom-loader {
     position: relative;
-    width: 140px; /* Увеличено для орбиты 100px */
+    width: 140px;
     height: 140px;
     margin: 0 auto 40px;
 }
@@ -566,69 +565,90 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100px; /* 2 × 50px = 100px */
+    width: 100px; /* 50px радиус × 2 = 100px */
     height: 100px;
     border: 2px solid rgba(74, 144, 226, 0.3);
     border-radius: 50%;
     z-index: 1;
 }
 
-/* Электроны - сразу видны */
+/* Электроны - каждый в своем контейнере для вращения */
+.electron-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    transform-origin: center;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* Электрон внутри контейнера */
 .electron {
     position: absolute;
-    width: 18px; /* Слегка увеличен размер электронов */
+    width: 18px;
     height: 18px;
     border-radius: 50%;
     opacity: 1;
-    /* Центрируем электроны */
     top: 50%;
-    left: 50%;
-    margin-left: -9px; /* Половина от ширины (18px/2 = 9px) */
-    margin-top: -9px; /* Половина от высоты */
+    left: 0; /* Начинаем слева от центра контейнера */
+    transform: translateY(-50%);
     z-index: 3;
-    /* Одинаковая анимация для всех */
-    animation: orbit 4s linear infinite;
 }
 
-/* Электрон 1 (верх) */
-.electron:nth-child(1) {
+/* Контейнеры для каждого электрона с разными углами поворота */
+.electron-container:nth-child(3) { /* Первый электрон */
+    transform: translate(-50%, -50%) rotate(0deg);
+    animation-name: rotateOrbit;
+}
+
+.electron-container:nth-child(3) .electron {
     background: #fff44f;
     box-shadow: 0 0 20px #ed8936;
-    /* Начальная позиция: 0 градусов (вверху) */
-    transform: rotate(0deg) translate(50px) rotate(0deg);
 }
 
-/* Электрон 2 (право) */
-.electron:nth-child(2) {
+.electron-container:nth-child(4) { /* Второй электрон */
+    transform: translate(-50%, -50%) rotate(90deg);
+    animation-name: rotateOrbit;
+    animation-delay: 1s; /* Задержка 1 секунда */
+}
+
+.electron-container:nth-child(4) .electron {
     background: #4fff9c;
     box-shadow: 0 0 20px #4CAF50;
-    /* Начальная позиция: 90 градусов (справа) */
-    transform: rotate(90deg) translate(50px) rotate(-90deg);
 }
 
-/* Электрон 3 (низ) */
-.electron:nth-child(3) {
+.electron-container:nth-child(5) { /* Третий электрон */
+    transform: translate(-50%, -50%) rotate(180deg);
+    animation-name: rotateOrbit;
+    animation-delay: 2s; /* Задержка 2 секунды */
+}
+
+.electron-container:nth-child(5) .electron {
     background: #4f5aff;
     box-shadow: 0 0 20px #9f7aea;
-    /* Начальная позиция: 180 градусов (внизу) */
-    transform: rotate(180deg) translate(50px) rotate(-180deg);
 }
 
-/* Электрон 4 (лево) */
-.electron:nth-child(4) {
+.electron-container:nth-child(6) { /* Четвертый электрон */
+    transform: translate(-50%, -50%) rotate(270deg);
+    animation-name: rotateOrbit;
+    animation-delay: 3s; /* Задержка 3 секунды */
+}
+
+.electron-container:nth-child(6) .electron {
     background: #ff4fb2;
     box-shadow: 0 0 20px #ff4fb2;
-    /* Начальная позиция: 270 градусов (слева) */
-    transform: rotate(270deg) translate(50px) rotate(-270deg);
 }
 
-/* Анимация вращения по окружности */
-@keyframes orbit {
+/* Анимация вращения контейнера */
+@keyframes rotateOrbit {
     0% {
-        transform: rotate(0deg) translate(50px) rotate(0deg);
+        transform: translate(-50%, -50%) rotate(0deg);
     }
     100% {
-        transform: rotate(360deg) translate(50px) rotate(-360deg);
+        transform: translate(-50%, -50%) rotate(360deg);
     }
 }
 
