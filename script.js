@@ -373,7 +373,7 @@ class ReactorViewer {
     }
     
             // Скрываем экран загрузки
-            setTimeout(() => {
+            setTimeout() => {
                 this.hideLoadingScreen();
                 console.log('✅ Демо-модели загружены!');
             }, 1000);
