@@ -667,7 +667,7 @@ class ReactorViewer {
     getPartInfo(partType, index = null) {
         const baseInfo = {
             corpus: {
-                name: "Корпус реактора ИБР-4,5",
+                name: "Корпус реактора РИМ-К-4,5",
                 description: "Основная несущая конструкция реактора из ферритно-мартенситной стали. Выдерживает высокие температуры и давление.",
                 specs: [
                     { label: "Материал", value: "ЭП-823" },
