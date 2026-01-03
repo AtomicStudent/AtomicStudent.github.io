@@ -48,7 +48,7 @@ class ReactorViewer {
         this.scene.background = new THREE.Color(0x0a0e17);
         
         // Простой туман для глубины
-        this.scene.fog = new THREE.Fog(0x000000);
+        this.scene.fog = new THREE.Fog(0x0a0e17, 1000, 10000);
     }
 
     setupCamera() {
@@ -189,189 +189,71 @@ class ReactorViewer {
         }
     }
 
-    async loadModels() {
+    loadDemoModels() {
+        console.log('📦 Загрузка демо-моделей...');
+        this.updateLoadingText('Создание демо-моделей...');
+        this.updateLoadingProgress(50);
+        
         try {
-            this.updateLoadingText('Загрузка моделей реактора...');
-            this.updateLoadingProgress(30);
+            // Создаем простые геометрические модели для демонстрации
             
-            const loader = new THREE.GLTFLoader();
+            // Корпус реактора (цилиндр)
+            const corpusGeometry = new THREE.CylinderGeometry(250, 250, 2545, 32);
+            const corpusMaterial = new THREE.MeshStandardMaterial({ 
+                color: this.config.COLORS.CORPUS,
+                roughness: 0.6,
+                metalness: 0.5
+            });
+            this.corpus = new THREE.Mesh(corpusGeometry, corpusMaterial);
+            this.corpus.position.y = 0;
+            this.corpus.castShadow = true;
+            this.corpus.receiveShadow = true;
+            this.corpus.userData = { partType: 'corpus', name: 'Корпус реактора' };
+            this.scene.add(this.corpus);
             
-            // Загрузка корпуса
-            this.models.corpus = await this.loadModel('corpus', 'models/reactor_corpus.glb');
-            this.updateLoadingProgress(50);
+            // Крышка (цилиндр)
+            const lidGeometry = new THREE.CylinderGeometry(250, 250, 188, 32);
+            const lidMaterial = new THREE.MeshStandardMaterial({ 
+                color: this.config.COLORS.LID,
+                roughness: 0.6,
+                metalness: 0.5
+            });
+            this.lid = new THREE.Mesh(lidGeometry, lidMaterial);
+            this.lid.position.y = 2165;
+            this.lid.castShadow = true;
+            this.lid.receiveShadow = true;
+            this.lid.userData = { partType: 'lid', name: 'Крышка реактора' };
+            this.scene.add(this.lid);
             
-            // Загрузка ТВС
-            await this.loadTVSModels();
-            this.updateLoadingProgress(70);
+            // ТВС (7 цилиндров)
+            this.tvsModels = [];
+            const tvsGeometry = new THREE.CylinderGeometry(56, 56, 2375, 16);
+            const tvsMaterial = new THREE.MeshStandardMaterial({ 
+                color: this.config.COLORS.TVS,
+                roughness: 0.6,
+                metalness: 0.5
+            });
             
-            // Загрузка крышки
-            this.models.lid = await this.loadModel('lid', 'models/reactor_lid.glb');
-            this.updateLoadingProgress(90);
+            // Генерируем позиции для ТВС
+            const positions = this.generateTVSPositions(7, this.config.TVS_HEX_GRID.SPACING_SMALL);
             
-            // Добавление моделей в сцену
-            this.scene.add(this.models.corpus);
-            this.scene.add(this.models.lid);
-            this.tvsModels.forEach(tvs => this.scene.add(tvs));
+            for (let i = 0; i < 7; i++) {
+                const tvs = new THREE.Mesh(tvsGeometry, tvsMaterial.clone());
+                tvs.position.copy(positions[i]);
+                tvs.castShadow = true;
+                tvs.receiveShadow = true;
+                tvs.userData = { 
+                    partType: 'tvs', 
+                    name: i === 0 ? 'Центральная ТВС' : `ТВС ${i}`,
+                    index: i,
+                    assembledPosition: positions[i].clone(),
+                    disassembledPosition: this.generateTVSPositions(7, this.config.TVS_HEX_GRID.SPACING_LARGE)[i]
+                };
+                
+                this.tvsModels.push(tvs);
+                this.scene.add(tvs);
+            }
             
-            // Настройка камеры
-            this.setupInitialCamera();
-            
-            // Скрытие экрана загрузки
-            setTimeout(() => {
-                this.hideLoadingScreen();
-                console.log('✅ Все модели загружены!');
-            }, 1000);
-            
-            this.updateLoadingProgress(100);
-            this.updateLoadingText('Загрузка завершена!');
-            
-        } catch (error) {
-            this.showError(`Ошибка загрузки: ${error.message}`);
-            console.error('❌ Ошибка при загрузке моделей:', error);
-        }
-    }
-
-    async loadModel(key, path) {
-        return new Promise((resolve, reject) => {
-            const loader = new THREE.GLTFLoader();
-            
-            loader.load(
-                path,
-                (gltf) => {
-                    console.log(`✅ Модель ${key} загружена`);
-                    
-                    const model = gltf.scene;
-                    
-                    model.traverse((child) => {
-                        if (child.isMesh) {
-                            child.castShadow = true;
-                            child.receiveShadow = true;
-                            
-                            const partColor = this.config.PART_COLORS[key.toUpperCase()] || this.config.PART_COLORS.ASSEMBLY;
-                            child.material = new THREE.MeshStandardMaterial({
-                                color: this.config.PART_COLORS.ASSEMBLY,
-                                roughness: 0.6,
-                                metalness: 0.5,
-                                side: THREE.DoubleSide
-                            });
-                            
-                            child.userData.targetColor = new THREE.Color(partColor);
-                            child.userData.partType = key;
-                            child.userData.modelKey = key;
-                            child.userData.isInteractive = true;
-                        }
-                    });
-                    
-                    // Применяем ручную корректировку позиции
-                    const correctionKey = key.toUpperCase();
-                    const correction = this.config.MANUAL_POSITION_CORRECTION[correctionKey] || { x: 0, y: 0, z: 0 };
-                    model.position.x += correction.x;
-                    model.position.y += correction.y;
-                    model.position.z += correction.z;
-                    
-                    resolve(model);
-                },
-                undefined,
-                (error) => {
-                    reject(new Error(`Ошибка загрузки модели ${key}: ${error}`));
-                }
-            );
-        });
-    }
-
-    async loadTVSModels() {
-        const loader = new THREE.GLTFLoader();
-        
-        return new Promise((resolve, reject) => {
-            loader.load(
-                'models/reactor_tvs.glb',
-                (gltf) => {
-                    // Создаем 7 ТВС
-                    const assembledPositions = this.generateTvsPositions(
-                        this.tvsCount,
-                        this.config.TVS_HEX_GRID.SPACING_SMALL,
-                        this.config.TVS_HEX_GRID.HEX_ROTATION
-                    );
-                    
-                    const disassembledPositions = this.generateTvsPositions(
-                        this.tvsCount,
-                        this.config.TVS_HEX_GRID.SPACING_LARGE,
-                        this.config.TVS_HEX_GRID.HEX_ROTATION
-                    );
-                    
-                    for (let i = 0; i < this.tvsCount; i++) {
-                        const model = gltf.scene.clone();
-                        
-                        model.traverse((child) => {
-                            if (child.isMesh) {
-                                child.castShadow = true;
-                                child.receiveShadow = true;
-                                
-                                child.material = new THREE.MeshStandardMaterial({
-                                    color: this.config.PART_COLORS.ASSEMBLY,
-                                    roughness: 0.6,
-                                    metalness: 0.5,
-                                    side: THREE.DoubleSide
-                                });
-                                
-                                child.userData.targetColor = new THREE.Color(this.config.PART_COLORS.TVS);
-                                child.userData.partType = 'tvs';
-                                child.userData.tvsIndex = i;
-                                child.userData.isInteractive = true;
-                            }
-                        });
-                        
-                        // Применяем позицию
-                        model.position.copy(assembledPositions[i]);
-                        
-                        // Сохраняем позиции для анимации
-                        model.userData.assembledPosition = assembledPositions[i].clone();
-                        model.userData.disassembledPosition = disassembledPositions[i].clone();
-                        
-                        this.tvsModels.push(model);
-                    }
-                    
-                    console.log(`✅ Создано ${this.tvsModels.length} ТВС`);
-                    resolve();
-                },
-                undefined,
-                reject
-            );
-        });
-    }
-
-    generateTvsPositions(count, spacing, rotationDegrees = 0) {
-        const positions = [];
-        const rotationRad = THREE.MathUtils.degToRad(rotationDegrees);
-        
-        // Центральная ТВС
-        positions.push(new THREE.Vector3(
-            this.config.TVS_HEX_GRID.CENTER_OFFSET.x,
-            this.config.TVS_HEX_GRID.CENTER_OFFSET.y,
-            this.config.TVS_HEX_GRID.CENTER_OFFSET.z
-        ));
-        
-        // 6 ТВС вокруг центральной
-        const sideSpacing = spacing;
-        const angleStep = (2 * Math.PI) / 6;
-        
-        for (let i = 0; i < 6; i++) {
-            const baseAngle = i * angleStep;
-            const angle = baseAngle + rotationRad;
-            
-            const x = Math.cos(angle) * sideSpacing;
-            const z = Math.sin(angle) * sideSpacing;
-            
-            positions.push(new THREE.Vector3(
-                x + this.config.TVS_HEX_GRID.CENTER_OFFSET.x,
-                this.config.TVS_HEX_GRID.CENTER_OFFSET.y,
-                z + this.config.TVS_HEX_GRID.CENTER_OFFSET.z
-            ));
-        }
-        
-        return positions;
-    }
-
             this.updateLoadingProgress(90);
             this.updateLoadingText('Настройка интерфейса...');
             
