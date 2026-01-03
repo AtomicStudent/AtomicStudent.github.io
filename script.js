@@ -93,14 +93,6 @@ class ReactorViewer {
             }
         };
 
-                // Управление камерой
-        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
-        this.setupControls();
-        
-        // Raycaster для взаимодействия
-        this.raycaster = new THREE.Raycaster();
-        this.mouse = new THREE.Vector2();
-        
         // Состояние
         this.currentState = 'assembled';
         this.selectedPart = null;
