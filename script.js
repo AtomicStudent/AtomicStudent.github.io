@@ -103,18 +103,18 @@ class ReactorViewer {
         console.log("🚀 Запуск интерактивного 3D просмотрщика реактора РИМ-К-4,5...");
         
         // Определяем мобильное устройство
-        const isMobile = const checkIfMobile();
+        this.isMobile = this.checkIfMobile();
         
-        const setupScene();
-        const setupCamera();
-        const setupRenderer();
-        const setupLighting(); // ПРАВИЛЬНОЕ освещение
-        const setupControls();
-        const setupUI();
-        const setupEventListeners();
+        this.setupScene();
+        this.setupCamera();
+        this.setupRenderer();
+        this.setupLighting(); // ПРАВИЛЬНОЕ освещение
+        this.setupControls();
+        this.setupUI();
+        this.setupEventListeners();
         
-        const loadingStartTime = Date.now();
-        const loadModels();
+        this.loadingStartTime = Date.now();
+        this.loadModels();
     }
 
     checkIfMobile() {
