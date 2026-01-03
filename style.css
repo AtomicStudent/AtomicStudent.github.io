@@ -568,8 +568,8 @@ body {
 
 .electron {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -50%;
+    left: 50%;
     width: 15px;
     height: 15px;
     background: #68d391;
