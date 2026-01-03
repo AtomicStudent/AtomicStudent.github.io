@@ -573,7 +573,7 @@ body {
     background: #68d391;
     border-radius: 50%;
     animation: orbit 2s linear infinite;
-    box-shadow: 0 0 15px #68d391;
+    box-shadow: 0 0 0px #68d391;
 }
 
 /* Позиционируем электроны вокруг ядра (смещаем вниз от центра) */
@@ -592,7 +592,7 @@ body {
     margin-top: 0px;
     margin-left: 0px;
     background: #4fff9c;
-    animation: orbit2 1.5s linear infinite;
+    animation: orbit3 1.5s linear infinite;
     box-shadow: 0 0 15px #ed8936;
 }
 
@@ -602,7 +602,7 @@ body {
     margin-top: 0px;
     margin-left: 0px;
     background: #4f5aff;
-    animation: orbit2 1s linear infinite;
+    animation: orbit4 1s linear infinite;
     box-shadow: 0 0 15px #9f7aea;
 }
 
