@@ -570,13 +570,36 @@ body {
     position: absolute;
     width: 15px;
     height: 15px;
-    margin-top: 60px; /* Увеличено с 0px до 60px - спуск вниз */
+    margin-top: 0px;
     margin-left: 50px;
     background: #fff44f;
     border-radius: 50%;
-    animation: orbit 2s linear infinite;
     box-shadow: 0 0 15px #ed8936;
+    opacity: 0; /* Скрыт по умолчанию */
+    /* Комбинированная анимация: появление + вращение */
+    animation: 
+        fadeInAndOrbit 3s linear infinite;
 }
+
+@keyframes fadeInAndOrbit {
+    0% {
+        opacity: 0;
+        transform: rotate(0deg) translateY(0px) rotate(0deg) scale(0.5);
+    }
+    10% {
+        opacity: 1;
+        transform: rotate(0deg) translateY(0px) rotate(0deg) scale(1);
+    }
+    20% {
+        opacity: 1;
+        transform: rotate(36deg) translateY(60px) rotate(-36deg) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(360deg) translateY(60px) rotate(-360deg) scale(1);
+    }
+}
+
 
 /* Позиционируем электроны вокруг ядра (смещаем вниз от центра) */
 .electron:nth-child(1) {
