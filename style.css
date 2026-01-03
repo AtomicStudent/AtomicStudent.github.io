@@ -572,7 +572,7 @@ body {
     height: 15px;
     background: #68d391;
     border-radius: 50%;
-    animation: orbit 2s linear infinite;
+    animation: orbit 1.5s linear infinite;
     box-shadow: 0 0 0px #68d391;
 }
 
@@ -583,7 +583,6 @@ body {
     margin-top: 0px;
     margin-left: 0px;
     background: #fff44f;
-    animation: orbit2 2.5s linear infinite;
 }
 
 .electron:nth-child(2) {
@@ -592,7 +591,6 @@ body {
     margin-top: 0px;
     margin-left: 0px;
     background: #4fff9c;
-    animation: orbit3 1.5s linear infinite;
     box-shadow: 0 0 15px #ed8936;
 }
 
@@ -602,7 +600,6 @@ body {
     margin-top: 0px;
     margin-left: 0px;
     background: #4f5aff;
-    animation: orbit4 1s linear infinite;
     box-shadow: 0 0 15px #9f7aea;
 }
 
@@ -612,7 +609,6 @@ body {
     margin-top: 0px;
     margin-left: 0px;
     background: #ff4fb2;
-    animation: orbit2 3s linear infinite;
     box-shadow: 0 0 15px #4CAF50;
 }
 
