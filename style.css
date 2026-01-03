@@ -570,8 +570,8 @@ body {
     position: absolute;
     width: 15px;
     height: 15px;
-    margin-top: 0px;
-    margin-left: 0px;
+    margin-top: -20px;
+    margin-left: 20px;
     background: #68d391;
     border-radius: 50%;
     animation: orbit 2s linear infinite;
