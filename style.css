@@ -580,10 +580,10 @@ body {
 
 /* Позиционируем электроны вокруг ядра (смещаем вниз от центра) */
 .electron:nth-child(1) {
-    top: 100%;
-    left: 100%;
-    margin-top: 0px;
-    margin-left: 0px;
+    top: 50%;
+    left: 50%;
+    margin-top: 20px;
+    margin-left: 20px;
     background: #fff44f;
 }
 
