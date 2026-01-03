@@ -544,7 +544,6 @@ body {
     margin: 0 auto 40px;
 }
 
-/* Ядро атома */
 .nucleus {
     position: absolute;
     top: 50%;
@@ -559,7 +558,6 @@ body {
     z-index: 2;
 }
 
-/* Траектория (орбита) - полупрозрачный круг */
 .orbit {
     position: absolute;
     top: 50%;
@@ -572,7 +570,6 @@ body {
     z-index: 1;
 }
 
-/* Электроны с разными стартовыми позициями */
 .electron {
     position: absolute;
     width: 18px;
@@ -584,48 +581,46 @@ body {
     margin-left: -9px;
     margin-top: -9px;
     z-index: 3;
-    /* Каждый электрон стартует с разного угла */
     animation: orbit 4s linear infinite;
 }
 
-/* Электрон 1: верх (0 градусов) */
+/* Определяем стартовые углы через CSS переменные */
 .electron:nth-child(1) {
+    --start-angle: 0deg;
     background: #fff44f;
     box-shadow: 0 0 20px #ed8936;
-    transform: rotate(0deg) translate(50px) rotate(0deg);
 }
 
-/* Электрон 2: право (90 градусов) */
 .electron:nth-child(2) {
+    --start-angle: 90deg;
     background: #4fff9c;
     box-shadow: 0 0 20px #4CAF50;
-    transform: rotate(90deg) translate(50px) rotate(-90deg);
-    animation-delay: 1s; /* Смещение на 1/4 цикла */
 }
 
-/* Электрон 3: низ (180 градусов) */
 .electron:nth-child(3) {
+    --start-angle: 180deg;
     background: #4f5aff;
     box-shadow: 0 0 20px #9f7aea;
-    transform: rotate(180deg) translate(50px) rotate(-180deg);
-    animation-delay: 2s; /* Смещение на 1/2 цикла */
 }
 
-/* Электрон 4: лево (270 градусов) */
 .electron:nth-child(4) {
+    --start-angle: 270deg;
     background: #ff4fb2;
     box-shadow: 0 0 20px #ff4fb2;
-    transform: rotate(270deg) translate(50px) rotate(-270deg);
-    animation-delay: 3s; /* Смещение на 3/4 цикла */
 }
 
-/* Анимация вращения */
 @keyframes orbit {
     0% {
-        transform: rotate(var(--start-angle, 0deg)) translate(50px) rotate(calc(-1 * var(--start-angle, 0deg)));
+        transform: 
+            rotate(var(--start-angle, 0deg)) 
+            translate(50px) 
+            rotate(calc(-1 * var(--start-angle, 0deg)));
     }
     100% {
-        transform: rotate(calc(360deg + var(--start-angle, 0deg))) translate(50px) rotate(calc(-360deg - var(--start-angle, 0deg)));
+        transform: 
+            rotate(calc(360deg + var(--start-angle, 0deg))) 
+            translate(50px) 
+            rotate(calc(-360deg - var(--start-angle, 0deg)));
     }
 }
 
