@@ -536,6 +536,7 @@ body {
     padding: 40px;
 }
 
+/* Атом загрузки */
 .atom-loader {
     position: relative;
     width: 120px;
@@ -543,6 +544,7 @@ body {
     margin: 0 auto 40px;
 }
 
+/* Ядро атома */
 .nucleus {
     position: absolute;
     top: 50%;
@@ -553,128 +555,80 @@ body {
     background: #4a90e2;
     border-radius: 50%;
     box-shadow: 0 0 30px #4a90e2;
-    animation: pulse 2s ease-in-out infinite;
+    opacity: 0.7; /* Полупрозрачное как и траектория */
 }
 
-.electron-path {
+/* Траектория (орбита) - полупрозрачный круг */
+.orbit {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 2px solid rgba(74, 144, 226, 0.3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border: 2px solid rgba(74, 144, 226, 0.3); /* Полупрозрачная синяя траектория */
     border-radius: 50%;
 }
 
+/* Электроны - сразу видны и расположены по 4 сторонам */
 .electron {
     position: absolute;
     width: 15px;
     height: 15px;
-    margin-top: 0px;
-    margin-left: 50px;
-    background: #fff44f;
     border-radius: 50%;
-    box-shadow: 0 0 15px #ed8936;
-    opacity: 0;
-    /* Сначала появляемся, потом вращаемся */
-    animation: 
-        appearAndSpin 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    opacity: 1; /* Сразу видны */
 }
 
-@keyframes appearAndSpin {
-    0% {
-        opacity: 0;
-        transform: rotate(0deg) translateY(0px) rotate(0deg) scale(0.5);
-    }
-    10% {
-        opacity: 1;
-        transform: rotate(0deg) translateY(0px) rotate(0deg) scale(1);
-    }
-    15% {
-        opacity: 1;
-        transform: rotate(18deg) translateY(60px) rotate(-18deg) scale(1);
-    }
-    20% {
-        opacity: 1;
-        transform: rotate(36deg) translateY(60px) rotate(-36deg) scale(1);
-    }
-    95% {
-        opacity: 1;
-        transform: rotate(342deg) translateY(60px) rotate(-342deg) scale(1);
-    }
-    100% {
-        opacity: 1;
-        transform: rotate(360deg) translateY(60px) rotate(-360deg) scale(1);
-    }
-}
+/* Позиционирование электронов по 4 сторонам и вращение */
 
-/* Для плавного перехода между циклами увеличьте длительность анимации */
-.electron.smooth {
-    animation: 
-        appearAndSpin 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-@keyframes appearAndSpin {
-    0% {
-        opacity: 0;
-        transform: rotate(0deg) translateY(0px) rotate(0deg) scale(0.5);
-    }
-    5% {
-        opacity: 1;
-        transform: rotate(0deg) translateY(0px) rotate(0deg) scale(1);
-    }
-    10% {
-        opacity: 1;
-        transform: rotate(18deg) translateY(60px) rotate(-18deg);
-    }
-    95% {
-        opacity: 1;
-        transform: rotate(684deg) translateY(60px) rotate(-684deg); /* Почти 2 круга */
-    }
-    100% {
-        opacity: 1;
-        transform: rotate(720deg) translateY(60px) rotate(-720deg); /* Ровно 2 круга */
-    }
-}
-/* Позиционируем электроны вокруг ядра (смещаем вниз от центра) */
+/* Верхний электрон */
 .electron:nth-child(1) {
-    top: 50%;
+    top: 0;
     left: 50%;
-    margin-top: 0px;
-    margin-left: 0px;
-    animation-delay: 0s;
+    transform: translateX(-50%);
     background: #fff44f;
     box-shadow: 0 0 15px #ed8936;
+    animation: orbit 4s linear infinite;
 }
 
+/* Правый электрон */
 .electron:nth-child(2) {
     top: 50%;
-    left: 50%;
-    margin-top: 0px;
-    margin-left: 0px;
-    animation-delay: 0.5s;
+    right: 0;
+    transform: translateY(-50%);
     background: #4fff9c;
-    box-shadow: 0 0 15px #ed8936;
+    box-shadow: 0 0 15px #4CAF50;
+    animation: orbit 4s linear infinite 1s; /* Задержка 1 секунда */
 }
 
+/* Нижний электрон */
 .electron:nth-child(3) {
-    top: 50%;
+    bottom: 0;
     left: 50%;
-    margin-top: 0px;
-    margin-left: 0px;
-    animation-delay: 1s;
+    transform: translateX(-50%);
     background: #4f5aff;
     box-shadow: 0 0 15px #9f7aea;
+    animation: orbit 4s linear infinite 2s; /* Задержка 2 секунды */
 }
 
+/* Левый электрон */
 .electron:nth-child(4) {
     top: 50%;
-    left: 50%;
-    margin-top: 0px;
-    margin-left: 0px;
-    animation-delay: 1.5s;
+    left: 0;
+    transform: translateY(-50%);
     background: #ff4fb2;
-    box-shadow: 0 0 15px #4CAF50;
+    box-shadow: 0 0 15px #ff4fb2;
+    animation: orbit 4s linear infinite 3s; /* Задержка 3 секунды */
+}
+
+/* Анимация вращения по окружности */
+@keyframes orbit {
+    0% {
+        transform: rotate(0deg) translate(60px) rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg) translate(60px) rotate(-360deg);
+    }
 }
 
 .loading-content h2 {
