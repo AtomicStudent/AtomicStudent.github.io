@@ -518,7 +518,7 @@ body {
 #loading-screen {
     position: fixed;
     top: 0;
-    left: -20;
+    left: 0;
     width: 100%;
     height: 100%;
     background: linear-gradient(135deg, #0a0e17 0%, #1a1f2e 100%);
@@ -558,7 +558,7 @@ body {
 
 .electron-path {
     position: absolute;
-    top: 0;
+    top: -15px;
     left: 0;
     width: 100%;
     height: 100%;
@@ -579,16 +579,16 @@ body {
     box-shadow: 0 0 15px #68d391;
 }
 
-.electron-2 {
-    animation: orbit 4s linear infinite;
+.electron2 {
+    animation: orbit2 2.5s linear infinite;
     background: #ed8936;
-    box-shadow: 0 0 15px #ed8936;
+    animation-delay: 0.5s;
 }
 
-.electron-3 {
-    animation: orbit 5s linear infinite reverse;
+.electron3 {
+    animation: orbit3 2s linear infinite;
     background: #9f7aea;
-    box-shadow: 0 0 15px #9f7aea;
+    animation-delay: 1s;
 }
 
 .loading-content h2 {
