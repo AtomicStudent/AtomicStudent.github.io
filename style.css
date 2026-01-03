@@ -570,8 +570,8 @@ body {
 .electron:nth-child(1) {
     top: 50%;
     left: 50%;
-    margin-top: -60px;
-    margin-left: -7.5px;
+    margin-top: 0px;
+    margin-left: 0px;
     animation-delay: 0s;
     background: #68d391;
 }
@@ -579,8 +579,8 @@ body {
 .electron:nth-child(2) {
     top: 50%;
     left: 50%;
-    margin-top: 20px;
-    margin-left: -50px;
+    margin-top: 0px;
+    margin-left: 0px;
     animation-delay: 0.5s;
     background: #ed8936;
     box-shadow: 0 0 15px #ed8936;
@@ -589,8 +589,8 @@ body {
 .electron:nth-child(3) {
     top: 50%;
     left: 50%;
-    margin-top: 20px;
-    margin-left: 35px;
+    margin-top: 0px;
+    margin-left: 0px;
     animation-delay: 1s;
     background: #9f7aea;
     box-shadow: 0 0 15px #9f7aea;
@@ -599,8 +599,8 @@ body {
 .electron:nth-child(4) {
     top: 50%;
     left: 50%;
-    margin-top: -30px;
-    margin-left: -60px;
+    margin-top: 0px;
+    margin-left: 0px;
     animation-delay: 1.5s;
     background: #4CAF50;
     box-shadow: 0 0 15px #4CAF50;
