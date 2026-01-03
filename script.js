@@ -292,7 +292,7 @@ class ReactorViewer {
         
         this.updateLoadingText('Инициализация 3D среды...');
         this.updateLoadingProgress(10);
-    }
+        }
 
     setupEventListeners() {
         this.assembleBtn.addEventListener('click', () => this.assembleReactor());
