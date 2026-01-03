@@ -575,13 +575,13 @@ body {
     background: #fff44f;
     border-radius: 50%;
     box-shadow: 0 0 15px #ed8936;
-    opacity: 0; /* Скрыт по умолчанию */
-    /* Комбинированная анимация: появление + вращение */
+    opacity: 0;
+    /* Сначала появляемся, потом вращаемся */
     animation: 
-        fadeInAndOrbit 3s linear infinite;
+        appearAndSpin 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes fadeInAndOrbit {
+@keyframes appearAndSpin {
     0% {
         opacity: 0;
         transform: rotate(0deg) translateY(0px) rotate(0deg) scale(0.5);
@@ -590,9 +590,17 @@ body {
         opacity: 1;
         transform: rotate(0deg) translateY(0px) rotate(0deg) scale(1);
     }
+    15% {
+        opacity: 1;
+        transform: rotate(18deg) translateY(60px) rotate(-18deg) scale(1);
+    }
     20% {
         opacity: 1;
         transform: rotate(36deg) translateY(60px) rotate(-36deg) scale(1);
+    }
+    95% {
+        opacity: 1;
+        transform: rotate(342deg) translateY(60px) rotate(-342deg) scale(1);
     }
     100% {
         opacity: 1;
@@ -600,7 +608,34 @@ body {
     }
 }
 
+/* Для плавного перехода между циклами увеличьте длительность анимации */
+.electron.smooth {
+    animation: 
+        appearAndSpin 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
 
+@keyframes appearAndSpin {
+    0% {
+        opacity: 0;
+        transform: rotate(0deg) translateY(0px) rotate(0deg) scale(0.5);
+    }
+    5% {
+        opacity: 1;
+        transform: rotate(0deg) translateY(0px) rotate(0deg) scale(1);
+    }
+    10% {
+        opacity: 1;
+        transform: rotate(18deg) translateY(60px) rotate(-18deg);
+    }
+    95% {
+        opacity: 1;
+        transform: rotate(684deg) translateY(60px) rotate(-684deg); /* Почти 2 круга */
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(720deg) translateY(60px) rotate(-720deg); /* Ровно 2 круга */
+    }
+}
 /* Позиционируем электроны вокруг ядра (смещаем вниз от центра) */
 .electron:nth-child(1) {
     top: 50%;
