@@ -3,15 +3,15 @@ class ReactorViewer {
     constructor() {
         this.config = {
             DISASSEMBLY_DISTANCE: {
-                CORPUS_DOWN: -1500,
+                CORPUS_DOWN: -2500,
                 LID_UP: 2500,
                 TVS_SPREAD: 800
             },
             COLORS: {
-                CORPUS: 0x2c5282,      // Темно-синий для корпуса
-                LID: 0xed8936,         // Оранжевый для крышки
-                TVS: 0x4CAF50,         // Зеленый для ТВС
-                HIGHLIGHT: 0xffd700    // Золотой для выделения
+                CORPUS: 0x32127a,      // Темно-синий для корпуса
+                LID: 0x7a3212,         // Оранжевый для крышки
+                TVS: 0x127a32,         // Зеленый для ТВС
+                HIGHLIGHT: 0xf3e5ab    // Золотой для выделения
             },
             INITIAL_CAMERA: {
                 x: 0,
@@ -20,10 +20,10 @@ class ReactorViewer {
             },
             LIGHTING: {
                 ambient: 0xffffff,
-                ambientIntensity: 0.4, // Ослаблено с 0.6
+                ambientIntensity: 0.6, // Ослаблено с 0.6
                 directional1: {
                     color: 0xffffff,
-                    intensity: 0.5,    // Ослаблено с 0.8
+                    intensity: 0.8,    // Ослаблено с 0.8
                     position: { x: 100, y: 200, z: 150 }
                 },
                 directional2: {
@@ -53,8 +53,8 @@ class ReactorViewer {
             { text: "Загрузка корпуса реактора...", subtext: "Основная несущая конструкция", progress: 35 },
             { text: "Загрузка крышки реактора...", subtext: "Верхняя герметичная крышка", progress: 45 },
             { text: "Загрузка тепловыделяющих сборок...", subtext: "7 ТВС в шестиугольной решетке", progress: 60 },
-            { text: "Покраска моделей...", subtext: "Применение материалов и цветов", progress: 75 },
-            { text: "Настройка интерфейса...", subtext: "Инициализация элементов управления", progress: 85 },
+            { text: "Проверяем готовность...", subtext: "Применение материалов и цветов", progress: 75 },
+            { text: "Запускаем Реактор в Космос! А, нет, отмена...", subtext: "Инициализация элементов управления", progress: 85 },
             { text: "Завершение загрузки...", subtext: "Подготовка к отображению", progress: 95 }
         ];
         
@@ -79,7 +79,7 @@ class ReactorViewer {
         this.setupEventListeners();
         
         // Искусственная задержка для показа загрузочного экрана
-        await this.delay(2000);
+        await this.delay(1500);
         
         // Загружаем модели
         await this.loadModels();
