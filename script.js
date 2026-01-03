@@ -372,6 +372,20 @@ class ReactorViewer {
         return positions;
     }
 
+            this.updateLoadingProgress(90);
+            this.updateLoadingText('Настройка интерфейса...');
+            
+            // Скрываем экран загрузки
+            setTimeout(() => {
+                this.hideLoadingScreen();
+                console.log('✅ Демо-модели загружены!');
+            }, 1000);
+            
+        } catch (error) {
+            this.showError(`Ошибка создания моделей: ${error.message}`);
+        }
+    }
+
     generateTVSPositions(count, spacing) {
         const positions = [];
         const rotationRad = THREE.MathUtils.degToRad(this.config.TVS_HEX_GRID.HEX_ROTATION);
@@ -653,7 +667,7 @@ class ReactorViewer {
     getPartInfo(partType, index = null) {
         const baseInfo = {
             corpus: {
-                name: "Корпус реактора РИМ-К-4,5",
+                name: "Корпус реактора ИБР-4,5",
                 description: "Основная несущая конструкция реактора из ферритно-мартенситной стали. Выдерживает высокие температуры и давление.",
                 specs: [
                     { label: "Материал", value: "ЭП-823" },
