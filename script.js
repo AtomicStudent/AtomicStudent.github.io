@@ -25,9 +25,26 @@ class ReactorViewer {
                 LID: 0xed8936
             },
             
-            ANIMATION_DURATION: {
+            // Длительности анимаций
+            ANIMATION: {
                 FADE: 500,
-                MOVE: 2400
+                MOVE: 2400,
+                CAMERA: 1500
+            },
+            
+            // Коррекция позиций
+            POSITION_CORRECTION: {
+                CORPUS: { x: 0, y: 0, z: 0 },
+                TVS: { x: 0, y: 0, z: 0 },
+                LID: { x: 0, y: 2165, z: 0 }
+            },
+            
+            // Камера
+            CAMERA_PRESETS: {
+                OVERVIEW: { position: [0, 3000, 5000], target: [0, 1000, 0] },
+                CORPUS: { position: [0, 1500, 2000], target: [0, 500, 0] },
+                TVS: { position: [0, 1500, 1500], target: [0, 1000, 0] },
+                LID: { position: [0, 3500, 1500], target: [0, 2500, 0] }
             },
             
             // Исправляем: опускаем ВСЕ модели на 800 единиц
@@ -76,6 +93,14 @@ class ReactorViewer {
             }
         };
 
+                // Управление камерой
+        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        this.setupControls();
+        
+        // Raycaster для взаимодействия
+        this.raycaster = new THREE.Raycaster();
+        this.mouse = new THREE.Vector2();
+        
         // Состояние
         this.currentState = 'assembled';
         this.selectedPart = null;
@@ -157,40 +182,85 @@ class ReactorViewer {
     }
 
     setupLighting() {
-        // ТОЛЬКО правильное освещение из оригинального кода
-        // Ambient light
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
-        this.scene.add(ambientLight);
+        // Направленный свет
+        this.directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+        this.directionalLight.position.set(100, 300, 100);
+        this.directionalLight.castShadow = true;
+        this.directionalLight.shadow.camera.far = 5000;
+        this.directionalLight.shadow.mapSize.width = 2048;
+        this.directionalLight.shadow.mapSize.height = 2048;
+        this.scene.add(this.directionalLight);
         
-        // Directional light
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-        directionalLight.position.set(100, 200, 100);
-        directionalLight.castShadow = true;
-        this.scene.add(directionalLight);
+        // Задняя подсветка
+        this.backLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        this.backLight.position.set(-100, 200, -100);
+        this.scene.add(this.backLight);
         
-        // Back light
-        const backLight = new THREE.DirectionalLight(0xffffff, 1);
-        backLight.position.set(-100, 150, -100);
-        this.scene.add(backLight);
+        // Объемный свет для свечения
+        this.glowLight = new THREE.PointLight(CONFIG.COLORS.GLOW, 2, 1000);
+        this.glowLight.position.set(0, 1500, 0);
+        this.scene.add(this.glowLight);
     }
-
+    
     setupControls() {
-        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
         this.controls.rotateSpeed = 0.5;
-        this.controls.panSpeed = 0.5;
-        this.controls.zoomSpeed = 0.8;
-        this.controls.minDistance = 10;
-        this.controls.maxDistance = 2000;
-        
-        if (this.isMobile) {
-            this.controls.enablePan = false;
-            this.controls.rotateSpeed = 0.3;
-            this.controls.zoomSpeed = 0.5;
-        }
+        this.panSpeed = 0.5;
+        this.zoomSpeed = 0.8;
+        this.controls.minDistance = 100;
+        this.controls.maxDistance = 10000;
+        this.controls.maxPolarAngle = Math.PI / 2 - 0.1;
     }
-
+    
+    initEffects() {
+        // Постобработка для обводки
+        this.composer = new THREE.EffectComposer(this.renderer);
+        this.renderPass = new THREE.RenderPass(this.scene, this.camera);
+        this.composer.addPass(this.renderPass);
+        
+        // Outline pass для обводки
+        this.outlinePass = new THREE.OutlinePass(
+            new THREE.Vector2(this.container.clientWidth, this.container.clientHeight),
+            this.scene,
+            this.camera
+        );
+        
+        this.outlinePass.edgeStrength = 4.0;
+        this.outlinePass.edgeGlow = 0.8;
+        this.outlinePass.edgeThickness = 2.0;
+        this.outlinePass.pulsePeriod = 2;
+        this.outlinePass.visibleEdgeColor.set(0x00ffff);
+        this.outlinePass.hiddenEdgeColor.set(0x000000);
+        this.composer.addPass(this.outlinePass);
+        
+        // Объекты для обводки
+        this.outlineObjects = [];
+        
+        // Фоновые звезды
+        this.createStarfield();
+    }
+    
+    createStarfield() {
+        const starGeometry = new THREE.BufferGeometry();
+        const starCount = 5000;
+        
+        const positions = new Float32Array(starCount * 3);
+        const sizes = new Float32Array(starCount);
+        
+        for (let i = 0; i < starCount; i++) {
+            // Случайная позиция в сфере
+            const radius = 5000 + Math.random() * 10000;
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            
+            positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+            positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+            positions[i * 3 + 2] = radius * Math.cos(phi);
+            
+            sizes[i] = Math.random() * 2;
+        }
+        
     setupUI() {
         this.loadingScreen = document.getElementById('loading-screen');
         this.loadingText = document.getElementById('loading-text');
@@ -946,15 +1016,66 @@ class ReactorViewer {
         };
         document.getElementById('part-icon').className = iconMap[partType] || 'fas fa-cube';
         
-        // Показываем панель
-        this.infoPanel.classList.remove('panel-hidden');
+        // Показ панели
         this.infoPanel.classList.add('active');
-        
-        if (this.isMobile) {
-            this.showMobileOverlay();
-        }
     }
-
+    
+    getPartInfo(partType, tvsIndex = null) {
+        const baseInfo = {
+            corpus: {
+                name: "Корпус реактора ИБР-4,5",
+                description: "Основная несущая конструкция реактора, выполненная из ферритно-мартенситной стали марки ЭП-823. Предназначен для размещения активной зоны и обеспечения теплообмена.",
+                specs: [
+                    "Материал: ЭП-823 (ферритно-мартенситная сталь)",
+                    "Высота: 2545 мм",
+                    "Внешний диаметр: 500 мм",
+                    "Внутренний диаметр: 400 мм",
+                    "Толщина стенки: 50 мм",
+                    "Рабочая температура: 500-620°C",
+                    "Вес: ≈ 12000 кг"
+                ]
+            },
+            tvs: {
+                name: tvsIndex === 0 ? "Центральная ТВС" : `ТВС ${tvsIndex}`,
+                description: "Тепловыделяющая сборка, содержащая карбидное уран-плутониевое топливо. Обеспечивает цепную реакцию деления и генерацию тепловой энергии.",
+                specs: [
+                    "Тип топлива: карбид уран-плутониевый",
+                    "Обогащение по плутонию: 13,5%",
+                    "Материал оболочки: Циркониевый сплав",
+                    "Высота: 2375 мм",
+                    "Диаметр: 112,85 мм",
+                    "Тепловая мощность: 4,5 МВт",
+                    "Количество ТВЭЛов: 127"
+                ]
+            },
+            lid: {
+                name: "Крышка реактора",
+                description: "Верхняя крышка, обеспечивающая герметичность корпуса реактора. Оснащена системой болтового крепления и уплотнительными элементами.",
+                specs: [
+                    "Материал: ЭП-823",
+                    "Диаметр: 500 мм",
+                    "Толщина: 188 мм",
+                    "Количество болтов: 28",
+                    "Тип уплотнения: металлическая прокладка",
+                    "Вес: ≈ 2500 кг"
+                ]
+            }
+        };
+        
+        return baseInfo[partType] || {
+            name: "Деталь реактора",
+            description: "Описание детали",
+            specs: ["Характеристики не доступны"]
+        };
+    }
+    
+    closeInfoPanel() {
+        this.infoPanel.classList.remove('active');
+        this.selectedPart = null;
+        this.selectedPartText.textContent = 'Ничего';
+        this.outlinePass.selectedObjects = [];
+    }
+    
     highlightPart(partType, tvsIndex = null) {
         this.removeHighlight();
         
