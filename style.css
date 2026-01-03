@@ -556,6 +556,16 @@ body {
     animation: pulse 1.5s ease-in-out infinite;
 }
 
+.electron-path {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgba(74, 144, 226, 0.3);
+    border-radius: 50%;
+}
+
 .electron {
     position: absolute;
     width: 15px;
@@ -573,7 +583,7 @@ body {
     margin-top: 0px;
     margin-left: 0px;
     animation-delay: 0s;
-    background: #68d391;
+    background: #fff44f;
 }
 
 .electron:nth-child(2) {
@@ -581,8 +591,8 @@ body {
     left: 50%;
     margin-top: 0px;
     margin-left: 0px;
-    animation-delay: 0.5s;
-    background: #ed8936;
+    animation-delay: 0s;
+    background: #4fff9c;
     box-shadow: 0 0 15px #ed8936;
 }
 
@@ -591,8 +601,8 @@ body {
     left: 50%;
     margin-top: 0px;
     margin-left: 0px;
-    animation-delay: 1s;
-    background: #9f7aea;
+    animation-delay: 0s;
+    background: #4f5aff;
     box-shadow: 0 0 15px #9f7aea;
 }
 
@@ -601,13 +611,13 @@ body {
     left: 50%;
     margin-top: 0px;
     margin-left: 0px;
-    animation-delay: 1.5s;
-    background: #4CAF50;
+    animation-delay: 0s;
+    background: #ff4fb2;
     box-shadow: 0 0 15px #4CAF50;
 }
 
 .loading-content h2 {
-    font-size: 2rem;
+    font-size: 1.8rem;
     margin-bottom: 20px;
     background: linear-gradient(90deg, #4a90e2, #68d391);
     -webkit-background-clip: text;
