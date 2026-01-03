@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ИБР-4,5 - Интерактивный 3D просмотрщик</title>
+    
+    <!-- Three.js и расширения -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/OutlinePass.js"></script>
+    
+    <!-- Иконки -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Фоновые элементы -->
+    <div id="stars"></div>
+    <div id="nebula"></div>
+    
+    <!-- Основной контейнер -->
+    <div id="model-container"></div>
+    
+    <!-- Верхняя панель управления -->
+    <div id="top-panel">
+        <div class="logo">
+            <i class="fas fa-atom"></i>
+            <h1>ИБР-4,5 Реактор</h1>
+        </div>
+        
+        <div class="top-controls">
+            <button id="reset-camera" class="top-btn" title="Вернуться к общему виду">
+                <i class="fas fa-globe-americas"></i>
+                <span>Общий вид</span>
+            </button>
+            
+            <div class="mode-toggle">
+                <button id="xray-toggle" class="mode-btn">
+                    <i class="fas fa-x-ray"></i>
+                    <span>Рентген-режим</span>
+                </button>
+                
+                <button id="compare-toggle" class="mode-btn">
+                    <i class="fas fa-ruler-combined"></i>
+                    <span>Сравнить размеры</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Панель управления реактором -->
+    <div id="control-panel">
+        <div class="panel-header">
+            <i class="fas fa-cogs"></i>
+            <h3>Управление реактором</h3>
+        </div>
+        
+        <div class="control-group">
+            <div class="button-group">
+                <button id="assemble-btn" class="btn primary">
+                    <i class="fas fa-tools"></i>
+                    <span>Собрать реактор</span>
+                </button>
+                <button id="disassemble-btn" class="btn secondary">
+                    <i class="fas fa-layer-group"></i>
+                    <span>Разобрать реактор</span>
+                </button>
+            </div>
+            
+            <div class="slider-group">
+                <label for="animation-speed">Скорость анимации:</label>
+                <input type="range" id="animation-speed" min="0.5" max="3" step="0.1" value="1">
+                <span id="speed-value">1x</span>
+            </div>
+            
+            <div class="info-hint">
+                <i class="fas fa-mouse-pointer"></i>
+                <p>В режиме разборки наводите курсор на детали для получения информации</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Панель сравнения размеров -->
+    <div id="comparison-panel">
+        <div class="comparison-header">
+            <h4><i class="fas fa-ruler"></i> Сравнение размеров</h4>
+            <button id="close-comparison" class="close-btn">×</button>
+        </div>
+        
+        <div class="comparison-options">
+            <div class="comparison-item active" data-scale="1.8" data-name="Человек (1.8м)">
+                <i class="fas fa-male"></i>
+                <span>Человек</span>
+            </div>
+            <div class="comparison-item" data-scale="4.5" data-name="Автомобиль (4.5м)">
+                <i class="fas fa-car"></i>
+                <span>Автомобиль</span>
+            </div>
+            <div class="comparison-item" data-scale="2.5" data-name="Дверь (2.5м)">
+                <i class="fas fa-door-closed"></i>
+                <span>Дверь</span>
+            </div>
+        </div>
+        
+        <div class="comparison-info">
+            <p id="comparison-text">Высота реактора: <strong>5.2 м</strong></p>
+            <p id="scale-text">Масштаб: 1:1</p>
+        </div>
+    </div>
+    
+    <!-- Улучшенная панель информации -->
+    <div id="info-panel">
+        <div class="info-header">
+            <div class="part-icon">
+                <i class="fas fa-cube" id="part-icon"></i>
+            </div>
+            <div class="part-title">
+                <h3 id="part-name">Название детали</h3>
+                <div class="part-status" id="part-status">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Активна</span>
+                </div>
+            </div>
+            <button id="close-info-btn" class="close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="info-content">
+            <div class="info-section">
+                <h4><i class="fas fa-list-alt"></i> Характеристики</h4>
+                <ul id="specs-list">
+                    <li><span class="spec-label">Материал:</span> <span class="spec-value">Загрузка...</span></li>
+                </ul>
+            </div>
+            
+            <div class="info-section">
+                <h4><i class="fas fa-align-left"></i> Описание</h4>
+                <div class="description-container">
+                    <p id="part-description">Описание детали будет здесь</p>
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <h4><i class="fas fa-chart-bar"></i> Сравнительные размеры</h4>
+                <div class="size-comparison">
+                    <div class="size-item">
+                        <div class="size-bar" style="height: 100%; background: #4a90e2;"></div>
+                        <span>Реактор</span>
+                        <small>5.2 м</small>
+                    </div>
+                    <div class="size-item">
+                        <div class="size-bar" style="height: 35%; background: #4CAF50;"></div>
+                        <span>Человек</span>
+                        <small>1.8 м</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="info-footer">
+            <div class="model-stats">
+                <div class="stat">
+                    <i class="fas fa-weight-hanging"></i>
+                    <span>Вес: <strong id="part-weight">Н/Д</strong></span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-temperature-high"></i>
+                    <span>Температура: <strong id="part-temp">Н/Д</strong></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Индикатор состояния -->
+    <div id="state-indicator">
+        <div class="state-content">
+            <div class="state-icon">
+                <i class="fas fa-atom" id="state-main-icon"></i>
+            </div>
+            <div class="state-info">
+                <div class="state-title">Состояние реактора</div>
+                <div class="state-status" id="state-status">Собран</div>
+            </div>
+        </div>
+        
+        <div class="selection-info">
+            <i class="fas fa-mouse-pointer"></i>
+            <span>Выбрано: <strong id="selected-part">Ничего</strong></span>
+        </div>
+    </div>
+    
+    <!-- Маркеры для деталей (генерируются скриптом) -->
+    <div id="markers-container"></div>
+    
+    <!-- Загрузка -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="atom-loader">
+                <div class="nucleus"></div>
+                <div class="electron-path"></div>
+                <div class="electron"></div>
+            </div>
+            <h2>Загрузка реактора ИБР-4,5</h2>
+            <p id="loading-text">Инициализация 3D среды...</p>
+            <div class="progress-container">
+                <div class="progress-bar" id="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
