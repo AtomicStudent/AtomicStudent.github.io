@@ -4,7 +4,7 @@ class ReactorViewer {
         this.config = {
             DISASSEMBLY_DISTANCE: {
                 CORPUS_DOWN: -2500,
-                LID_UP: 2500,
+                LID_UP: 4500,
                 TVS_SPREAD: 800
             },
             COLORS: {
@@ -20,15 +20,15 @@ class ReactorViewer {
             },
             LIGHTING: {
                 ambient: 0xffffff,
-                ambientIntensity: 0.6, // Ослаблено с 0.6
+                ambientIntensity: 0.55, // Ослаблено с 0.6
                 directional1: {
                     color: 0xffffff,
-                    intensity: 0.8,    // Ослаблено с 0.8
+                    intensity: 0.75,    // Ослаблено с 0.8
                     position: { x: 100, y: 200, z: 150 }
                 },
                 directional2: {
                     color: 0xffffff,
-                    intensity: 0.2,    // Сильно ослаблено с 0.4
+                    intensity: 0.35,    // Сильно ослаблено с 0.4
                     position: { x: -150, y: 100, z: -100 }
                 }
             }
