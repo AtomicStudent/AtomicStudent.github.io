@@ -96,7 +96,7 @@ class ReactorViewer {
         const markers = [];
         
         // Запуск
-        const init();
+        this.init();
     }
 
     init() {
