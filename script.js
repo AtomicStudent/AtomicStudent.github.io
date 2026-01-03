@@ -19,7 +19,7 @@ class ReactorViewer {
             },
             
             PART_COLORS: {
-                ASSEMBLY: 0x6699CC,
+                ASSEMBLY: 0x7C8B9B,
                 CORPUS: 0x4a90e2,
                 TVS: 0x4CAF50,
                 LID: 0xed8936
@@ -39,7 +39,7 @@ class ReactorViewer {
         };
 
         // Информация о деталях из ОРИГИНАЛЬНОГО кода
-        this.partInfo = {
+        const partInfo = {
             corpus: {
                 name: "Корпус реактора",
                 description: "Основная несущая конструкция реактора, выполненная из ферритно-мартенситной стали.",
@@ -125,7 +125,7 @@ class ReactorViewer {
     setupScene() {
         this.scene = new THREE.Scene();
         // Темно-синий фон с глубиной
-        this.scene.background = new THREE.Color(0x0a0a14);
+        this.scene.background = new THREE.Color(0x1C2833);
     }
 
     setupCamera() {
