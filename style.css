@@ -570,58 +570,52 @@ body {
     border-radius: 50%;
 }
 
-/* Электроны - сразу видны и расположены по 4 сторонам */
+/* Альтернатива: все электроны вращаются синхронно */
 .electron {
     position: absolute;
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    opacity: 1; /* Сразу видны */
+    opacity: 1;
+    top: 50%;
+    left: 50%;
+    margin-left: -7.5px;
+    margin-top: -7.5px;
 }
 
-/* Позиционирование электронов по 4 сторонам и вращение */
-
-/* Верхний электрон */
 .electron:nth-child(1) {
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
     background: #fff44f;
     box-shadow: 0 0 15px #ed8936;
     animation: orbit 4s linear infinite;
 }
 
-/* Правый электрон */
 .electron:nth-child(2) {
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
     background: #4fff9c;
     box-shadow: 0 0 15px #4CAF50;
-    animation: orbit 4s linear infinite 1s; /* Задержка 1 секунда */
+    /* Начальный поворот 90 градусов */
+    animation: orbit 4s linear infinite;
+    transform: rotate(90deg) translate(60px) rotate(-90deg);
+    animation-delay: -1s; /* Смещение на 1/4 цикла */
 }
 
-/* Нижний электрон */
 .electron:nth-child(3) {
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
     background: #4f5aff;
     box-shadow: 0 0 15px #9f7aea;
-    animation: orbit 4s linear infinite 2s; /* Задержка 2 секунды */
+    /* Начальный поворот 180 градусов */
+    animation: orbit 4s linear infinite;
+    transform: rotate(180deg) translate(60px) rotate(-180deg);
+    animation-delay: -2s; /* Смещение на 1/2 цикла */
 }
 
-/* Левый электрон */
 .electron:nth-child(4) {
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
     background: #ff4fb2;
     box-shadow: 0 0 15px #ff4fb2;
-    animation: orbit 4s linear infinite 3s; /* Задержка 3 секунды */
+    /* Начальный поворот 270 градусов */
+    animation: orbit 4s linear infinite;
+    transform: rotate(270deg) translate(60px) rotate(-270deg);
+    animation-delay: -3s; /* Смещение на 3/4 цикла */
 }
 
-/* Анимация вращения по окружности */
 @keyframes orbit {
     0% {
         transform: rotate(0deg) translate(60px) rotate(0deg);
