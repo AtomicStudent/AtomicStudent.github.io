@@ -571,8 +571,8 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 90px;
-    height: 90px;
+    width: 160px;
+    height: 160px;
     border: 1px solid rgba(30, 64, 175, 0.15);
     border-radius: 50%;
     z-index: 50;
@@ -586,22 +586,24 @@ body {
     border-radius: 50%;
     background: #ea580c; /* Яркий оранжевый */
     /* Минимальное свечение */
-    box-shadow: 0 0 8px #ea580c;
+     box-shadow: 
+        0 0 15px #ea580c,
+        0 0 30px rgba(234, 88, 12, 0.6);
     z-index: 75;
     /* Вращение */
-    animation: electronOrbit 3s linear infinite;
+    animation: electronOrbit 2.5s linear infinite;
     /* Позиционирование */
     top: 50%;
     left: 50%;
     margin-left: -8px;
     margin-top: -8px;
-    transform: rotate(0deg) translate(45px) rotate(0deg);
+    transform: rotate(0deg) translate(80px) rotate(0deg);
 }
 
 /* Вращение электрона */
 @keyframes electronOrbit {
     0% {
-        transform: rotate(0deg) translate(45px) rotate(0deg);
+        transform: rotate(0deg) translate(80px) rotate(0deg);
         opacity: 1;
     }
     25% {
@@ -614,7 +616,7 @@ body {
         opacity: 0.9;
     }
     100% {
-        transform: rotate(360deg) translate(45px) rotate(-360deg);
+        transform: rotate(360deg) translate(80px) rotate(-360deg);
         opacity: 1;
     }
 }
