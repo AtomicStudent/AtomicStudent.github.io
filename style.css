@@ -874,4 +874,33 @@ body {
     .info-content {
         padding: 15px;
     }
+    
+    .panel-hidden {
+        display: none !important;
+    }
+
+    .loading-status {
+        min-height: 60px;
+        margin-bottom: 20px;
+    }
+
+    .loading-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .loading-actions .btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+    
+    #loading-error {
+        margin-top: 10px;
+        padding: 10px;
+        background: rgba(255, 107, 107, 0.1);
+        border-radius: 5px;
+        border-left: 3px solid #ff6b6b;
 }
+
