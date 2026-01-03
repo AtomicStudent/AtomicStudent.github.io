@@ -570,7 +570,7 @@ body {
     top: 0;
     left: 50%;
     width: 15px;
-    height: 15px;
+    height: 0px;
     background: #68d391;
     border-radius: 50%;
     transform: translateX(-50%);
@@ -582,13 +582,13 @@ body {
 .electron2 {
     animation: orbit2 2.5s linear infinite;
     background: #ed8936;
-    animation-delay: 0.5s;
+    animation-delay: 0s;
 }
 
 .electron3 {
     animation: orbit3 2s linear infinite;
     background: #9f7aea;
-    animation-delay: 1s;
+    animation-delay: 0s;
 }
 
 .loading-content h2 {
