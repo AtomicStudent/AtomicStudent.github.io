@@ -70,15 +70,16 @@ body {
 }
 
 .logo i {
-    font-size: 28px;
+    font-size: 32px;
     color: #4a90e2;
     animation: pulse 2s infinite;
+    transform: translate(5px, 5px); /* Смещение на 45 градусов влево-вверх */
 }
 
 .logo h1 {
     font-size: 1.5rem;
-    font-weight: 300;
-    background: linear-gradient(90deg, #4a90e2, #68d391);
+    font-weight: 600;
+    background: linear-gradient(90deg, #1e40af, #ea580c);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: 1px;
@@ -433,9 +434,10 @@ body {
 }
 
 .state-icon i {
-    font-size: 24px;
+    font-size: 28px;
     color: #4a90e2;
     animation: pulse 2s infinite;
+    transform: translate(5px, 5px); /* Смещение на 45 градусов влево-вверх */
 }
 
 .state-info {
@@ -644,7 +646,7 @@ body {
 .loading-content h2 {
     font-size: 1.8rem;
     margin-bottom: 20px;
-    background: linear-gradient(90deg, #4a90e2, #68d391);
+    background: linear-gradient(90deg, #1e40af, #ea580c);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     white-space: nowrap;
