@@ -73,7 +73,7 @@ body {
     font-size: 32px;
     color: #4a90e2;
     animation: pulse 2s infinite;
-    transform: translate(-5px, -5px); /* Смещение на 45 градусов влево-вверх */
+    transform: translate(-25px, -25px); /* Смещение на 45 градусов влево-вверх */
 }
 
 .logo h1 {
@@ -437,7 +437,7 @@ body {
     font-size: 28px;
     color: #4a90e2;
     animation: pulse 2s infinite;
-    transform: translate(-5px, -5px); /* Смещение на 45 градусов влево-вверх */
+    transform: translate(-25px, -25px); /* Смещение на 45 градусов влево-вверх */
 }
 
 .state-info {
