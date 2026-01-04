@@ -4,14 +4,14 @@ class ReactorViewer {
         this.config = {
             DISASSEMBLY_DISTANCE: {
                 CORPUS_DOWN: -2500,
-                LID_UP: 4500,
+                LID_UP: 4000,
                 TVS_SPREAD: 800
             },
             COLORS: {
-                CORPUS: 0x32127a,      // Темно-синий для корпуса
-                LID: 0x7a3212,         // Оранжевый для крышки
-                TVS: 0x127a32,         // Зеленый для ТВС
-                HIGHLIGHT: 0xf3e5ab    // Золотой для выделения
+                CORPUS: 0x2563eb,      // Темно-синий для корпуса
+                LID: 0xebad25,         // Оранжевый для крышки
+                TVS: 0x25eb4a,         // Зеленый для ТВС
+                HIGHLIGHT: 0xeb25c6    // Золотой для выделения
             },
             INITIAL_CAMERA: {
                 x: 0,
@@ -54,7 +54,7 @@ class ReactorViewer {
             { text: "Загрузка крышки реактора...", subtext: "Верхняя герметичная крышка", progress: 45 },
             { text: "Загрузка тепловыделяющих сборок...", subtext: "7 ТВС в шестиугольной решетке", progress: 60 },
             { text: "Проверяем готовность...", subtext: "Применение материалов и цветов", progress: 75 },
-            { text: "Запускаем Реактор в Космос! А, нет, отмена...", subtext: "Инициализация элементов управления", progress: 85 },
+            { text: "Запускаем Реактор в Космос! А, нет, отмена...", subtext: "Значит на Луну отправим...", progress: 85 },
             { text: "Завершение загрузки...", subtext: "Подготовка к отображению", progress: 95 }
         ];
         
@@ -79,7 +79,7 @@ class ReactorViewer {
         this.setupEventListeners();
         
         // Искусственная задержка для показа загрузочного экрана
-        await this.delay(1500);
+        await this.delay(2000);
         
         // Загружаем модели
         await this.loadModels();
@@ -87,7 +87,7 @@ class ReactorViewer {
 
     setupScene() {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x0a0e17);
+        this.scene.background = new THREE.Color(0x000000);
     }
 
     setupCamera() {
@@ -343,6 +343,7 @@ class ReactorViewer {
                 const tvs = tvsData.scene.clone();
                 tvs.position.copy(positions[i]);
                 tvs.scale.set(1, 1, 1);
+                tvs.rotation.y = THREE.MathUtils.degToRad(30);
                 tvs.userData = { 
                     partType: 'tvs', 
                     name: i === 0 ? 'Центральная ТВС' : `ТВС ${i}`,
@@ -608,7 +609,7 @@ class ReactorViewer {
             if (this.models.tvs.length > 0) {
                 setTimeout(() => {
                     this.disassembleTVS();
-                }, 300);
+                }, 2000);
             }
         }, 100);
         
@@ -644,15 +645,22 @@ class ReactorViewer {
         return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
     }
 
-    disassembleTVS() {
-        console.log('🔧 Разъезд ТВС...');
+disassembleTVS() {
+    console.log('🔧 Разъезд ТВС с задержками...');
+    
+    this.models.tvs.forEach((tvs, index) => {
+        if (index === 0) return; // Центральная ТВС остается на месте
         
-        this.models.tvs.forEach((tvs, index) => {
+        // Задержка для каждой ТВС: центральная (0) - 0ms, остальные с увеличением
+        const delay = (index - 1) * 300; // 0, 300, 600, 900, 1200, 1500ms
+        
+        setTimeout(() => {
             if (tvs.userData && tvs.userData.disassembledPosition) {
-                this.animatePart(tvs, tvs.userData.disassembledPosition, 1800);
+                this.animatePart(tvs, tvs.userData.disassembledPosition, 2000);
             }
-        });
-    }
+        }, delay);
+    });
+}
 
     enableInteractivity() {
         this.renderer.domElement.style.cursor = 'pointer';
