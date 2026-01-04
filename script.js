@@ -79,7 +79,7 @@ class ReactorViewer {
         this.setupEventListeners();
         
         // Искусственная задержка для показа загрузочного экрана
-        await this.delay(2000);
+        await this.delay(3000);
         
         // Загружаем модели
         await this.loadModels();
@@ -87,7 +87,7 @@ class ReactorViewer {
 
     setupScene() {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x000000);
+        this.scene.background = new THREE.Color(0x212121);
     }
 
     setupCamera() {
@@ -765,7 +765,7 @@ disassembleTVS() {
     assembleReactor() {
         if (this.currentState === 'assembled') return;
         
-        console.log('🔧 Сборка реактора...');
+        console.log('🔧 Сборка реактора в обратном порядке...');
         this.updateState('Сборка...');
         
         // Сбрасываем подсветку если есть выбранная деталь
@@ -777,31 +777,64 @@ disassembleTVS() {
         // Убираем маркеры сразу
         this.clearMarkers();
         
-        // Сборка ТВС
-        this.models.tvs.forEach((tvs) => {
+        // 1. Сначала собираем ТВС (центральную и остальные с задержками)
+        this.models.tvs.forEach((tvs, index) => {
             if (tvs.userData && tvs.userData.assembledPosition) {
-                this.animatePart(tvs, tvs.userData.assembledPosition, 1800);
+                // Задержка для каждой ТВС (кроме центральной)
+                const delay = index === 0 ? 0 : (index - 1) * 400;
+                
+                setTimeout(() => {
+                    // Для центральной ТВС анимируем сразу
+                    if (index === 0) {
+                        this.animatePart(tvs, tvs.userData.assembledPosition, 1800);
+                    } else {
+                        // Для остальных ТВС с восстановлением вращения если нужно
+                        const targetRotation = tvs.userData.assembledRotation || 0;
+                        this.animatePartWithRotation(
+                            tvs, 
+                            tvs.userData.assembledPosition, 
+                            targetRotation, 
+                            2000
+                        );
+                    }
+                }, delay);
             }
         });
         
-        // Сборка корпуса и крышки
+        // 2. После того как все ТВС собраны (через 6 * 400ms + 2000ms анимации)
+        // Задержка рассчитывается: 5 ТВС * 400ms + 2000ms анимации
+        const tvsAssemblyTime = (5 * 400) + 2000;
+        
+        // 3. Собираем корпус снизу
         setTimeout(() => {
+            console.log('⬆️ Подъем корпуса...');
             if (this.models.corpus) {
-                this.animatePart(this.models.corpus, new THREE.Vector3(0, 0, 0), 1500);
+                this.animatePart(this.models.corpus, new THREE.Vector3(0, 0, 0), 2200);
             }
             
-            if (this.models.lid) {
-                this.animatePart(this.models.lid, new THREE.Vector3(0, 2165, 0), 1500);
-            }
+            // 4. Собираем крышку сверху (с небольшой задержкой после корпуса)
+            setTimeout(() => {
+                console.log('⬇️ Опускание крышки...');
+                if (this.models.lid) {
+                    this.animatePart(this.models.lid, new THREE.Vector3(0, 2165, 0), 1800);
+                }
+                
+                // 5. Завершаем сборку
+                setTimeout(() => {
+                    this.currentState = 'assembled';
+                    this.updateState('Собран');
+                    
+                    // Выключаем интерактивность
+                    this.renderer.domElement.style.cursor = 'default';
+                    
+                    console.log('✅ Реактор полностью собран!');
+                }, 2000);
+                
+            }, 800); // Задержка перед началом анимации крышки
             
-            this.currentState = 'assembled';
-            this.updateState('Собран');
-            
-            // Выключаем интерактивность
-            this.renderer.domElement.style.cursor = 'default';
-        }, 300);
+        }, tvsAssemblyTime); // Задержка после сборки всех ТВС
     }
-
+    
     clearMarkers() {
         const container = document.getElementById('markers-container');
         container.innerHTML = '';
