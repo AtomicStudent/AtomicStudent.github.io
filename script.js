@@ -8,10 +8,10 @@ class ReactorViewer {
                 TVS_SPREAD: 800
             },
             COLORS: {
-                CORPUS: 0x3A6B8F,      // Темно-синий для корпуса
-                LID: 0xE0A96D,         // Оранжевый для крышки
-                TVS: 0x6BA368,         // Зеленый для ТВС
-                HIGHLIGHT: 0xFFC857    // Золотой для выделения
+                CORPUS: 0x3D7BFF,      // Темно-синий для корпуса
+                LID: 0xFFA126,         // Оранжевый для крышки
+                TVS: 0x6BCF6B,         // Зеленый для ТВС
+                HIGHLIGHT: 0xFFFAE6    // Золотой для выделения
             },
             INITIAL_CAMERA: {
                 x: 0,
@@ -87,7 +87,7 @@ class ReactorViewer {
 
     setupScene() {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x222222);
+        this.scene.background = new THREE.Color(0x000000);
     }
 
     setupCamera() {
