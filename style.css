@@ -73,8 +73,8 @@ body {
     font-size: 32px;
     color: #4a90e2;
     animation: pulse 2s infinite;
-    margin-right: -5px;
-    margin-bottom: -5px;
+    margin-right: -25px;
+    margin-bottom: -25px;
 }
 
 .logo h1 {
@@ -438,8 +438,8 @@ body {
     font-size: 28px;
     color: #4a90e2;
     animation: pulse 2s infinite;
-    margin-right: -5px;
-    margin-bottom: -5px;
+    margin-right: -25px;
+    margin-bottom: -25px;
 }
 
 .state-info {
