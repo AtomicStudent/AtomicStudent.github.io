@@ -8,10 +8,10 @@ class ReactorViewer {
                 TVS_SPREAD: 800
             },
             COLORS: {
-                CORPUS: 0x2563eb,      // Темно-синий для корпуса
-                LID: 0xebad25,         // Оранжевый для крышки
-                TVS: 0x25eb4a,         // Зеленый для ТВС
-                HIGHLIGHT: 0xeb25c6    // Золотой для выделения
+                CORPUS: 0x005ebb,      // Темно-синий для корпуса
+                LID: 0xbb5e00,         // Оранжевый для крышки
+                TVS: 0x00bb00,         // Зеленый для ТВС
+                HIGHLIGHT: 0xbb00bb    // Золотой для выделения
             },
             INITIAL_CAMERA: {
                 x: 0,
@@ -79,7 +79,7 @@ class ReactorViewer {
         this.setupEventListeners();
         
         // Искусственная задержка для показа загрузочного экрана
-        await this.delay(3000);
+        await this.delay(1000);
         
         // Загружаем модели
         await this.loadModels();
@@ -87,7 +87,7 @@ class ReactorViewer {
 
     setupScene() {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x212121);
+        this.scene.background = new THREE.Color(0x414a4c);
     }
 
     setupCamera() {
