@@ -777,32 +777,22 @@ disassembleTVS() {
         // Убираем маркеры сразу
         this.clearMarkers();
         
-        // 1. Сначала собираем ТВС (центральную и остальные с задержками)
+        // 1. Сначала собираем ТВС (пропускаем центральную, она уже на месте)
         this.models.tvs.forEach((tvs, index) => {
+            if (index === 0) return; // Центральная ТВС не двигается
+            
             if (tvs.userData && tvs.userData.assembledPosition) {
-                // Задержка для каждой ТВС (кроме центральной)
-                const delay = index === 0 ? 0 : (index - 1) * 400;
+                // Задержка для каждой ТВС: 0, 400, 800, 1200, 1600, 2000ms
+                const delay = (index - 1) * 400;
                 
                 setTimeout(() => {
-                    // Для центральной ТВС анимируем сразу
-                    if (index === 0) {
-                        this.animatePart(tvs, tvs.userData.assembledPosition, 1800);
-                    } else {
-                        // Для остальных ТВС с восстановлением вращения если нужно
-                        const targetRotation = tvs.userData.assembledRotation || 0;
-                        this.animatePartWithRotation(
-                            tvs, 
-                            tvs.userData.assembledPosition, 
-                            targetRotation, 
-                            2000
-                        );
-                    }
+                    this.animatePart(tvs, tvs.userData.assembledPosition, 2000);
                 }, delay);
             }
         });
         
-        // 2. После того как все ТВС собраны (через 6 * 400ms + 2000ms анимации)
-        // Задержка рассчитывается: 5 ТВС * 400ms + 2000ms анимации
+        // 2. После того как все ТВС собраны (через 5 * 400ms + 2000ms анимации)
+        // Задержка рассчитывается: 5 ТВС * 400ms + 2000ms анимации = 4000ms
         const tvsAssemblyTime = (5 * 400) + 2000;
         
         // 3. Собираем корпус снизу
