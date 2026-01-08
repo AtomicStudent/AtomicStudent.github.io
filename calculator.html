@@ -74,8 +74,8 @@
             font-size: 32px;
             color: #4a90e2;
             animation: pulse 2s infinite;
-            margin-right: -28px;
-            margin-bottom: -28px;
+            margin-right: 0px;
+            margin-bottom: 0px;
         }
 
         .logo h1 {
@@ -833,7 +833,7 @@
                     { id: "R_EY", label: "Радиус ЭЯ, см:", linked: ["S_kluch", "f_prok"] },
                     { id: "S_kluch", label: "Размер ТВС под ключ, см:", linked: ["f_prok", "Pi_TVS"] },
                     { id: "f_EY", label: "Площадь ЭЯ, см²:", linked: ["N_TVS"] },
-                    { id: "N_TVS", label: "Кол-во ТВС (Приведено к полной компановке), шт:", linked: [] },
+                    { id: "N_TVS", label: "Кол-во ТВС, шт:", linked: [] },
                     { id: "f_prok", label: "Проходное сечение ТВС, см²:", linked: ["d_r", "w_az", "w_be"] },
                     { id: "Pi_TVS", label: "Гидравлический периметр ТВС, см:", linked: ["d_r"] },
                     { id: "d_r", label: "Гидравлический диаметр ТВС, см:", linked: ["Pe_az", "Pe_be", "Nu_az", "Nu_be"] },
@@ -965,9 +965,9 @@
                     // Вычисляем все результаты
                     const results = {
                         R_EY: (2 * a_val) / Math.sqrt(3),
-                        S_kluch: (2 * a_val / Math.sqrt(3)) * (1 + 1.8 * N_rad_val) + 2 * delta_u_val,
+                        S_kluch: (2 * a_val / Math.sqrt(3)) * (1 + 1.5 * N_rad_val) + 2 * delta_u_val,
                         f_EY: (6 * Math.pow((a_val/Math.sqrt(3))*(1 + 1.5*N_rad_val) + delta_u_val + delta_a_val/2, 2)) / Math.sqrt(3),
-                        N_TVS: Math.round((Math.PI * Math.pow(D_a_val-1, 2)) / (8 * (6 * Math.pow((a_val/Math.sqrt(3))*(1 + 1.5*N_rad_val) + delta_u_val + delta_a_val/2, 2)) / Math.sqrt(3))),
+                        N_TVS: Math.round((Math.PI * Math.pow(D_a_val, 2)) / (4 * (6 * Math.pow((a_val/Math.sqrt(3))*(1 + 1.5*N_rad_val) + delta_u_val + delta_a_val/2, 2)) / Math.sqrt(3))),
                         f_prok: (6 * Math.pow((a_val/Math.sqrt(3))*(1 + 1.5*N_rad_val) + delta_u_val + delta_a_val/2, 2)) / Math.sqrt(3) - n_tvel_val * (Math.PI * Math.pow(d_tvel_val, 2))/4 - (6 * ((2 * a_val / Math.sqrt(3)) * (1 + 1.8 * N_rad_val) + 2 * delta_u_val) / Math.sqrt(3)) * (delta_a_val/2),
                         Pi_TVS: (6 * (2*((2 * a_val / Math.sqrt(3)) * (1 + 1.8 * N_rad_val) + 2 * delta_u_val) - 2*delta_u_val)) / Math.sqrt(3) + n_tvel_val * Math.PI * d_tvel_val,
                         d_r: (4 * ((6 * Math.pow((a_val/Math.sqrt(3))*(1 + 1.5*N_rad_val) + delta_u_val + delta_a_val/2, 2)) / Math.sqrt(3) - n_tvel_val * (Math.PI * Math.pow(d_tvel_val, 2))/4 - (6 * ((2 * a_val / Math.sqrt(3)) * (1 + 1.8 * N_rad_val) + 2 * delta_u_val) / Math.sqrt(3)) * (delta_a_val/2))) / ((6 * (2*((2 * a_val / Math.sqrt(3)) * (1 + 1.8 * N_rad_val) + 2 * delta_u_val) - 2*delta_u_val)) / Math.sqrt(3) + n_tvel_val * Math.PI * d_tvel_val),
