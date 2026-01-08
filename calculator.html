@@ -511,10 +511,10 @@
                 </div>
             </div>
             
-            <div class="results-section">
-                <h3><i class="fas fa-chart-pie"></i> Результаты расчета топлива</h3>
-                <div class="results-grid" id="fuel-results">
-                    <!-- Результаты будут заполнены JavaScript -->
+                <div class="results-section">
+                    <h3><i class="fas fa-chart-pie"></i> Результаты расчета топлива</h3>
+                    <div class="results-grid" id="fuel-results">
+                        <!-- Результаты будут заполнены JavaScript -->
                 </div>
             </div>
         </div>
@@ -617,7 +617,7 @@
                     { id: "R_EY", label: "Радиус ЭЯ, см:" },
                     { id: "S_kluch", label: "Размер ТВС под ключ, см:" },
                     { id: "f_EY", label: "Площадь ЭЯ, см²:" },
-                    { id: "N_TVS", label: "Кол-во ТВС (Приведено к полной компановке), шт:" },
+                    { id: "N_TVS", label: "Кол-во ТВС, шт:" },
                     { id: "f_prok", label: "Проходное сечение ТВС, см²:" },
                     { id: "Pi_TVS", label: "Гидравлический периметр ТВС, см:" },
                     { id: "d_r", label: "Гидравлический диаметр ТВС, см:" },
@@ -670,7 +670,6 @@
                     { id: "mass_tvel", label: "Масса топлива в одном ТВЭЛ, кг:" },
                     { id: "mass_az", label: "Масса топлива в АЗ, кг:" },
                     { id: "reactivity", label: "Реактивность:" },
-                    { id: "campaign", label: "Оценочная кампания, сутки:" }
                 ];
 
                 const fuelContainer = document.getElementById('fuel-results');
@@ -734,9 +733,9 @@
                     
                     // Расчеты (точные формулы из Python-кода)
                     const R_EY = (2 * a_val) / Math.sqrt(3);
-                    const S_kluch = R_EY * (1 + 1.8 * N_rad_val) + 2 * delta_u_val;
+                    const S_kluch = R_EY * (1 + 1.5 * N_rad_val) + 2 * delta_u_val;
                     const f_EY = (6 * Math.pow((a_val/Math.sqrt(3))*(1 + 1.5*N_rad_val) + delta_u_val + delta_a_val/2, 2)) / Math.sqrt(3);
-                    const N_TVS = Math.round((Math.PI * Math.pow(D_a_val-1, 2)) / (8 * f_EY));
+                    const N_TVS = Math.round((Math.PI * Math.pow(D_a_val, 2)) / (8 * f_EY));
                     const f_prok = f_EY - n_tvel_val * (Math.PI * Math.pow(d_tvel_val, 2))/4 - (6 * S_kluch / Math.sqrt(3)) * (delta_a_val/2);
                     const Pi_TVS = (6 * (2*S_kluch - 2*delta_u_val)) / Math.sqrt(3) + n_tvel_val * Math.PI * d_tvel_val;
                     const d_r = (4 * f_prok) / Pi_TVS;
@@ -947,14 +946,6 @@
                     const keff = parseFloat(document.getElementById('keff').value);
                     const reactivity = (keff - 1) / keff;
                     
-                    // Кампания (упрощенный расчет)
-                    const energy_coeff = {
-                        'UO2': 1,
-                        'UN': 1.2,
-                        'UC': 1.1,
-                    };
-                    const campaign = (mass_az * energy_coeff[fuelType]) / Q_r;
-                    
                     // Обновление интерфейса
                     document.getElementById('mass_tvel').textContent = mass_tvel.toFixed(4);
                     document.getElementById('mass_az').textContent = mass_az.toFixed(4);
@@ -1053,7 +1044,7 @@
                     geometry: ['R_EY', 'S_kluch', 'f_EY', 'N_TVS', 'f_prok', 'Pi_TVS', 'd_r', 'x', 'Pi_tvel'],
                     thermal: ['G_p', 'G_tvel', 'w_az', 'Pe_az', 'Nu_az', 'G_be', 'G_tvel_be', 'w_be', 
                              'Pe_be', 'Nu_be', 'k_z_az', 'k_z_bz', 'ql0_az', 'ql0_bz'],
-                    fuel: ['mass_tvel', 'mass_az', 'reactivity', 'campaign']
+                    fuel: ['mass_tvel', 'mass_az', 'reactivity'] // Убрали 'campaign'
                 };
                 
                 if (results[type]) {
