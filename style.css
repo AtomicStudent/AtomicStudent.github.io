@@ -856,3 +856,64 @@ body {
     border-radius: 5px;
     border-left: 3px solid #ff6b6b;
 }
+
+.fuel-buttons {
+    margin-bottom: 30px;
+}
+
+.fuel-btn {
+    padding: 15px 25px;
+    background: linear-gradient(135deg, #2d3748, #4a5568);
+    border: 2px solid rgba(74, 144, 226, 0.3);
+    border-radius: 10px;
+    color: #a0aec0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    min-width: 150px;
+}
+
+.fuel-btn:hover {
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-color: #3b82f6;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+.fuel-btn.active {
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-color: #10b981;
+    color: white;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+.fuel-btn i {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.fuel-btn span {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Адаптивность для кнопок топлива */
+@media (max-width: 768px) {
+    .fuel-btn {
+        padding: 12px 15px;
+        min-width: 120px;
+    }
+    
+    .fuel-btn i {
+        font-size: 20px;
+    }
+    
+    .fuel-btn span {
+        font-size: 12px;
+    }
+}
