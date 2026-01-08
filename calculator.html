@@ -387,134 +387,76 @@
         </div>
         
         <!-- Вкладка 1: Геометрический расчет -->
-        <div id="geometry-tab" class="tab-content active">
-            <div class="input-section">
-                <h3><i class="fas fa-sliders-h"></i> Исходные данные для геометрического расчета</h3>
-                <div class="input-grid" id="geometry-inputs">
-                    <!-- Поля будут заполнены JavaScript -->
-                </div>
-                
-                <div class="button-group">
-                    <button class="btn btn-primary" onclick="calculateGeometry()">
-                        <i class="fas fa-calculator"></i>
-                        <span>Рассчитать</span>
+    <div id="fuel-tab" class="tab-content">
+        <div class="input-section">
+            <h3><i class="fas fa-atom"></i> Выбор топлива и параметры</h3>
+            
+            <!-- Кнопки выбора топлива -->
+            <div class="fuel-buttons">
+                <div class="button-group" style="flex-direction: row; justify-content: center; margin-bottom: 30px;">
+                    <button class="fuel-btn active" data-fuel="UO2" onclick="selectFuel('UO2')">
+                        <i class="fas fa-radiation-alt"></i>
+                        <span>Оксидное (UO₂)</span>
                     </button>
-                    <button class="btn btn-secondary" onclick="loadDefaults('geometry')">
-                        <i class="fas fa-undo"></i>
-                        <span>По умолчанию</span>
+                    <button class="fuel-btn" data-fuel="UN" onclick="selectFuel('UN')">
+                        <i class="fas fa-radiation"></i>
+                        <span>Нитридное (UN)</span>
                     </button>
-                    <button class="btn btn-secondary" onclick="clearInputs('geometry')">
-                        <i class="fas fa-broom"></i>
-                        <span>Очистить</span>
-                    </button>
-                    <button class="btn btn-success" onclick="saveConfig()">
-                        <i class="fas fa-save"></i>
-                        <span>Сохранить конфиг</span>
-                    </button>
-                    <button class="btn btn-success" onclick="loadConfig()">
-                        <i class="fas fa-folder-open"></i>
-                        <span>Загрузить конфиг</span>
-                    </button>
-                    <button class="btn btn-primary" onclick="exportToTXT()">
-                        <i class="fas fa-file-export"></i>
-                        <span>Экспорт в TXT</span>
+                    <button class="fuel-btn" data-fuel="UC" onclick="selectFuel('UC')">
+                        <i class="fas fa-atom"></i>
+                        <span>Карбидное (UC)</span>
                     </button>
                 </div>
             </div>
             
-            <div class="results-section">
-                <h3><i class="fas fa-chart-line"></i> Результаты геометрического расчета</h3>
-                <div class="results-grid" id="geometry-results">
-                    <!-- Результаты будут заполнены JavaScript -->
+            <div class="input-grid">
+                <div class="input-group">
+                    <label><i class="fas fa-weight"></i> Плотность, г/см³:</label>
+                    <input type="number" id="fuel-density" step="0.01" value="10.96">
                 </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-temperature-high"></i> Температура плавления, °C:</label>
+                    <input type="number" id="fuel-melting-point" step="1" value="2840">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-wind"></i> Теплопроводность, Вт/(м·К):</label>
+                    <input type="number" id="fuel-thermal-cond" step="0.1" value="4.5">
+                </div>
+                
+                <div class="input-group">
+                    <label><i class="fas fa-cogs"></i> Коэффициент эффективности (kef):</label>
+                    <input type="number" id="keff" step="0.0001" placeholder="Введите kef" value="1.0">
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="calculateFuel()">
+                    <i class="fas fa-calculator"></i>
+                    <span>Рассчитать топливо</span>
+                </button>
+                <button class="btn btn-secondary" onclick="clearInputs('fuel')">
+                    <i class="fas fa-broom"></i>
+                    <span>Очистить</span>
+                </button>
             </div>
         </div>
         
-        <!-- Вкладка 2: Тепловой расчет -->
-        <div id="thermal-tab" class="tab-content">
-            <div class="input-section">
-                <h3><i class="fas fa-fire"></i> Исходные данные для теплового расчета</h3>
-                <div class="input-grid" id="thermal-inputs">
-                    <!-- Поля будут заполнены JavaScript -->
+        <div class="results-section">
+            <h3><i class="fas fa-chart-pie"></i> Результаты расчета топлива</h3>
+            <div class="results-grid" id="fuel-results">
+                <div class="result-item">
+                    <div class="result-label">Масса топлива в одном ТВЭЛ, кг:</div>
+                    <div class="result-value" id="mass_tvel">—</div>
                 </div>
-                
-                <div class="button-group">
-                    <button class="btn btn-primary" onclick="calculateThermal()">
-                        <i class="fas fa-calculator"></i>
-                        <span>Рассчитать тепловой режим</span>
-                    </button>
-                    <button class="btn btn-secondary" onclick="loadDefaults('thermal')">
-                        <i class="fas fa-undo"></i>
-                        <span>По умолчанию</span>
-                    </button>
-                    <button class="btn btn-secondary" onclick="clearInputs('thermal')">
-                        <i class="fas fa-broom"></i>
-                        <span>Очистить</span>
-                    </button>
+                <div class="result-item">
+                    <div class="result-label">Масса топлива в АЗ, кг:</div>
+                    <div class="result-value" id="mass_az">—</div>
                 </div>
-            </div>
-            
-            <div class="results-section">
-                <h3><i class="fas fa-chart-bar"></i> Результаты теплового расчета</h3>
-                <div class="results-grid" id="thermal-results">
-                    <!-- Результаты будут заполнены JavaScript -->
-                </div>
-            </div>
-        </div>
-        
-        <!-- Вкладка 3: Топливо -->
-        <div id="fuel-tab" class="tab-content">
-            <div class="input-section">
-                <h3><i class="fas fa-atom"></i> Выбор топлива и параметры</h3>
-                
-                <div class="input-grid">
-                    <div class="input-group">
-                        <label><i class="fas fa-gas-pump"></i> Тип топлива:</label>
-                        <select id="fuel-type" class="fuel-select" onchange="onFuelSelect()">
-                            <option value="">Выберите тип топлива</option>
-                            <option value="UO2">Оксидное топливо (UO₂)</option>
-                            <option value="UN">Нитридное топливо (UN)</option>
-                            <option value="UC">Карбидное топливо (UC)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label><i class="fas fa-weight"></i> Плотность, г/см³:</label>
-                        <input type="number" id="fuel-density" step="0.01" readonly>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label><i class="fas fa-temperature-high"></i> Температура плавления, °C:</label>
-                        <input type="number" id="fuel-melting-point" step="1" readonly>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label><i class="fas fa-wind"></i> Теплопроводность, Вт/(м·К):</label>
-                        <input type="number" id="fuel-thermal-cond" step="0.1" readonly>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label><i class="fas fa-cogs"></i> Коэффициент эффективности (kef):</label>
-                        <input type="number" id="keff" step="0.0001" placeholder="Введите kef">
-                    </div>
-                </div>
-                
-                <div class="button-group">
-                    <button class="btn btn-primary" onclick="calculateFuel()">
-                        <i class="fas fa-calculator"></i>
-                        <span>Рассчитать топливо</span>
-                    </button>
-                    <button class="btn btn-secondary" onclick="clearInputs('fuel')">
-                        <i class="fas fa-broom"></i>
-                        <span>Очистить</span>
-                    </button>
-                </div>
-            </div>
-            
-                <div class="results-section">
-                    <h3><i class="fas fa-chart-pie"></i> Результаты расчета топлива</h3>
-                    <div class="results-grid" id="fuel-results">
-                        <!-- Результаты будут заполнены JavaScript -->
+                <div class="result-item">
+                    <div class="result-label">Реактивность:</div>
+                    <div class="result-value" id="reactivity">—</div>
                 </div>
             </div>
         </div>
@@ -964,10 +906,46 @@
                 const fuelType = document.getElementById('fuel-type').value;
                 
                 const fuelData = {
-                    'UO2': { density: '10.96', melting_point: '2840', thermal_cond: '4.5' },
-                    'UN': { density: '13.5', melting_point: '2850', thermal_cond: '20' },
-                    'UC': { density: '13.6', melting_point: '2370', thermal_cond: '22' }
+                    'UO2': {
+                        name: 'Оксидное топливо (UO₂)',
+                        density: '10.96',
+                        melting_point: '2840',
+                        thermal_cond: '4.5'
+                    },
+                    'UN': {
+                        name: 'Нитридное топливо (UN)',
+                        density: '13.5',
+                        melting_point: '2850',
+                        thermal_cond: '20'
+                    },
+                    'UC': {
+                        name: 'Карбидное топливо (UC)',
+                        density: '13.6',
+                        melting_point: '2370',
+                        thermal_cond: '22'
+                    }
                 };
+
+                function selectFuel(fuelType) {
+                    // Сбрасываем активное состояние у всех кнопок
+                    document.querySelectorAll('.fuel-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Активируем выбранную кнопку
+                    const selectedBtn = document.querySelector(`[data-fuel="${fuelType}"]`);
+                    if (selectedBtn) {
+                        selectedBtn.classList.add('active');
+                    }
+                    
+                    // Заполняем поля данными
+                    const data = fuelData[fuelType];
+                    if (data) {
+                        document.getElementById('fuel-density').value = data.density;
+                        document.getElementById('fuel-melting-point').value = data.melting_point;
+                        document.getElementById('fuel-thermal-cond').value = data.thermal_cond;
+                    }
+                }
                 
                 if (fuelData[fuelType]) {
                     document.getElementById('fuel-density').value = fuelData[fuelType].density;
