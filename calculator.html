@@ -735,7 +735,7 @@
                     const R_EY = (2 * a_val) / Math.sqrt(3);
                     const S_kluch = R_EY * (1 + 1.5 * N_rad_val) + 2 * delta_u_val;
                     const f_EY = (6 * Math.pow((a_val/Math.sqrt(3))*(1 + 1.5*N_rad_val) + delta_u_val + delta_a_val/2, 2)) / Math.sqrt(3);
-                    const N_TVS = Math.round((Math.PI * Math.pow(D_a_val, 2)) / (8 * f_EY));
+                    const N_TVS = Math.round((Math.PI * Math.pow(D_a_val, 2)) / (4 * f_EY));
                     const f_prok = f_EY - n_tvel_val * (Math.PI * Math.pow(d_tvel_val, 2))/4 - (6 * S_kluch / Math.sqrt(3)) * (delta_a_val/2);
                     const Pi_TVS = (6 * (2*S_kluch - 2*delta_u_val)) / Math.sqrt(3) + n_tvel_val * Math.PI * d_tvel_val;
                     const d_r = (4 * f_prok) / Pi_TVS;
