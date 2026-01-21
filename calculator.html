@@ -1868,7 +1868,7 @@
                 const minMax = { min: Infinity, max: -Infinity };
                 
                 for (const result of this.results) {
-                    const key = \`\${result.D}_\${result.H}\`;
+                    const key = result.D + '_' + result.H;
                     if (!heatmapData[key]) {
                         heatmapData[key] = {
                             D: result.D,
@@ -1939,13 +1939,13 @@
                     const r = Math.floor(139 + (255 - 139) * t);
                     const g = Math.floor(0 + 215 * t);
                     const b = 0;
-                    return \`rgb(\${r}, \${g}, \${b})\`;
+                    return 'rgb(' + r + ', ' + g + ', ' + b + ')';
                 } else {
                     const t = (value - 0.5) * 2;
                     const r = Math.floor(255 - 255 * t);
                     const g = Math.floor(215 + (40 - 215) * t);
                     const b = 0;
-                    return \`rgb(\${r}, \${g}, \${b})\`;
+                    return 'rgb(' + r + ', ' + g + ', ' + b + ')';
                 }
             }
 
@@ -1972,19 +1972,17 @@
                         const D = this.heatmapData.D_values[D_index];
                         const H = this.heatmapData.H_values[H_index];
                         
-                        const key = \`\${D}_\${H}\`;
+                        const key = D + '_' + H;
                         const point = this.heatmapData.points.find(p => p.D === D && p.H === H);
                         
                         if (point) {
                             tooltip.style.display = 'block';
-                            tooltip.style.left = \`\${e.clientX + 10}px\`;
-                            tooltip.style.top = \`\${e.clientY + 10}px\`;
-                            tooltip.innerHTML = \`
-                                <div><strong>D:</strong> \${D.toFixed(1)} см</div>
-                                <div><strong>H:</strong> \${H.toFixed(2)} м</div>
-                                <div><strong>S(D,H):</strong> \${point.average.toFixed(2)}</div>
-                                <div><strong>Точек по Q:</strong> \${point.count}</div>
-                            \`;
+                            tooltip.style.left = (e.clientX + 10) + 'px';
+                            tooltip.style.top = (e.clientY + 10) + 'px';
+                            tooltip.innerHTML = '<div><strong>D:</strong> ' + D.toFixed(1) + ' см</div>' +
+                                              '<div><strong>H:</strong> ' + H.toFixed(2) + ' м</div>' +
+                                              '<div><strong>S(D,H):</strong> ' + point.average.toFixed(2) + '</div>' +
+                                              '<div><strong>Точек по Q:</strong> ' + point.count + '</div>';
                         }
                     } else {
                         tooltip.style.display = 'none';
@@ -2029,7 +2027,7 @@
                 );
                 
                 document.getElementById('selected-coords').textContent = 
-                    \`D=\${D.toFixed(1)} см, H=\${H.toFixed(2)} м, Q=\${bestPoint.Q.toFixed(1)} МВт\`;
+                    'D=' + D.toFixed(1) + ' см, H=' + H.toFixed(2) + ' м, Q=' + bestPoint.Q.toFixed(1) + ' МВт';
                 
                 const scoreColors = {
                     '-1': '<span style="color: #ff4444">-1 (красная)</span>',
@@ -2040,13 +2038,12 @@
                 document.getElementById('selected-score').innerHTML = 
                     scoreColors[bestPoint.classification.toString()];
                 
-                document.getElementById('selected-params').innerHTML = \`
-                    N_TVS: \${bestPoint.N_TVS.toFixed(2)}<br>
-                    Nu_az: \${bestPoint.Nu_az.toFixed(2)}<br>
-                    ql0_az: \${bestPoint.ql0_az.toFixed(0)} Вт/м<br>
-                    G_p: \${bestPoint.G_p.toFixed(2)} кг/с<br>
-                    w_az: \${bestPoint.w_az.toFixed(2)} м/с
-                \`;
+                document.getElementById('selected-params').innerHTML = 
+                    'N_TVS: ' + bestPoint.N_TVS.toFixed(2) + '<br>' +
+                    'Nu_az: ' + bestPoint.Nu_az.toFixed(2) + '<br>' +
+                    'ql0_az: ' + bestPoint.ql0_az.toFixed(0) + ' Вт/м<br>' +
+                    'G_p: ' + bestPoint.G_p.toFixed(2) + ' кг/с<br>' +
+                    'w_az: ' + bestPoint.w_az.toFixed(2) + ' м/с';
                 
                 document.getElementById('point-details').style.display = 'block';
             }
@@ -2059,17 +2056,15 @@
                 
                 for (const result of displayResults) {
                     const row = document.createElement('tr');
-                    row.innerHTML = \`
-                        <td>\${result.D.toFixed(1)}</td>
-                        <td>\${result.Q.toFixed(1)}</td>
-                        <td>\${result.H.toFixed(2)}</td>
-                        <td>\${result.N_TVS.toFixed(2)}</td>
-                        <td>\${result.Nu_az.toFixed(2)}</td>
-                        <td>\${result.ql0_az.toFixed(0)}</td>
-                        <td>\${result.G_p.toFixed(2)}</td>
-                        <td>\${result.w_az.toFixed(2)}</td>
-                        <td>\${result.classification}</td>
-                    \`;
+                    row.innerHTML = '<td>' + result.D.toFixed(1) + '</td>' +
+                                  '<td>' + result.Q.toFixed(1) + '</td>' +
+                                  '<td>' + result.H.toFixed(2) + '</td>' +
+                                  '<td>' + result.N_TVS.toFixed(2) + '</td>' +
+                                  '<td>' + result.Nu_az.toFixed(2) + '</td>' +
+                                  '<td>' + result.ql0_az.toFixed(0) + '</td>' +
+                                  '<td>' + result.G_p.toFixed(2) + '</td>' +
+                                  '<td>' + result.w_az.toFixed(2) + '</td>' +
+                                  '<td>' + result.classification + '</td>';
                     
                     if (result.classification === -1) {
                         row.style.backgroundColor = 'rgba(255, 68, 68, 0.1)';
@@ -2091,9 +2086,8 @@
             }
 
             updateProgress(percent) {
-                document.getElementById('progress-bar').style.width = \`\${percent}%\`;
-                document.getElementById('progress-text').textContent = 
-                    \`Расчет: \${percent.toFixed(1)}%\`;
+                document.getElementById('progress-bar').style.width = percent + '%';
+                document.getElementById('progress-text').textContent = 'Расчет: ' + percent.toFixed(1) + '%';
             }
 
             stopCalculation() {
@@ -2153,51 +2147,51 @@
                 try {
                     let content = "=".repeat(60) + "\n";
                     content += "ТОПОЛОГИЧЕСКИЙ АНАЛИЗ РЕАКТОРА\n";
-                    content += \`Дата расчета: \${new Date().toLocaleString()}\n\`;
-                    content += \`Количество точек: \${this.results.length}\n\`;
+                    content += "Дата расчета: " + new Date().toLocaleString() + "\n";
+                    content += "Количество точек: " + this.results.length + "\n";
                     content += "=".repeat(60) + "\n\n";
                     
                     content += "ПАРАМЕТРЫ РАСЧЕТА\n";
                     content += "Варьируемые параметры:\n";
-                    content += \`  D: от \${document.getElementById('topology-D-min').value} до \${document.getElementById('topology-D-max').value} с шагом \${document.getElementById('topology-D-step').value}\n\`;
-                    content += \`  Q: от \${document.getElementById('topology-Q-min').value} до \${document.getElementById('topology-Q-max').value} с шагом \${document.getElementById('topology-Q-step').value}\n\`;
-                    content += \`  H: от \${document.getElementById('topology-H-min').value} до \${document.getElementById('topology-H-max').value} с шагом \${document.getElementById('topology-H-step').value}\n\n\`;
+                    content += "  D: от " + document.getElementById('topology-D-min').value + " до " + document.getElementById('topology-D-max').value + " с шагом " + document.getElementById('topology-D-step').value + "\n";
+                    content += "  Q: от " + document.getElementById('topology-Q-min').value + " до " + document.getElementById('topology-Q-max').value + " с шагом " + document.getElementById('topology-Q-step').value + "\n";
+                    content += "  H: от " + document.getElementById('topology-H-min').value + " до " + document.getElementById('topology-H-max').value + " с шагом " + document.getElementById('topology-H-step').value + "\n\n";
                     
                     content += "Критические параметры (допустимый/идеальный):\n";
-                    content += \`  N_TVS: \${document.getElementById('crit-N_TVS-min').value}-\${document.getElementById('crit-N_TVS-max').value} / \${document.getElementById('crit-N_TVS-ideal-min').value}-\${document.getElementById('crit-N_TVS-ideal-max').value}\n\`;
-                    content += \`  Nu_az: \${document.getElementById('crit-Nu_az-min').value}-\${document.getElementById('crit-Nu_az-max').value} / \${document.getElementById('crit-Nu_az-ideal-min').value}-\${document.getElementById('crit-Nu_az-ideal-max').value}\n\`;
-                    content += \`  ql0_az: \${document.getElementById('crit-ql0_az-min').value}-\${document.getElementById('crit-ql0_az-max').value} / \${document.getElementById('crit-ql0_az-ideal-min').value}-\${document.getElementById('crit-ql0_az-ideal-max').value}\n\`;
-                    content += \`  G_p: \${document.getElementById('crit-G_p-min').value}-\${document.getElementById('crit-G_p-max').value} / \${document.getElementById('crit-G_p-ideal-min').value}-\${document.getElementById('crit-G_p-ideal-max').value}\n\`;
-                    content += \`  w_az: \${document.getElementById('crit-w_az-min').value}-\${document.getElementById('crit-w_az-max').value} / \${document.getElementById('crit-w_az-ideal-min').value}-\${document.getElementById('crit-w_az-ideal-max').value}\n\n\`;
+                    content += "  N_TVS: " + document.getElementById('crit-N_TVS-min').value + "-" + document.getElementById('crit-N_TVS-max').value + " / " + document.getElementById('crit-N_TVS-ideal-min').value + "-" + document.getElementById('crit-N_TVS-ideal-max').value + "\n";
+                    content += "  Nu_az: " + document.getElementById('crit-Nu_az-min').value + "-" + document.getElementById('crit-Nu_az-max').value + " / " + document.getElementById('crit-Nu_az-ideal-min').value + "-" + document.getElementById('crit-Nu_az-ideal-max').value + "\n";
+                    content += "  ql0_az: " + document.getElementById('crit-ql0_az-min').value + "-" + document.getElementById('crit-ql0_az-max').value + " / " + document.getElementById('crit-ql0_az-ideal-min').value + "-" + document.getElementById('crit-ql0_az-ideal-max').value + "\n";
+                    content += "  G_p: " + document.getElementById('crit-G_p-min').value + "-" + document.getElementById('crit-G_p-max').value + " / " + document.getElementById('crit-G_p-ideal-min').value + "-" + document.getElementById('crit-G_p-ideal-max').value + "\n";
+                    content += "  w_az: " + document.getElementById('crit-w_az-min').value + "-" + document.getElementById('crit-w_az-max').value + " / " + document.getElementById('crit-w_az-ideal-min').value + "-" + document.getElementById('crit-w_az-ideal-max').value + "\n\n";
                     
                     content += "РЕЗУЛЬТАТЫ (первые 100 точек)\n";
                     content += "D(см);Q(МВт);H(м);N_TVS;Nu_az;ql0_az(Вт/м);G_p(кг/с);w_az(м/с);Оценка\n";
                     
                     this.results.slice(0, 100).forEach(result => {
-                        content += \`\${result.D.toFixed(1)};\${result.Q.toFixed(1)};\${result.H.toFixed(2)};\${result.N_TVS.toFixed(2)};\${result.Nu_az.toFixed(2)};\${result.ql0_az.toFixed(0)};\${result.G_p.toFixed(2)};\${result.w_az.toFixed(2)};\${result.classification}\n\`;
+                        content += result.D.toFixed(1) + ";" + result.Q.toFixed(1) + ";" + result.H.toFixed(2) + ";" + result.N_TVS.toFixed(2) + ";" + result.Nu_az.toFixed(2) + ";" + result.ql0_az.toFixed(0) + ";" + result.G_p.toFixed(2) + ";" + result.w_az.toFixed(2) + ";" + result.classification + "\n";
                     });
                     
                     const redCount = this.results.filter(r => r.classification === -1).length;
                     const yellowCount = this.results.filter(r => r.classification === 0).length;
                     const greenCount = this.results.filter(r => r.classification === 1).length;
                     
-                    content += \`\n\nСТАТИСТИКА:\n\`;
-                    content += \`  Красных точек: \${redCount} (\${((redCount/this.results.length)*100).toFixed(1)}%)\n\`;
-                    content += \`  Желтых точек: \${yellowCount} (\${((yellowCount/this.results.length)*100).toFixed(1)}%)\n\`;
-                    content += \`  Зеленых точек: \${greenCount} (\${((greenCount/this.results.length)*100).toFixed(1)}%)\n\`;
+                    content += "\n\nСТАТИСТИКА:\n";
+                    content += "  Красных точек: " + redCount + " (" + ((redCount/this.results.length)*100).toFixed(1) + "%)\n";
+                    content += "  Желтых точек: " + yellowCount + " (" + ((yellowCount/this.results.length)*100).toFixed(1) + "%)\n";
+                    content += "  Зеленых точек: " + greenCount + " (" + ((greenCount/this.results.length)*100).toFixed(1) + "%)\n";
                     
                     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = \`topology_analysis_\${new Date().toISOString().slice(0,10)}.txt\`;
+                    a.download = "topology_analysis_" + new Date().toISOString().slice(0,10) + ".txt";
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
                     
                 } catch (error) {
-                    alert(\`Ошибка при экспорте: \${error.message}\`);
+                    alert("Ошибка при экспорте: " + error.message);
                 }
             }
         }
