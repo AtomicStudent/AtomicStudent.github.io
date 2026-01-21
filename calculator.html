@@ -444,6 +444,10 @@
                 <i class="fas fa-radiation-alt"></i>
                 <span>Топливо</span>
             </button>
+            <button class="tab-btn" data-tab="topology">
+                <i class="fas fa-project-diagram"></i>
+                <span>Топология</span>
+            </button>
         </div>
         
         <!-- Вкладка 1: Геометрический расчет -->
@@ -783,6 +787,222 @@
         </div>
     </div>
 
+        <!-- Вкладка 4: Топология (добавляем после существующих вкладок) -->
+    <div id="topology-tab" class="tab-content">
+        <div class="input-section">
+            <h3><i class="fas fa-sliders-h"></i> Параметры для топологического анализа</h3>
+            
+            <!-- Варьируемые параметры -->
+            <h4 style="color: #4a90e2; margin: 20px 0 15px 0;">
+                <i class="fas fa-expand-arrows-alt"></i> Варьируемые параметры (сетка)
+            </h4>
+            <div class="input-grid">
+                <!-- Диаметр АЗ -->
+                <div class="input-group">
+                    <label><i class="fas fa-arrows-alt-h"></i> Диаметр АЗ (D):</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <input type="number" id="topology-D-min" step="0.1" placeholder="Мин" value="30">
+                        <input type="number" id="topology-D-max" step="0.1" placeholder="Макс" value="70">
+                        <input type="number" id="topology-D-step" step="0.1" placeholder="Шаг" value="2">
+                    </div>
+                </div>
+                
+                <!-- Тепловая мощность -->
+                <div class="input-group">
+                    <label><i class="fas fa-bolt"></i> Тепловая мощность (Q), МВт:</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <input type="number" id="topology-Q-min" step="0.1" placeholder="Мин" value="2">
+                        <input type="number" id="topology-Q-max" step="0.1" placeholder="Макс" value="8">
+                        <input type="number" id="topology-Q-step" step="0.1" placeholder="Шаг" value="0.2">
+                    </div>
+                </div>
+                
+                <!-- Высота АЗ -->
+                <div class="input-group">
+                    <label><i class="fas fa-arrows-alt-v"></i> Высота АЗ (H), м:</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                        <input type="number" id="topology-H-min" step="0.01" placeholder="Мин" value="1.0">
+                        <input type="number" id="topology-H-max" step="0.01" placeholder="Макс" value="2.0">
+                        <input type="number" id="topology-H-step" step="0.01" placeholder="Шаг" value="0.05">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Критические параметры -->
+            <h4 style="color: #f97316; margin: 30px 0 15px 0;">
+                <i class="fas fa-exclamation-triangle"></i> Критические параметры (границы)
+            </h4>
+            <div class="input-grid" id="critical-params-inputs">
+                <!-- N_TVS -->
+                <div class="input-group">
+                    <label><i class="fas fa-th-large"></i> N_TVS (кол-во ТВС):</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <input type="number" id="crit-N_TVS-min" placeholder="Допустимый мин" value="50">
+                        <input type="number" id="crit-N_TVS-max" placeholder="Допустимый макс" value="200">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px;">
+                        <input type="number" id="crit-N_TVS-ideal-min" placeholder="Идеальный мин" value="80">
+                        <input type="number" id="crit-N_TVS-ideal-max" placeholder="Идеальный макс" value="150">
+                    </div>
+                </div>
+                
+                <!-- Nu_az -->
+                <div class="input-group">
+                    <label><i class="fas fa-fire"></i> Nu_az:</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <input type="number" id="crit-Nu_az-min" placeholder="Допустимый мин" value="5">
+                        <input type="number" id="crit-Nu_az-max" placeholder="Допустимый макс" value="30">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px;">
+                        <input type="number" id="crit-Nu_az-ideal-min" placeholder="Идеальный мин" value="8">
+                        <input type="number" id="crit-Nu_az-ideal-max" placeholder="Идеальный макс" value="25">
+                    </div>
+                </div>
+                
+                <!-- ql0_az -->
+                <div class="input-group">
+                    <label><i class="fas fa-chart-line"></i> ql0_az, Вт/м:</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <input type="number" id="crit-ql0_az-min" placeholder="Допустимый мин" value="10000">
+                        <input type="number" id="crit-ql0_az-max" placeholder="Допустимый макс" value="50000">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px;">
+                        <input type="number" id="crit-ql0_az-ideal-min" placeholder="Идеальный мин" value="15000">
+                        <input type="number" id="crit-ql0_az-ideal-max" placeholder="Идеальный макс" value="35000">
+                    </div>
+                </div>
+                
+                <!-- G_p -->
+                <div class="input-group">
+                    <label><i class="fas fa-tachometer-alt"></i> G_p, кг/с:</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <input type="number" id="crit-G_p-min" placeholder="Допустимый мин" value="10">
+                        <input type="number" id="crit-G_p-max" placeholder="Допустимый макс" value="100">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px;">
+                        <input type="number" id="crit-G_p-ideal-min" placeholder="Идеальный мин" value="20">
+                        <input type="number" id="crit-G_p-ideal-max" placeholder="Идеальный макс" value="80">
+                    </div>
+                </div>
+                
+                <!-- w_az -->
+                <div class="input-group">
+                    <label><i class="fas fa-wind"></i> w_az, м/с:</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <input type="number" id="crit-w_az-min" placeholder="Допустимый мин" value="0.5">
+                        <input type="number" id="crit-w_az-max" placeholder="Допустимый макс" value="3.0">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px;">
+                        <input type="number" id="crit-w_az-ideal-min" placeholder="Идеальный мин" value="1.0">
+                        <input type="number" id="crit-w_az-ideal-max" placeholder="Идеальный макс" value="2.5">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Кнопки управления -->
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="calculateTopology()">
+                    <i class="fas fa-calculator"></i>
+                    <span>Рассчитать топологию</span>
+                </button>
+                <button class="btn btn-secondary" onclick="stopCalculation()">
+                    <i class="fas fa-stop-circle"></i>
+                    <span>Остановить</span>
+                </button>
+                <button class="btn btn-secondary" onclick="loadDefaults('topology')">
+                    <i class="fas fa-undo"></i>
+                    <span>По умолчанию</span>
+                </button>
+                <button class="btn btn-success" onclick="exportTopologyData()">
+                    <i class="fas fa-file-export"></i>
+                    <span>Экспорт данных</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Визуализация -->
+        <div class="visualization-section" style="margin-top: 30px;">
+            <!-- Прогресс-бар -->
+            <div id="topology-progress" style="display: none; margin-bottom: 20px;">
+                <div style="color: #4a90e2; margin-bottom: 5px;">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span id="progress-text">Расчет: 0%</span>
+                </div>
+                <div style="background: #2d3748; height: 8px; border-radius: 4px; overflow: hidden;">
+                    <div id="progress-bar" style="background: linear-gradient(90deg, #4a90e2, #10b981); height: 100%; width: 0%; transition: width 0.3s;"></div>
+                </div>
+            </div>
+            
+            <!-- Тепловая карта -->
+            <div class="results-section">
+                <h3><i class="fas fa-map"></i> Топологическая карта S(D, H)</h3>
+                <div id="heatmap-container" style="width: 100%; height: 400px; background: rgba(30, 41, 59, 0.6); border-radius: 8px; margin: 15px 0; position: relative;">
+                    <canvas id="topology-heatmap" style="width: 100%; height: 100%;"></canvas>
+                    <div id="heatmap-legend" style="position: absolute; right: 10px; top: 10px; background: rgba(15, 23, 42, 0.9); padding: 10px; border-radius: 5px; font-size: 12px;">
+                        <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                            <div style="width: 20px; height: 10px; background: linear-gradient(to right, #8B0000, #FF0000); margin-right: 5px;"></div>
+                            <span>Низкие S</span>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 3px;">
+                            <div style="width: 20px; height: 10px; background: #FFD700; margin-right: 5px;"></div>
+                            <span>Средние S</span>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 20px; height: 10px; background: linear-gradient(to right, #006400, #00FF00); margin-right: 5px;"></div>
+                            <span>Высокие S</span>
+                        </div>
+                    </div>
+                    <div id="heatmap-tooltip" style="position: absolute; display: none; background: rgba(15, 23, 42, 0.95); border: 1px solid #4a90e2; padding: 8px; border-radius: 4px; font-size: 12px; pointer-events: none;"></div>
+                </div>
+                
+                <!-- Детали выбранной точки -->
+                <div id="point-details" style="display: none;">
+                    <h4 style="color: #68d391; margin: 20px 0 10px 0;">
+                        <i class="fas fa-info-circle"></i> Детали выбранной точки
+                    </h4>
+                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 10px 20px; background: rgba(30, 41, 59, 0.6); padding: 15px; border-radius: 8px;">
+                        <div style="color: #a0aec0;">Координаты:</div>
+                        <div id="selected-coords" style="color: #e0e0e0;"></div>
+                        
+                        <div style="color: #a0aec0;">Оценка:</div>
+                        <div id="selected-score" style="color: #e0e0e0;"></div>
+                        
+                        <div style="color: #a0aec0;">Цвет:</div>
+                        <div id="selected-color" style="color: #e0e0e0;"></div>
+                        
+                        <div style="color: #a0aec0;">Критические параметры:</div>
+                        <div id="selected-params" style="color: #e0e0e0;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Таблица результатов -->
+            <div class="results-section" style="margin-top: 20px;">
+                <h3><i class="fas fa-table"></i> Результаты топологического анализа</h3>
+                <div style="overflow-x: auto;">
+                    <table id="topology-results-table" style="width: 100%; border-collapse: collapse; margin-top: 10px; display: none;">
+                        <thead>
+                            <tr style="background: rgba(74, 144, 226, 0.2);">
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid rgba(74, 144, 226, 0.3);">D (см)</th>
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid rgba(74, 144, 226, 0.3);">Q (МВт)</th>
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid rgba(74, 144, 226, 0.3);">H (м)</th>
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid rgba(74, 144, 226, 0.3);">N_TVS</th>
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid rgba(74, 144, 226, 0.3);">Nu_az</th>
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid rgba(74, 144, 226, 0.3);">ql0_az</th>
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid rgba(74, 144, 226, 0.3);">G_p</th>
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid rgba(74, 144, 226, 0.3);">w_az</th>
+                                <th style="padding: 10px; text-align: left; border-bottom: 1px solid rgba(74, 144, 226, 0.3);">Оценка</th>
+                            </tr>
+                        </thead>
+                        <tbody id="topology-results-body">
+                            <!-- Данные будут добавлены динамически -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Данные для разных типов топлива
         const fuelData = {
@@ -845,7 +1065,7 @@
                 
                 this.init();
             }
-
+        
             init() {
                 this.setupEventListeners();
                 selectFuel('UO2'); // Выбираем оксидное топливо по умолчанию
@@ -874,6 +1094,782 @@
                 document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
             }
 
+                        // Класс для топологического анализа
+            class TopologyAnalyzer {
+                constructor() {
+                    this.isCalculating = false;
+                    this.calculationWorker = null;
+                    this.results = [];
+                    this.heatmapData = null;
+                    this.canvas = null;
+                    this.ctx = null;
+                    this.selectedPoint = null;
+                }
+            
+                // Основная функция расчета топологии
+                calculateTopology() {
+                    if (this.isCalculating) {
+                        alert("Расчет уже выполняется!");
+                        return;
+                    }
+            
+                    try {
+                        // Собираем параметры сетки
+                        const gridParams = {
+                            D: {
+                                min: parseFloat(document.getElementById('topology-D-min').value),
+                                max: parseFloat(document.getElementById('topology-D-max').value),
+                                step: parseFloat(document.getElementById('topology-D-step').value)
+                            },
+                            Q: {
+                                min: parseFloat(document.getElementById('topology-Q-min').value),
+                                max: parseFloat(document.getElementById('topology-Q-max').value),
+                                step: parseFloat(document.getElementById('topology-Q-step').value)
+                            },
+                            H: {
+                                min: parseFloat(document.getElementById('topology-H-min').value),
+                                max: parseFloat(document.getElementById('topology-H-max').value),
+                                step: parseFloat(document.getElementById('topology-H-step').value)
+                            }
+                        };
+            
+                        // Собираем критические параметры
+                        const criticalParams = {
+                            N_TVS: {
+                                min: parseFloat(document.getElementById('crit-N_TVS-min').value),
+                                max: parseFloat(document.getElementById('crit-N_TVS-max').value),
+                                idealMin: parseFloat(document.getElementById('crit-N_TVS-ideal-min').value),
+                                idealMax: parseFloat(document.getElementById('crit-N_TVS-ideal-max').value)
+                            },
+                            Nu_az: {
+                                min: parseFloat(document.getElementById('crit-Nu_az-min').value),
+                                max: parseFloat(document.getElementById('crit-Nu_az-max').value),
+                                idealMin: parseFloat(document.getElementById('crit-Nu_az-ideal-min').value),
+                                idealMax: parseFloat(document.getElementById('crit-Nu_az-ideal-max').value)
+                            },
+                            ql0_az: {
+                                min: parseFloat(document.getElementById('crit-ql0_az-min').value),
+                                max: parseFloat(document.getElementById('crit-ql0_az-max').value),
+                                idealMin: parseFloat(document.getElementById('crit-ql0_az-ideal-min').value),
+                                idealMax: parseFloat(document.getElementById('crit-ql0_az-ideal-max').value)
+                            },
+                            G_p: {
+                                min: parseFloat(document.getElementById('crit-G_p-min').value),
+                                max: parseFloat(document.getElementById('crit-G_p-max').value),
+                                idealMin: parseFloat(document.getElementById('crit-G_p-ideal-min').value),
+                                idealMax: parseFloat(document.getElementById('crit-G_p-ideal-max').value)
+                            },
+                            w_az: {
+                                min: parseFloat(document.getElementById('crit-w_az-min').value),
+                                max: parseFloat(document.getElementById('crit-w_az-max').value),
+                                idealMin: parseFloat(document.getElementById('crit-w_az-ideal-min').value),
+                                idealMax: parseFloat(document.getElementById('crit-w_az-ideal-max').value)
+                            }
+                        };
+            
+                        // Проверка ввода
+                        if (!this.validateInputs(gridParams, criticalParams)) {
+                            return;
+                        }
+            
+                        // Показываем прогресс
+                        this.showProgress(true);
+                        this.isCalculating = true;
+            
+                        // Фиксированные параметры из других вкладок (или дефолтные)
+                        const fixedParams = this.getFixedParameters();
+            
+                        // Запускаем расчет в Web Worker для неблокирующих вычислений
+                        this.startCalculationWorker(gridParams, criticalParams, fixedParams);
+            
+                    } catch (error) {
+                        alert(`Ошибка при запуске расчета: ${error.message}`);
+                        this.isCalculating = false;
+                        this.showProgress(false);
+                    }
+                }
+            
+                // Валидация входных данных
+                validateInputs(gridParams, criticalParams) {
+                    // Проверка сетки
+                    for (const param of ['D', 'Q', 'H']) {
+                        if (gridParams[param].min >= gridParams[param].max) {
+                            alert(`Минимальное значение ${param} должно быть меньше максимального`);
+                            return false;
+                        }
+                        if (gridParams[param].step <= 0) {
+                            alert(`Шаг для ${param} должен быть положительным`);
+                            return false;
+                        }
+                    }
+            
+                    // Проверка критических параметров
+                    for (const [name, ranges] of Object.entries(criticalParams)) {
+                        if (ranges.min >= ranges.max) {
+                            alert(`Для ${name}: допустимый минимум должен быть меньше максимума`);
+                            return false;
+                        }
+                        if (ranges.idealMin < ranges.min || ranges.idealMax > ranges.max) {
+                            alert(`Для ${name}: идеальный диапазон должен быть внутри допустимого`);
+                            return false;
+                        }
+                        if (ranges.idealMin >= ranges.idealMax) {
+                            alert(`Для ${name}: идеальный минимум должен быть меньше идеального максимума`);
+                            return false;
+                        }
+                    }
+            
+                    // Проверка количества точек (не более 2.5 млн)
+                    const D_points = Math.floor((gridParams.D.max - gridParams.D.min) / gridParams.D.step) + 1;
+                    const Q_points = Math.floor((gridParams.Q.max - gridParams.Q.min) / gridParams.Q.step) + 1;
+                    const H_points = Math.floor((gridParams.H.max - gridParams.H.min) / gridParams.H.step) + 1;
+                    const totalPoints = D_points * Q_points * H_points;
+            
+                    if (totalPoints > 2500000) {
+                        const proceed = confirm(`Будет рассчитано ${totalPoints.toLocaleString()} точек (больше 2.5 млн). Это может занять много времени. Продолжить?`);
+                        if (!proceed) return false;
+                    }
+            
+                    return true;
+                }
+            
+                // Получение фиксированных параметров из других вкладок
+                getFixedParameters() {
+                    // Берем значения из других вкладок, если они есть, иначе используем дефолтные
+                    return {
+                        a: parseFloat(document.getElementById('a').value) || 1.5,
+                        N_rad: parseInt(document.getElementById('N_rad').value) || 3,
+                        delta_u: parseFloat(document.getElementById('delta_u').value) || 0.15,
+                        delta_a: parseFloat(document.getElementById('delta_a').value) || 0.5,
+                        n_tvel: parseInt(document.getElementById('n_tvel').value) || 37,
+                        d_tvel: parseFloat(document.getElementById('d_tvel').value) || 1.25,
+                        t_in: parseFloat(document.getElementById('t_in').value) || 300,
+                        t_out: parseFloat(document.getElementById('t_out').value) || 420,
+                        delta_eff: parseFloat(document.getElementById('delta_eff').value) || 0.1,
+                        Cp: parseFloat(document.getElementById('Cp').value) || 1260,
+                        rho_Na: parseFloat(document.getElementById('rho_Na').value) || 775,
+                        a_Na: parseFloat(document.getElementById('a_Na').value) || 0.000057,
+                        d_ob: parseFloat(document.getElementById('d_ob').value) || 0.0114,
+                        d_topl_nar: parseFloat(document.getElementById('d_topl_nar').value) || 0.013,
+                        d_otv: parseFloat(document.getElementById('d_otv').value) || 0.0018,
+                        f_az: parseFloat(document.getElementById('f_az').value) || 0.9,
+                        f_pr: parseFloat(document.getElementById('f_pr').value) || 0.095,
+                        f_be: parseFloat(document.getElementById('f_be').value) || 0.005,
+                        lambda_topl: parseFloat(document.getElementById('lambda_topl').value) || 20,
+                        lambda_3: parseFloat(document.getElementById('lambda_3').value) || 1.5
+                    };
+                }
+            
+                // Запуск расчета в Web Worker
+                startCalculationWorker(gridParams, criticalParams, fixedParams) {
+                    // Создаем инлайн Web Worker
+                    const workerCode = `
+                        self.onmessage = function(e) {
+                            const { gridParams, criticalParams, fixedParams } = e.data;
+                            
+                            const results = [];
+                            const D_values = [];
+                            const Q_values = [];
+                            const H_values = [];
+                            
+                            // Генерируем значения
+                            for (let D = gridParams.D.min; D <= gridParams.D.max; D += gridParams.D.step) {
+                                D_values.push(D);
+                            }
+                            for (let Q = gridParams.Q.min; Q <= gridParams.Q.max; Q += gridParams.Q.step) {
+                                Q_values.push(Q);
+                            }
+                            for (let H = gridParams.H.min; H <= gridParams.H.max; H += gridParams.H.step) {
+                                H_values.push(H);
+                            }
+                            
+                            const totalPoints = D_values.length * Q_values.length * H_values.length;
+                            let processed = 0;
+                            
+                            // Основной цикл расчета
+                            for (let i = 0; i < D_values.length; i++) {
+                                const D = D_values[i];
+                                
+                                for (let j = 0; j < Q_values.length; j++) {
+                                    const Q = Q_values[j];
+                                    
+                                    for (let k = 0; k < H_values.length; k++) {
+                                        const H = H_values[k];
+                                        
+                                        // Расчет геометрии (используем формулы из существующего калькулятора)
+                                        const a_val = fixedParams.a;
+                                        const R_EY = (2 * a_val) / Math.sqrt(3);
+                                        const S_kluch = R_EY * (1 + 1.5 * fixedParams.N_rad) + 2 * fixedParams.delta_u;
+                                        const f_EY = (6 * Math.pow((a_val/Math.sqrt(3))*(1 + 1.5*fixedParams.N_rad) + fixedParams.delta_u + fixedParams.delta_a/2, 2)) / Math.sqrt(3);
+                                        
+                                        // 1. N_TVS (количество ТВС)
+                                        const N_TVS = 0.85 * ((Math.PI * Math.pow(D, 2)) / (4 * f_EY));
+                                        
+                                        // Расчет для тепловых параметров
+                                        const f_prok = f_EY - fixedParams.n_tvel * (Math.PI * Math.pow(fixedParams.d_tvel, 2))/4 - (6 * S_kluch / Math.sqrt(3)) * (fixedParams.delta_a/2);
+                                        const Pi_TVS = (6 * (2*S_kluch - 2*fixedParams.delta_u)) / Math.sqrt(3) + fixedParams.n_tvel * Math.PI * fixedParams.d_tvel;
+                                        const d_r = (4 * f_prok) / Pi_TVS;
+                                        const x = a_val / fixedParams.d_tvel;
+                                        
+                                        const Q_az = fixedParams.f_az * Q;
+                                        const Q_pr = fixedParams.f_pr * Q;
+                                        
+                                        // 2. G_p (расход теплоносителя)
+                                        const G_p = (Q_az + Q_pr) * 1e6 / (fixedParams.Cp * (fixedParams.t_out - fixedParams.t_in));
+                                        
+                                        // 3. w_az (скорость теплоносителя)
+                                        const w_az = G_p / (f_prok * 1e-4 * N_TVS * fixedParams.rho_Na);
+                                        
+                                        const Pe_az = w_az * d_r * 1e-2 / fixedParams.a_Na;
+                                        
+                                        // 4. Nu_az (число Нуссельта) - с обработкой ошибок
+                                        let Nu_az;
+                                        try {
+                                            Nu_az = 24.151 * Math.log10(-8.12 + 12.76*x - 3.65*Math.pow(x, 2)) + 
+                                                    0.0174*(1-Math.exp(-6*(x-1)))*Math.pow(Pe_az-200, 0.9);
+                                            if (isNaN(Nu_az) || !isFinite(Nu_az)) Nu_az = 0;
+                                        } catch {
+                                            Nu_az = 0;
+                                        }
+                                        
+                                        const H_az = H + 2 * fixedParams.delta_eff;
+                                        const k_z_az = (Math.PI * H / (2 * H_az)) / Math.sin(Math.PI * H / (2 * H_az));
+                                        
+                                        // 5. ql0_az (погонная мощность)
+                                        const ql0_az = (Q_az + Q_pr) * 1e6 * k_z_az / (H * N_TVS * fixedParams.n_tvel);
+                                        
+                                        // Классификация точки
+                                        const criticalValues = { N_TVS, Nu_az, ql0_az, G_p, w_az };
+                                        const classification = classifyPoint(criticalValues, criticalParams);
+                                        
+                                        results.push({
+                                            D, Q, H,
+                                            N_TVS, Nu_az, ql0_az, G_p, w_az,
+                                            classification
+                                        });
+                                        
+                                        processed++;
+                                        
+                                        // Отправляем прогресс каждые 1000 точек
+                                        if (processed % 1000 === 0) {
+                                            self.postMessage({
+                                                type: 'progress',
+                                                progress: (processed / totalPoints) * 100
+                                            });
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            self.postMessage({
+                                type: 'complete',
+                                results,
+                                D_values,
+                                Q_values,
+                                H_values
+                            });
+                        };
+                        
+                        function classifyPoint(values, criticalParams) {
+                            let outOfBounds = false;
+                            let inIdeal = 0;
+                            let inAcceptable = 0;
+                            
+                            // Проверяем каждый критический параметр
+                            for (const [param, value] of Object.entries(values)) {
+                                const ranges = criticalParams[param];
+                                
+                                if (value < ranges.min || value > ranges.max) {
+                                    outOfBounds = true;
+                                    break;
+                                }
+                                
+                                if (value >= ranges.idealMin && value <= ranges.idealMax) {
+                                    inIdeal++;
+                                } else {
+                                    inAcceptable++;
+                                }
+                            }
+                            
+                            if (outOfBounds) {
+                                return -1; // Красный
+                            } else if (inIdeal >= 3) { // Большинство (3 из 5)
+                                return 1; // Зеленый
+                            } else {
+                                return 0; // Желтый
+                            }
+                        }
+                    `;
+            
+                    const blob = new Blob([workerCode], { type: 'application/javascript' });
+                    this.calculationWorker = new Worker(URL.createObjectURL(blob));
+            
+                    this.calculationWorker.onmessage = (e) => {
+                        if (e.data.type === 'progress') {
+                            this.updateProgress(e.data.progress);
+                        } else if (e.data.type === 'complete') {
+                            this.onCalculationComplete(e.data);
+                        }
+                    };
+            
+                    this.calculationWorker.postMessage({
+                        gridParams,
+                        criticalParams,
+                        fixedParams
+                    });
+                }
+            
+                // Обработка завершения расчета
+                onCalculationComplete(data) {
+                    this.results = data.results;
+                    this.isCalculating = false;
+                    this.showProgress(false);
+                    
+                    // Строим тепловую карту
+                    this.buildHeatmap(data.D_values, data.H_values);
+                    
+                    // Показываем таблицу результатов
+                    this.showResultsTable();
+                    
+                    alert(`Расчет завершен! Обработано ${this.results.length.toLocaleString()} точек.`);
+                }
+            
+                // Построение тепловой карты S(D, H)
+                buildHeatmap(D_values, H_values) {
+                    // Инициализируем canvas
+                    if (!this.canvas) {
+                        this.canvas = document.getElementById('topology-heatmap');
+                        this.ctx = this.canvas.getContext('2d');
+                    }
+                    
+                    // Устанавливаем размеры
+                    this.canvas.width = this.canvas.parentElement.clientWidth;
+                    this.canvas.height = this.canvas.parentElement.clientHeight;
+                    
+                    // Вычисляем S(D, H) - сумму оценок по Q для каждой пары (D, H)
+                    const heatmapData = {};
+                    const minMax = { min: Infinity, max: -Infinity };
+                    
+                    for (const result of this.results) {
+                        const key = \`\${result.D}_\${result.H}\`;
+                        if (!heatmapData[key]) {
+                            heatmapData[key] = {
+                                D: result.D,
+                                H: result.H,
+                                sum: 0,
+                                count: 0
+                            };
+                        }
+                        heatmapData[key].sum += result.classification;
+                        heatmapData[key].count++;
+                    }
+                    
+                    // Преобразуем в массив и находим min/max
+                    const heatmapArray = Object.values(heatmapData);
+                    for (const item of heatmapArray) {
+                        item.average = item.sum / item.count;
+                        minMax.min = Math.min(minMax.min, item.average);
+                        minMax.max = Math.max(minMax.max, item.average);
+                    }
+                    
+                    this.heatmapData = {
+                        points: heatmapArray,
+                        D_values: D_values,
+                        H_values: H_values,
+                        minMax: minMax
+                    };
+                    
+                    // Рисуем тепловую карту
+                    this.drawHeatmap();
+                    
+                    // Добавляем обработчики событий
+                    this.addHeatmapInteractivity();
+                }
+            
+                // Отрисовка тепловой карты
+                drawHeatmap() {
+                    const ctx = this.ctx;
+                    const canvas = this.canvas;
+                    const data = this.heatmapData;
+                    
+                    if (!data) return;
+                    
+                    // Очищаем canvas
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    
+                    // Определяем размеры ячеек
+                    const D_count = data.D_values.length;
+                    const H_count = data.H_values.length;
+                    const cellWidth = canvas.width / D_count;
+                    const cellHeight = canvas.height / H_count;
+                    
+                    // Рисуем каждую ячейку
+                    for (const point of data.points) {
+                        const D_index = data.D_values.indexOf(point.D);
+                        const H_index = data.H_values.indexOf(point.H);
+                        
+                        if (D_index === -1 || H_index === -1) continue;
+                        
+                        const x = D_index * cellWidth;
+                        const y = (H_count - H_index - 1) * cellHeight; // Инвертируем Y
+                        
+                        // Цвет в зависимости от значения S
+                        const normalized = (point.average - data.minMax.min) / (data.minMax.max - data.minMax.min);
+                        const color = this.getColorForValue(normalized);
+                        
+                        // Рисуем прямоугольник
+                        ctx.fillStyle = color;
+                        ctx.fillRect(x, y, cellWidth, cellHeight);
+                        
+                        // Добавляем границу
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                        ctx.strokeRect(x, y, cellWidth, cellHeight);
+                    }
+                    
+                    // Добавляем подписи осей (опционально)
+                    this.drawAxesLabels(data.D_values, data.H_values, cellWidth, cellHeight);
+                }
+            
+                // Получение цвета для значения (линейная интерполяция)
+                getColorForValue(value) {
+                    // value от 0 до 1
+                    // -1 (красный) -> 0 (желтый) -> 1 (зеленый)
+                    
+                    if (value < 0.5) {
+                        // Между красным и желтым
+                        const t = value * 2; // 0->1
+                        const r = Math.floor(139 + (255 - 139) * t); // 139->255
+                        const g = Math.floor(0 + 215 * t); // 0->215
+                        const b = 0;
+                        return \`rgb(\${r}, \${g}, \${b})\`;
+                    } else {
+                        // Между желтым и зеленым
+                        const t = (value - 0.5) * 2; // 0->1
+                        const r = Math.floor(255 - 255 * t); // 255->0
+                        const g = Math.floor(215 + (40 - 215) * t); // 215->40
+                        const b = 0;
+                        return \`rgb(\${r}, \${g}, \${b})\`;
+                    }
+                }
+            
+                // Добавление интерактивности тепловой карте
+                addHeatmapInteractivity() {
+                    const canvas = this.canvas;
+                    const tooltip = document.getElementById('heatmap-tooltip');
+                    
+                    canvas.addEventListener('mousemove', (e) => {
+                        if (!this.heatmapData) return;
+                        
+                        const rect = canvas.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        // Находим ячейку
+                        const D_count = this.heatmapData.D_values.length;
+                        const H_count = this.heatmapData.H_values.length;
+                        const cellWidth = canvas.width / D_count;
+                        const cellHeight = canvas.height / H_count;
+                        
+                        const D_index = Math.floor(x / cellWidth);
+                        const H_index = H_count - 1 - Math.floor(y / cellHeight);
+                        
+                        if (D_index >= 0 && D_index < D_count && H_index >= 0 && H_index < H_count) {
+                            const D = this.heatmapData.D_values[D_index];
+                            const H = this.heatmapData.H_values[H_index];
+                            
+                            // Находим точку в данных
+                            const key = \`\${D}_\${H}\`;
+                            const point = this.heatmapData.points.find(p => p.D === D && p.H === H);
+                            
+                            if (point) {
+                                // Показываем tooltip
+                                tooltip.style.display = 'block';
+                                tooltip.style.left = \`\${e.clientX + 10}px\`;
+                                tooltip.style.top = \`\${e.clientY + 10}px\`;
+                                tooltip.innerHTML = \`
+                                    <div><strong>D:</strong> \${D.toFixed(1)} см</div>
+                                    <div><strong>H:</strong> \${H.toFixed(2)} м</div>
+                                    <div><strong>S(D,H):</strong> \${point.average.toFixed(2)}</div>
+                                    <div><strong>Точек по Q:</strong> \${point.count}</div>
+                                \`;
+                            }
+                        } else {
+                            tooltip.style.display = 'none';
+                        }
+                    });
+                    
+                    canvas.addEventListener('click', (e) => {
+                        if (!this.heatmapData) return;
+                        
+                        const rect = canvas.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        
+                        const D_count = this.heatmapData.D_values.length;
+                        const H_count = this.heatmapData.H_values.length;
+                        const cellWidth = canvas.width / D_count;
+                        const cellHeight = canvas.height / H_count;
+                        
+                        const D_index = Math.floor(x / cellWidth);
+                        const H_index = H_count - 1 - Math.floor(y / cellHeight);
+                        
+                        if (D_index >= 0 && D_index < D_count && H_index >= 0 && H_index < H_count) {
+                            const D = this.heatmapData.D_values[D_index];
+                            const H = this.heatmapData.H_values[H_index];
+                            
+                            // Находим все точки с этими D и H
+                            const columnPoints = this.results.filter(r => 
+                                Math.abs(r.D - D) < 0.001 && Math.abs(r.H - H) < 0.001
+                            );
+                            
+                            if (columnPoints.length > 0) {
+                                this.showPointDetails(D, H, columnPoints);
+                            }
+                        }
+                    });
+                }
+            
+                // Показать детали выбранной точки
+                showPointDetails(D, H, columnPoints) {
+                    this.selectedPoint = { D, H, columnPoints };
+                    
+                    // Находим точку с максимальной оценкой (или другую логику)
+                    const bestPoint = columnPoints.reduce((prev, current) => 
+                        (prev.classification > current.classification) ? prev : current
+                    );
+                    
+                    // Заполняем детали
+                    document.getElementById('selected-coords').textContent = 
+                        \`D=\${D.toFixed(1)} см, H=\${H.toFixed(2)} м, Q=\${bestPoint.Q.toFixed(1)} МВт\`;
+                    
+                    const scoreColors = {
+                        '-1': '<span style="color: #ff4444">-1 (красная)</span>',
+                        '0': '<span style="color: #ffaa00">0 (желтая)</span>',
+                        '1': '<span style="color: #44ff44">+1 (зеленая)</span>'
+                    };
+                    
+                    document.getElementById('selected-score').innerHTML = 
+                        scoreColors[bestPoint.classification.toString()];
+                    
+                    // Показываем критические параметры
+                    document.getElementById('selected-params').innerHTML = \`
+                        N_TVS: \${bestPoint.N_TVS.toFixed(2)}<br>
+                        Nu_az: \${bestPoint.Nu_az.toFixed(2)}<br>
+                        ql0_az: \${bestPoint.ql0_az.toFixed(0)} Вт/м<br>
+                        G_p: \${bestPoint.G_p.toFixed(2)} кг/с<br>
+                        w_az: \${bestPoint.w_az.toFixed(2)} м/с
+                    \`;
+                    
+                    // Показываем секцию с деталями
+                    document.getElementById('point-details').style.display = 'block';
+                }
+            
+                // Показать таблицу результатов
+                showResultsTable() {
+                    const tableBody = document.getElementById('topology-results-body');
+                    tableBody.innerHTML = '';
+                    
+                    // Показываем только первые 100 результатов для производительности
+                    const displayResults = this.results.slice(0, 100);
+                    
+                    for (const result of displayResults) {
+                        const row = document.createElement('tr');
+                        row.innerHTML = \`
+                            <td>\${result.D.toFixed(1)}</td>
+                            <td>\${result.Q.toFixed(1)}</td>
+                            <td>\${result.H.toFixed(2)}</td>
+                            <td>\${result.N_TVS.toFixed(2)}</td>
+                            <td>\${result.Nu_az.toFixed(2)}</td>
+                            <td>\${result.ql0_az.toFixed(0)}</td>
+                            <td>\${result.G_p.toFixed(2)}</td>
+                            <td>\${result.w_az.toFixed(2)}</td>
+                            <td>\${result.classification}</td>
+                        \`;
+                        
+                        // Цвет строки в зависимости от оценки
+                        if (result.classification === -1) {
+                            row.style.backgroundColor = 'rgba(255, 68, 68, 0.1)';
+                        } else if (result.classification === 1) {
+                            row.style.backgroundColor = 'rgba(68, 255, 68, 0.1)';
+                        } else {
+                            row.style.backgroundColor = 'rgba(255, 170, 0, 0.1)';
+                        }
+                        
+                        tableBody.appendChild(row);
+                    }
+                    
+                    document.getElementById('topology-results-table').style.display = 'table';
+                }
+            
+                // Управление прогрессом
+                showProgress(show) {
+                    const progressBar = document.getElementById('topology-progress');
+                    progressBar.style.display = show ? 'block' : 'none';
+                }
+            
+                updateProgress(percent) {
+                    document.getElementById('progress-bar').style.width = \`\${percent}%\`;
+                    document.getElementById('progress-text').textContent = 
+                        \`Расчет: \${percent.toFixed(1)}%\`;
+                }
+            
+                // Остановка расчета
+                stopCalculation() {
+                    if (this.isCalculating && this.calculationWorker) {
+                        this.calculationWorker.terminate();
+                        this.isCalculating = false;
+                        this.showProgress(false);
+                        alert("Расчет остановлен");
+                    }
+                }
+            
+                // Загрузка значений по умолчанию
+                loadDefaults() {
+                    // Диапазоны варьирования
+                    document.getElementById('topology-D-min').value = "30";
+                    document.getElementById('topology-D-max').value = "70";
+                    document.getElementById('topology-D-step').value = "2";
+                    
+                    document.getElementById('topology-Q-min').value = "2";
+                    document.getElementById('topology-Q-max').value = "8";
+                    document.getElementById('topology-Q-step').value = "0.2";
+                    
+                    document.getElementById('topology-H-min').value = "1.0";
+                    document.getElementById('topology-H-max').value = "2.0";
+                    document.getElementById('topology-H-step').value = "0.05";
+                    
+                    // Критические параметры
+                    document.getElementById('crit-N_TVS-min').value = "50";
+                    document.getElementById('crit-N_TVS-max').value = "200";
+                    document.getElementById('crit-N_TVS-ideal-min').value = "80";
+                    document.getElementById('crit-N_TVS-ideal-max').value = "150";
+                    
+                    document.getElementById('crit-Nu_az-min').value = "5";
+                    document.getElementById('crit-Nu_az-max').value = "30";
+                    document.getElementById('crit-Nu_az-ideal-min').value = "8";
+                    document.getElementById('crit-Nu_az-ideal-max').value = "25";
+                    
+                    document.getElementById('crit-ql0_az-min').value = "10000";
+                    document.getElementById('crit-ql0_az-max').value = "50000";
+                    document.getElementById('crit-ql0_az-ideal-min').value = "15000";
+                    document.getElementById('crit-ql0_az-ideal-max').value = "35000";
+                    
+                    document.getElementById('crit-G_p-min').value = "10";
+                    document.getElementById('crit-G_p-max').value = "100";
+                    document.getElementById('crit-G_p-ideal-min').value = "20";
+                    document.getElementById('crit-G_p-ideal-max').value = "80";
+                    
+                    document.getElementById('crit-w_az-min').value = "0.5";
+                    document.getElementById('crit-w_az-max').value = "3.0";
+                    document.getElementById('crit-w_az-ideal-min').value = "1.0";
+                    document.getElementById('crit-w_az-ideal-max').value = "2.5";
+                }
+            
+                // Экспорт данных
+                exportTopologyData() {
+                    if (this.results.length === 0) {
+                        alert("Сначала выполните расчет топологии");
+                        return;
+                    }
+                    
+                    try {
+                        let content = "=".repeat(60) + "\n";
+                        content += "ТОПОЛОГИЧЕСКИЙ АНАЛИЗ РЕАКТОРА\n";
+                        content += \`Дата расчета: \${new Date().toLocaleString()}\n\`;
+                        content += \`Количество точек: \${this.results.length}\n\`;
+                        content += "=".repeat(60) + "\n\n";
+                        
+                        // Параметры расчета
+                        content += "ПАРАМЕТРЫ РАСЧЕТА\n";
+                        content += "Варьируемые параметры:\n";
+                        content += \`  D: от \${document.getElementById('topology-D-min').value} до \${document.getElementById('topology-D-max').value} с шагом \${document.getElementById('topology-D-step').value}\n\`;
+                        content += \`  Q: от \${document.getElementById('topology-Q-min').value} до \${document.getElementById('topology-Q-max').value} с шагом \${document.getElementById('topology-Q-step').value}\n\`;
+                        content += \`  H: от \${document.getElementById('topology-H-min').value} до \${document.getElementById('topology-H-max').value} с шагом \${document.getElementById('topology-H-step').value}\n\n\`;
+                        
+                        // Критические параметры
+                        content += "Критические параметры (допустимый/идеальный):\n";
+                        content += \`  N_TVS: \${document.getElementById('crit-N_TVS-min').value}-\${document.getElementById('crit-N_TVS-max').value} / \${document.getElementById('crit-N_TVS-ideal-min').value}-\${document.getElementById('crit-N_TVS-ideal-max').value}\n\`;
+                        content += \`  Nu_az: \${document.getElementById('crit-Nu_az-min').value}-\${document.getElementById('crit-Nu_az-max').value} / \${document.getElementById('crit-Nu_az-ideal-min').value}-\${document.getElementById('crit-Nu_az-ideal-max').value}\n\`;
+                        content += \`  ql0_az: \${document.getElementById('crit-ql0_az-min').value}-\${document.getElementById('crit-ql0_az-max').value} / \${document.getElementById('crit-ql0_az-ideal-min').value}-\${document.getElementById('crit-ql0_az-ideal-max').value}\n\`;
+                        content += \`  G_p: \${document.getElementById('crit-G_p-min').value}-\${document.getElementById('crit-G_p-max').value} / \${document.getElementById('crit-G_p-ideal-min').value}-\${document.getElementById('crit-G_p-ideal-max').value}\n\`;
+                        content += \`  w_az: \${document.getElementById('crit-w_az-min').value}-\${document.getElementById('crit-w_az-max').value} / \${document.getElementById('crit-w_az-ideal-min').value}-\${document.getElementById('crit-w_az-ideal-max').value}\n\n\`;
+                        
+                        // Результаты
+                        content += "РЕЗУЛЬТАТЫ (первые 100 точек)\n";
+                        content += "D(см);Q(МВт);H(м);N_TVS;Nu_az;ql0_az(Вт/м);G_p(кг/с);w_az(м/с);Оценка\n";
+                        
+                        this.results.slice(0, 100).forEach(result => {
+                            content += \`\${result.D.toFixed(1)};\${result.Q.toFixed(1)};\${result.H.toFixed(2)};\${result.N_TVS.toFixed(2)};\${result.Nu_az.toFixed(2)};\${result.ql0_az.toFixed(0)};\${result.G_p.toFixed(2)};\${result.w_az.toFixed(2)};\${result.classification}\n\`;
+                        });
+                        
+                        // Статистика
+                        const redCount = this.results.filter(r => r.classification === -1).length;
+                        const yellowCount = this.results.filter(r => r.classification === 0).length;
+                        const greenCount = this.results.filter(r => r.classification === 1).length;
+                        
+                        content += \`\n\nСТАТИСТИКА:\n\`;
+                        content += \`  Красных точек: \${redCount} (\${((redCount/this.results.length)*100).toFixed(1)}%)\n\`;
+                        content += \`  Желтых точек: \${yellowCount} (\${((yellowCount/this.results.length)*100).toFixed(1)}%)\n\`;
+                        content += \`  Зеленых точек: \${greenCount} (\${((greenCount/this.results.length)*100).toFixed(1)}%)\n\`;
+                        
+                        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = \`topology_analysis_\${new Date().toISOString().slice(0,10)}.txt\`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        
+                    } catch (error) {
+                        alert(\`Ошибка при экспорте: \${error.message}\`);
+                    }
+                }
+            }
+            
+            // Инициализация топологического анализатора
+            let topologyAnalyzer;
+            
+            // Глобальные функции для кнопок
+            function calculateTopology() {
+                if (!topologyAnalyzer) {
+                    topologyAnalyzer = new TopologyAnalyzer();
+                }
+                topologyAnalyzer.calculateTopology();
+            }
+            
+            function stopCalculation() {
+                if (topologyAnalyzer) {
+                    topologyAnalyzer.stopCalculation();
+                }
+            }
+            
+            function loadDefaultsTopology() {
+                if (!topologyAnalyzer) {
+                    topologyAnalyzer = new TopologyAnalyzer();
+                }
+                topologyAnalyzer.loadDefaults();
+            }
+            
+            function exportTopologyData() {
+                if (topologyAnalyzer) {
+                    topologyAnalyzer.exportTopologyData();
+                }
+            }
+            
+            // Добавляем обработчик загрузки DOM
+            document.addEventListener('DOMContentLoaded', () => {
+                // Инициализируем калькулятор (существующий)
+                calculator = new TVSCalculator();
+                
+                // Инициализируем топологический анализатор
+                topologyAnalyzer = new TopologyAnalyzer();
+                
+                // Загружаем значения по умолчанию для топологии
+                loadDefaultsTopology();
+            });
+            
             // Геометрический расчет
             calculateGeometry() {
                 try {
