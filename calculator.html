@@ -1002,7 +1002,8 @@
         </div>
     </div>
 
-    <script>
+<script>
+        // Существующий код калькулятора (геометрия, тепловой, топливо)
         const fuelData = {
             'UO2': {
                 name: 'Оксидное топливо (UO₂)',
@@ -1017,7 +1018,7 @@
                 thermal_cond: '20'
             },
             'UC': {
-                name: 'Карбидное топлива (UC)',
+                name: 'Карбидное топливо (UC)',
                 density: '13.6',
                 melting_point: '2370',
                 thermal_cond: '22'
@@ -1029,7 +1030,7 @@
                 btn.classList.remove('active');
             });
             
-            const selectedBtn = document.querySelector(`[data-fuel="${fuelType}"]`);
+            const selectedBtn = document.querySelector('[data-fuel="' + fuelType + '"]');
             if (selectedBtn) {
                 selectedBtn.classList.add('active');
             }
@@ -1082,8 +1083,8 @@
                     btn.classList.remove('active');
                 });
                 
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-                document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+                document.getElementById(tabId + '-tab').classList.add('active');
+                document.querySelector('[data-tab="' + tabId + '"]').classList.add('active');
             }
 
             calculateGeometry() {
@@ -1137,7 +1138,7 @@
                     this.highlightSuccess('geometry');
                     
                 } catch (error) {
-                    alert(`Ошибка расчета: ${error.message}`);
+                    alert('Ошибка расчета: ' + error.message);
                 }
             }
 
@@ -1234,7 +1235,7 @@
                     this.highlightSuccess('thermal');
                     
                 } catch (error) {
-                    alert(`Ошибка расчета: ${error.message}`);
+                    alert('Ошибка расчета: ' + error.message);
                 }
             }
 
@@ -1271,12 +1272,12 @@
                     this.highlightSuccess('fuel');
                     
                 } catch (error) {
-                    alert(`Ошибка расчета: ${error.message}`);
+                    alert('Ошибка расчета: ' + error.message);
                 }
             }
 
             highlightSuccess(type) {
-                const section = document.getElementById(`${type}-tab`);
+                const section = document.getElementById(type + '-tab');
                 section.style.animation = 'none';
                 setTimeout(() => {
                     section.style.animation = 'pulse 0.5s';
@@ -1414,7 +1415,7 @@
                 try {
                     let content = "=".repeat(60) + "\n";
                     content += "РАСЧЕТ ПАРАМЕТРОВ ТВС И ТЕПЛОВОГО РЕЖИМА\n";
-                    content += `Дата расчета: ${new Date().toLocaleString()}\n`;
+                    content += "Дата расчета: " + new Date().toLocaleString() + "\n";
                     content += "=".repeat(60) + "\n\n";
                     
                     content += "ГЕОМЕТРИЧЕСКИЙ РАСЧЕТ\n";
@@ -1432,7 +1433,7 @@
                     
                     geomIds.forEach((id, index) => {
                         const value = document.getElementById(id).value;
-                        content += `  ${geomLabels[index]} ${value}\n`;
+                        content += "  " + geomLabels[index] + " " + value + "\n";
                     });
                     
                     content += "\nРезультаты:\n";
@@ -1451,7 +1452,7 @@
                     
                     geomResultIds.forEach((id, index) => {
                         const value = document.getElementById(id).textContent;
-                        content += `  ${geomResultLabels[index]} ${value}\n`;
+                        content += "  " + geomResultLabels[index] + " " + value + "\n";
                     });
                     
                     content += "\n" + "=".repeat(60) + "\n\n";
@@ -1483,7 +1484,7 @@
                     
                     thermalIds.forEach((id, index) => {
                         const value = document.getElementById(id).value;
-                        content += `  ${thermalLabels[index]} ${value}\n`;
+                        content += "  " + thermalLabels[index] + " " + value + "\n";
                     });
                     
                     content += "\nРезультаты:\n";
@@ -1499,7 +1500,7 @@
                         "Расход ТН на твэл в боковой зоне, кг/с:",
                         "Средняя скорость ТН в боковой зоне, м/с:",
                         "Число Пекле для боковой зоны:",
-                        "Число Нуссельта для боковой зоны:",
+                        "Число Нуссельта для боковой зоне:",
                         "Аксиальный коэффициент неравномерности (активная зона):",
                         "Аксиальный коэффициент неравномерности (боковая зона):",
                         "Погонная мощность в центре (активная зона), Вт/м:",
@@ -1508,7 +1509,7 @@
                     
                     thermalResultIds.forEach((id, index) => {
                         const value = document.getElementById(id).textContent;
-                        content += `  ${thermalResultLabels[index]} ${value}\n`;
+                        content += "  " + thermalResultLabels[index] + " " + value + "\n";
                     });
                     
                     content += "\n" + "=".repeat(60) + "\n\n";
@@ -1516,11 +1517,11 @@
                     content += "ТОПЛИВО\n";
                     const selectedBtn = document.querySelector('.fuel-btn.active');
                     const fuelName = selectedBtn ? selectedBtn.textContent.trim() : 'Не выбрано';
-                    content += `  Тип топлива: ${fuelName}\n`;
-                    content += `  Плотность, г/см³: ${document.getElementById('fuel-density').value}\n`;
-                    content += `  Температура плавления, °C: ${document.getElementById('fuel-melting-point').value}\n`;
-                    content += `  Теплопроводность, Вт/(м·К): ${document.getElementById('fuel-thermal-cond').value}\n`;
-                    content += `  kef: ${document.getElementById('keff').value}\n`;
+                    content += "  Тип топлива: " + fuelName + "\n";
+                    content += "  Плотность, г/см³: " + document.getElementById('fuel-density').value + "\n";
+                    content += "  Температура плавления, °C: " + document.getElementById('fuel-melting-point').value + "\n";
+                    content += "  Теплопроводность, Вт/(м·К): " + document.getElementById('fuel-thermal-cond').value + "\n";
+                    content += "  kef: " + document.getElementById('keff').value + "\n";
                     
                     content += "\nРезультаты:\n";
                     const fuelResultIds = ['mass_tvel', 'mass_az', 'reactivity'];
@@ -1532,25 +1533,26 @@
                     
                     fuelResultIds.forEach((id, index) => {
                         const value = document.getElementById(id).textContent;
-                        content += `  ${fuelResultLabels[index]} ${value}\n`;
+                        content += "  " + fuelResultLabels[index] + " " + value + "\n";
                     });
                     
                     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `tvs_calculation_${new Date().toISOString().slice(0,10)}.txt`;
+                    a.download = "tvs_calculation_" + new Date().toISOString().slice(0,10) + ".txt";
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
                     
                 } catch (error) {
-                    alert(`Ошибка при экспорте: ${error.message}`);
+                    alert("Ошибка при экспорте: " + error.message);
                 }
             }
         }
 
+        // Класс для топологического анализа
         class TopologyAnalyzer {
             constructor() {
                 this.isCalculating = false;
@@ -1560,6 +1562,15 @@
                 this.canvas = null;
                 this.ctx = null;
                 this.selectedPoint = null;
+                
+                // Three.js переменные
+                this.scene = null;
+                this.camera = null;
+                this.renderer = null;
+                this.points = [];
+                this.controls = null;
+                this.axesHelper = null;
+                this.gridHelper = null;
             }
 
             calculateTopology() {
@@ -1625,13 +1636,14 @@
                     }
 
                     this.showProgress(true);
+                    document.getElementById('stop-btn').style.display = 'inline-flex';
                     this.isCalculating = true;
 
                     const fixedParams = this.getFixedParameters();
                     this.startCalculationWorker(gridParams, criticalParams, fixedParams);
 
                 } catch (error) {
-                    alert(`Ошибка при запуске расчета: ${error.message}`);
+                    alert("Ошибка при запуске расчета: " + error.message);
                     this.isCalculating = false;
                     this.showProgress(false);
                 }
@@ -1640,26 +1652,26 @@
             validateInputs(gridParams, criticalParams) {
                 for (const param of ['D', 'Q', 'H']) {
                     if (gridParams[param].min >= gridParams[param].max) {
-                        alert(`Минимальное значение ${param} должно быть меньше максимального`);
+                        alert("Минимальное значение " + param + " должно быть меньше максимального");
                         return false;
                     }
                     if (gridParams[param].step <= 0) {
-                        alert(`Шаг для ${param} должен быть положительным`);
+                        alert("Шаг для " + param + " должен быть положительным");
                         return false;
                     }
                 }
 
                 for (const [name, ranges] of Object.entries(criticalParams)) {
                     if (ranges.min >= ranges.max) {
-                        alert(`Для ${name}: допустимый минимум должен быть меньше максимума`);
+                        alert("Для " + name + ": допустимый минимум должен быть меньше максимума");
                         return false;
                     }
                     if (ranges.idealMin < ranges.min || ranges.idealMax > ranges.max) {
-                        alert(`Для ${name}: идеальный диапазон должен быть внутри допустимого`);
+                        alert("Для " + name + ": идеальный диапазон должен быть внутри допустимого");
                         return false;
                     }
                     if (ranges.idealMin >= ranges.idealMax) {
-                        alert(`Для ${name}: идеальный минимум должен быть меньше идеального максимума`);
+                        alert("Для " + name + ": идеальный минимум должен быть меньше идеального максимума");
                         return false;
                     }
                 }
@@ -1670,7 +1682,7 @@
                 const totalPoints = D_points * Q_points * H_points;
 
                 if (totalPoints > 2500000) {
-                    const proceed = confirm(`Будет рассчитано ${totalPoints.toLocaleString()} точек (больше 2.5 млн). Это может занять много времени. Продолжить?`);
+                    const proceed = confirm("Будет рассчитано " + totalPoints.toLocaleString() + " точек (больше 2.5 млн). Это может занять много времени. Продолжить?");
                     if (!proceed) return false;
                 }
 
@@ -1703,128 +1715,147 @@
             }
 
             startCalculationWorker(gridParams, criticalParams, fixedParams) {
-                const workerCode = `
-                    self.onmessage = function(e) {
-                        const { gridParams, criticalParams, fixedParams } = e.data;
-                        
-                        const results = [];
-                        const D_values = [];
-                        const Q_values = [];
-                        const H_values = [];
-                        
-                        for (let D = gridParams.D.min; D <= gridParams.D.max; D += gridParams.D.step) {
-                            D_values.push(D);
-                        }
-                        for (let Q = gridParams.Q.min; Q <= gridParams.Q.max; Q += gridParams.Q.step) {
-                            Q_values.push(Q);
-                        }
-                        for (let H = gridParams.H.min; H <= gridParams.H.max; H += gridParams.H.step) {
-                            H_values.push(H);
-                        }
-                        
-                        const totalPoints = D_values.length * Q_values.length * H_values.length;
-                        let processed = 0;
-                        
-                        for (let i = 0; i < D_values.length; i++) {
-                            const D = D_values[i];
-                            
-                            for (let j = 0; j < Q_values.length; j++) {
-                                const Q = Q_values[j];
-                                
-                                for (let k = 0; k < H_values.length; k++) {
-                                    const H = H_values[k];
-                                    
-                                    const a_val = fixedParams.a;
-                                    const R_EY = (2 * a_val) / Math.sqrt(3);
-                                    const S_kluch = R_EY * (1 + 1.5 * fixedParams.N_rad) + 2 * fixedParams.delta_u;
-                                    const f_EY = (6 * Math.pow((a_val/Math.sqrt(3))*(1 + 1.5*fixedParams.N_rad) + fixedParams.delta_u + fixedParams.delta_a/2, 2)) / Math.sqrt(3);
-                                    
-                                    const N_TVS = 0.85 * ((Math.PI * Math.pow(D, 2)) / (4 * f_EY));
-                                    
-                                    const f_prok = f_EY - fixedParams.n_tvel * (Math.PI * Math.pow(fixedParams.d_tvel, 2))/4 - (6 * S_kluch / Math.sqrt(3)) * (fixedParams.delta_a/2);
-                                    const Pi_TVS = (6 * (2*S_kluch - 2*fixedParams.delta_u)) / Math.sqrt(3) + fixedParams.n_tvel * Math.PI * fixedParams.d_tvel;
-                                    const d_r = (4 * f_prok) / Pi_TVS;
-                                    const x = a_val / fixedParams.d_tvel;
-                                    
-                                    const Q_az = fixedParams.f_az * Q;
-                                    const Q_pr = fixedParams.f_pr * Q;
-                                    
-                                    const G_p = (Q_az + Q_pr) * 1e6 / (fixedParams.Cp * (fixedParams.t_out - fixedParams.t_in));
-                                    
-                                    const w_az = G_p / (f_prok * 1e-4 * N_TVS * fixedParams.rho_Na);
-                                    
-                                    const Pe_az = w_az * d_r * 1e-2 / fixedParams.a_Na;
-                                    
-                                    let Nu_az;
-                                    try {
-                                        Nu_az = 24.151 * Math.log10(-8.12 + 12.76*x - 3.65*Math.pow(x, 2)) + 
-                                                0.0174*(1-Math.exp(-6*(x-1)))*Math.pow(Pe_az-200, 0.9);
-                                        if (isNaN(Nu_az) || !isFinite(Nu_az)) Nu_az = 0;
-                                    } catch {
-                                        Nu_az = 0;
-                                    }
-                                    
-                                    const H_az = H + 2 * fixedParams.delta_eff;
-                                    const k_z_az = (Math.PI * H / (2 * H_az)) / Math.sin(Math.PI * H / (2 * H_az));
-                                    
-                                    const ql0_az = (Q_az + Q_pr) * 1e6 * k_z_az / (H * N_TVS * fixedParams.n_tvel);
-                                    
-                                    const criticalValues = { N_TVS, Nu_az, ql0_az, G_p, w_az };
-                                    const classification = classifyPoint(criticalValues, criticalParams);
-                                    
-                                    results.push({
-                                        D, Q, H,
-                                        N_TVS, Nu_az, ql0_az, G_p, w_az,
-                                        classification
-                                    });
-                                    
-                                    processed++;
-                                    
-                                    if (processed % 1000 === 0) {
-                                        self.postMessage({
-                                            type: 'progress',
-                                            progress: (processed / totalPoints) * 100
-                                        });
-                                    }
-                                }
-                            }
-                        }
-                        
-                        self.postMessage({
-                            type: 'complete',
-                            results,
-                            D_values,
-                            Q_values,
-                            H_values
-                        });
-                    };
-                    
-                    function classifyPoint(values, criticalParams) {
-                        let outOfBounds = false;
-                        let inIdeal = 0;
-                        
-                        for (const [param, value] of Object.entries(values)) {
-                            const ranges = criticalParams[param];
-                            
-                            if (value < ranges.min || value > ranges.max) {
-                                outOfBounds = true;
-                                break;
-                            }
-                            
-                            if (value >= ranges.idealMin && value <= ranges.idealMax) {
-                                inIdeal++;
-                            }
-                        }
-                        
-                        if (outOfBounds) {
-                            return -1;
-                        } else if (inIdeal >= 3) {
-                            return 1;
-                        } else {
-                            return 0;
-                        }
-                    }
-                `;
+                const workerCode = 
+                    'self.onmessage = function(e) {' +
+                    '    const { gridParams, criticalParams, fixedParams } = e.data;' +
+                    '    ' +
+                    '    const results = [];' +
+                    '    const D_values = [];' +
+                    '    const Q_values = [];' +
+                    '    const H_values = [];' +
+                    '    ' +
+                    '    for (let D = gridParams.D.min; D <= gridParams.D.max; D += gridParams.D.step) {' +
+                    '        D_values.push(D);' +
+                    '    }' +
+                    '    for (let Q = gridParams.Q.min; Q <= gridParams.Q.max; Q += gridParams.Q.step) {' +
+                    '        Q_values.push(Q);' +
+                    '    }' +
+                    '    for (let H = gridParams.H.min; H <= gridParams.H.max; H += gridParams.H.step) {' +
+                    '        H_values.push(H);' +
+                    '    }' +
+                    '    ' +
+                    '    const totalPoints = D_values.length * Q_values.length * H_values.length;' +
+                    '    let processed = 0;' +
+                    '    ' +
+                    '    for (let i = 0; i < D_values.length; i++) {' +
+                    '        const D = D_values[i];' +
+                    '        ' +
+                    '        for (let j = 0; j < Q_values.length; j++) {' +
+                    '            const Q = Q_values[j];' +
+                    '            ' +
+                    '            for (let k = 0; k < H_values.length; k++) {' +
+                    '                const H = H_values[k];' +
+                    '                ' +
+                    '                const a_val = fixedParams.a;' +
+                    '                const N_rad_val = fixedParams.N_rad;' +
+                    '                const delta_u_val = fixedParams.delta_u;' +
+                    '                const delta_a_val = fixedParams.delta_a;' +
+                    '                const n_tvel_val = fixedParams.n_tvel;' +
+                    '                const d_tvel_val = fixedParams.d_tvel;' +
+                    '                ' +
+                    '                const R_EY = (2 * a_val) / Math.sqrt(3);' +
+                    '                const S_kluch = R_EY * (1 + 1.5 * N_rad_val) + 2 * delta_u_val;' +
+                    '                const f_EY = (6 * Math.pow((a_val/Math.sqrt(3))*(1 + 1.5*N_rad_val) + delta_u_val + delta_a_val/2, 2)) / Math.sqrt(3);' +
+                    '                const N_TVS = 0.85 * ((Math.PI * Math.pow(D, 2)) / (4 * f_EY));' +
+                    '                const f_prok = f_EY - n_tvel_val * (Math.PI * Math.pow(d_tvel_val, 2))/4 - (6 * S_kluch / Math.sqrt(3)) * (delta_a_val/2);' +
+                    '                const Pi_TVS = (6 * (2*S_kluch - 2*delta_u_val)) / Math.sqrt(3) + n_tvel_val * Math.PI * d_tvel_val;' +
+                    '                const d_r = (4 * f_prok) / Pi_TVS;' +
+                    '                const x = a_val / d_tvel_val;' +
+                    '                const Pi_tvel = Math.PI * d_tvel_val;' +
+                    '                ' +
+                    '                const Q_az = fixedParams.f_az * Q;' +
+                    '                const Q_pr = fixedParams.f_pr * Q;' +
+                    '                const Q_be = fixedParams.f_be * Q;' +
+                    '                const G_p = (Q_az + Q_pr) * 1e6 / (fixedParams.Cp * (fixedParams.t_out - fixedParams.t_in));' +
+                    '                const G_tvel = G_p / (n_tvel_val * N_TVS);' +
+                    '                const G_be = Q_be * 1e6 / (fixedParams.Cp * (fixedParams.t_out - fixedParams.t_in));' +
+                    '                const G_tvel_be = G_be / (n_tvel_val * 1);' +
+                    '                const w_az = G_p / (f_prok * 1e-4 * N_TVS * fixedParams.rho_Na);' +
+                    '                const w_be = G_be / (f_prok * 1e-4 * 1 * fixedParams.rho_Na);' +
+                    '                const Pe_az = w_az * d_r * 1e-2 / fixedParams.a_Na;' +
+                    '                const Pe_be = w_be * d_r * 1e-2 / fixedParams.a_Na;' +
+                    '                ' +
+                    '                let Nu_az;' +
+                    '                try {' +
+                    '                    Nu_az = 24.151 * Math.log10(-8.12 + 12.76*x - 3.65*Math.pow(x, 2)) + ' +
+                    '                            0.0174*(1-Math.exp(-6*(x-1)))*Math.pow(Pe_az-200, 0.9);' +
+                    '                    if (isNaN(Nu_az) || !isFinite(Nu_az)) Nu_az = 0;' +
+                    '                } catch {' +
+                    '                    Nu_az = 0;' +
+                    '                }' +
+                    '                ' +
+                    '                let Nu_be;' +
+                    '                try {' +
+                    '                    Nu_be = 24.151 * Math.log10(-8.12 + 12.76*x - 3.65*Math.pow(x, 2));' +
+                    '                    if (isNaN(Nu_be) || !isFinite(Nu_be)) Nu_be = 0;' +
+                    '                } catch {' +
+                    '                    Nu_be = 0;' +
+                    '                }' +
+                    '                ' +
+                    '                const H_az = H + 2 * fixedParams.delta_eff;' +
+                    '                const H_bz = H + 2 * fixedParams.delta_eff;' +
+                    '                const k_z_az = (Math.PI * H / (2 * H_az)) / Math.sin(Math.PI * H / (2 * H_az));' +
+                    '                const k_z_bz = (Math.PI * H / (2 * H_bz)) / Math.sin(Math.PI * H / (2 * H_bz));' +
+                    '                const ql0_az = (Q_az + Q_pr) * 1e6 * k_z_az / (H * N_TVS * n_tvel_val);' +
+                    '                const ql0_bz = Q_be * 1e6 * k_z_bz / (H * 1 * n_tvel_val);' +
+                    '                ' +
+                    '                const criticalValues = { N_TVS, Nu_az, ql0_az, G_p, w_az };' +
+                    '                const classification = classifyPoint(criticalValues, criticalParams);' +
+                    '                ' +
+                    '                results.push({' +
+                    '                    D, Q, H,' +
+                    '                    R_EY, S_kluch, f_EY, N_TVS, f_prok, Pi_TVS, d_r, x, Pi_tvel,' +
+                    '                    Q_az, Q_pr, Q_be, G_p, G_tvel, w_az, Pe_az, Nu_az,' +
+                    '                    G_be, G_tvel_be, w_be, Pe_be, Nu_be, k_z_az, k_z_bz, ql0_az, ql0_bz,' +
+                    '                    classification' +
+                    '                });' +
+                    '                ' +
+                    '                processed++;' +
+                    '                ' +
+                    '                if (processed % 1000 === 0) {' +
+                    '                    self.postMessage({' +
+                    '                        type: "progress",' +
+                    '                        progress: (processed / totalPoints) * 100' +
+                    '                    });' +
+                    '                }' +
+                    '            }' +
+                    '        }' +
+                    '    }' +
+                    '    ' +
+                    '    self.postMessage({' +
+                    '        type: "complete",' +
+                    '        results,' +
+                    '        D_values,' +
+                    '        Q_values,' +
+                    '        H_values' +
+                    '    });' +
+                    '};' +
+                    '' +
+                    'function classifyPoint(values, criticalParams) {' +
+                    '    let outOfBounds = false;' +
+                    '    let inIdeal = 0;' +
+                    '    ' +
+                    '    for (const [param, value] of Object.entries(values)) {' +
+                    '        const ranges = criticalParams[param];' +
+                    '        ' +
+                    '        if (value < ranges.min || value > ranges.max) {' +
+                    '            outOfBounds = true;' +
+                    '            break;' +
+                    '        }' +
+                    '        ' +
+                    '        if (value >= ranges.idealMin && value <= ranges.idealMax) {' +
+                    '            inIdeal++;' +
+                    '        }' +
+                    '    }' +
+                    '    ' +
+                    '    if (outOfBounds) {' +
+                    '        return -1;' +
+                    '    } else if (inIdeal >= 3) {' +
+                    '        return 1;' +
+                    '    } else {' +
+                    '        return 0;' +
+                    '    }' +
+                    '}';
 
                 const blob = new Blob([workerCode], { type: 'application/javascript' });
                 this.calculationWorker = new Worker(URL.createObjectURL(blob));
@@ -1848,203 +1879,414 @@
                 this.results = data.results;
                 this.isCalculating = false;
                 this.showProgress(false);
+                document.getElementById('stop-btn').style.display = 'none';
+                document.getElementById('heatmap-btn').style.display = 'inline-flex';
                 
-                this.buildHeatmap(data.D_values, data.H_values);
+                // Показываем 3D визуализацию
+                document.getElementById('three-viz-section').style.display = 'block';
+                this.init3DVisualization();
+                this.addPointsTo3DScene();
+                
+                // Показываем таблицу результатов
                 this.showResultsTable();
                 
-                alert(`Расчет завершен! Обработано ${this.results.length.toLocaleString()} точек.`);
+                alert("Расчет завершен! Обработано " + this.results.length.toLocaleString() + " точек.");
             }
 
-            buildHeatmap(D_values, H_values) {
-                if (!this.canvas) {
-                    this.canvas = document.getElementById('topology-heatmap');
-                    this.ctx = this.canvas.getContext('2d');
+            init3DVisualization() {
+                const container = document.getElementById('three-container');
+                
+                // Создаем сцену
+                this.scene = new THREE.Scene();
+                this.scene.background = new THREE.Color(0x0a0e17);
+                
+                // Создаем камеру
+                this.camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+                this.camera.position.set(5, 5, 5);
+                
+                // Создаем рендерер
+                this.renderer = new THREE.WebGLRenderer({ antialias: true });
+                this.renderer.setSize(container.clientWidth, container.clientHeight);
+                container.innerHTML = '';
+                container.appendChild(this.renderer.domElement);
+                
+                // Добавляем освещение
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+                this.scene.add(ambientLight);
+                
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(10, 10, 10);
+                this.scene.add(directionalLight);
+                
+                // Добавляем оси
+                this.axesHelper = new THREE.AxesHelper(3);
+                this.scene.add(this.axesHelper);
+                
+                // Добавляем сетку
+                this.gridHelper = new THREE.GridHelper(10, 10);
+                this.scene.add(this.gridHelper);
+                
+                // Добавляем подписи осей
+                this.addAxisLabels();
+                
+                // Обработка событий мыши
+                this.setupMouseControls();
+                
+                // Анимация
+                const animate = () => {
+                    requestAnimationFrame(animate);
+                    this.renderer.render(this.scene, this.camera);
+                };
+                animate();
+            }
+
+            addAxisLabels() {
+                // Упрощенные подписи осей
+                const createTextSprite = function(message) {
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.width = 256;
+                    canvas.height = 128;
+                    
+                    context.fillStyle = 'rgba(0, 0, 0, 0)';
+                    context.fillRect(0, 0, canvas.width, canvas.height);
+                    
+                    context.font = '24px Arial';
+                    context.fillStyle = 'white';
+                    context.textAlign = 'center';
+                    context.fillText(message, canvas.width / 2, canvas.height / 2);
+                    
+                    const texture = new THREE.CanvasTexture(canvas);
+                    const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+                    const sprite = new THREE.Sprite(spriteMaterial);
+                    sprite.scale.set(2, 1, 1);
+                    return sprite;
+                };
+                
+                // Ось X - Диаметр
+                const xLabel = createTextSprite('Диаметр (D)');
+                xLabel.position.set(4, 0, 0);
+                this.scene.add(xLabel);
+                
+                // Ось Y - Мощность
+                const yLabel = createTextSprite('Мощность (Q)');
+                yLabel.position.set(0, 4, 0);
+                this.scene.add(yLabel);
+                
+                // Ось Z - Высота
+                const zLabel = createTextSprite('Высота (H)');
+                zLabel.position.set(0, 0, 4);
+                this.scene.add(zLabel);
+            }
+
+            setupMouseControls() {
+                let isMouseDown = false;
+                let previousMousePosition = { x: 0, y: 0 };
+                
+                this.renderer.domElement.addEventListener('mousedown', (e) => {
+                    isMouseDown = true;
+                    previousMousePosition = { x: e.clientX, y: e.clientY };
+                });
+                
+                this.renderer.domElement.addEventListener('mouseup', () => {
+                    isMouseDown = false;
+                });
+                
+                this.renderer.domElement.addEventListener('mousemove', (e) => {
+                    if (!isMouseDown) return;
+                    
+                    const deltaX = e.clientX - previousMousePosition.x;
+                    const deltaY = e.clientY - previousMousePosition.y;
+                    
+                    this.camera.position.x -= deltaX * 0.01;
+                    this.camera.position.y += deltaY * 0.01;
+                    
+                    this.camera.lookAt(0, 0, 0);
+                    
+                    previousMousePosition = { x: e.clientX, y: e.clientY };
+                });
+                
+                this.renderer.domElement.addEventListener('wheel', (e) => {
+                    e.preventDefault();
+                    this.camera.position.multiplyScalar(1 + e.deltaY * 0.001);
+                });
+            }
+
+            addPointsTo3DScene() {
+                // Удаляем старые точки
+                if (this.points && this.points.length > 0) {
+                    this.points.forEach(point => this.scene.remove(point));
+                }
+                this.points = [];
+                
+                // Находим диапазоны для нормализации
+                const D_values = this.results.map(r => r.D);
+                const Q_values = this.results.map(r => r.Q);
+                const H_values = this.results.map(r => r.H);
+                
+                const D_min = Math.min(...D_values);
+                const D_max = Math.max(...D_values);
+                const Q_min = Math.min(...Q_values);
+                const Q_max = Math.max(...Q_values);
+                const H_min = Math.min(...H_values);
+                const H_max = Math.max(...H_values);
+                
+                const scale = 4; // Масштаб для визуализации
+                
+                // Создаем точки
+                const geometry = new THREE.SphereGeometry(0.05, 8, 8);
+                
+                // Ограничиваем количество точек для производительности (макс 10000)
+                const displayResults = this.results.length > 10000 ? 
+                    this.results.filter((_, index) => index % Math.ceil(this.results.length / 10000) === 0) :
+                    this.results;
+                
+                displayResults.forEach(result => {
+                    let material;
+                    if (result.classification === -1) {
+                        material = new THREE.MeshBasicMaterial({ color: 0xff4444 });
+                    } else if (result.classification === 0) {
+                        material = new THREE.MeshBasicMaterial({ color: 0xffaa00 });
+                    } else {
+                        material = new THREE.MeshBasicMaterial({ color: 0x44ff44 });
+                    }
+                    
+                    const sphere = new THREE.Mesh(geometry, material);
+                    
+                    // Нормализуем координаты
+                    const x = ((result.D - D_min) / (D_max - D_min) - 0.5) * scale;
+                    const y = ((result.Q - Q_min) / (Q_max - Q_min) - 0.5) * scale;
+                    const z = ((result.H - H_min) / (H_max - H_min) - 0.5) * scale;
+                    
+                    sphere.position.set(x, y, z);
+                    sphere.userData = result;
+                    
+                    this.scene.add(sphere);
+                    this.points.push(sphere);
+                });
+                
+                // Обновляем рендер
+                this.renderer.render(this.scene, this.camera);
+            }
+
+            buildHeatmap() {
+                if (!this.results || this.results.length === 0) {
+                    alert("Сначала выполните расчет 3D куба");
+                    return;
                 }
                 
-                this.canvas.width = this.canvas.parentElement.clientWidth;
-                this.canvas.height = this.canvas.parentElement.clientHeight;
+                // Собираем данные для тепловой карты
+                const D_values = [...new Set(this.results.map(r => r.D))].sort((a, b) => a - b);
+                const H_values = [...new Set(this.results.map(r => r.H))].sort((a, b) => a - b);
                 
-                const heatmapData = {};
+                // Создаем матрицу S(D,H)
+                const heatmapMatrix = [];
                 const minMax = { min: Infinity, max: -Infinity };
                 
-                for (const result of this.results) {
-                    const key = result.D + '_' + result.H;
-                    if (!heatmapData[key]) {
-                        heatmapData[key] = {
-                            D: result.D,
-                            H: result.H,
-                            sum: 0,
-                            count: 0
-                        };
+                for (let i = 0; i < D_values.length; i++) {
+                    heatmapMatrix[i] = [];
+                    for (let j = 0; j < H_values.length; j++) {
+                        // Находим все точки с данными D и H
+                        const points = this.results.filter(r => 
+                            Math.abs(r.D - D_values[i]) < 0.001 && 
+                            Math.abs(r.H - H_values[j]) < 0.001
+                        );
+                        
+                        if (points.length > 0) {
+                            // Суммируем оценки по Q
+                            const sum = points.reduce((acc, point) => acc + point.classification, 0);
+                            heatmapMatrix[i][j] = sum;
+                            minMax.min = Math.min(minMax.min, sum);
+                            minMax.max = Math.max(minMax.max, sum);
+                        } else {
+                            heatmapMatrix[i][j] = 0;
+                        }
                     }
-                    heatmapData[key].sum += result.classification;
-                    heatmapData[key].count++;
-                }
-                
-                const heatmapArray = Object.values(heatmapData);
-                for (const item of heatmapArray) {
-                    item.average = item.sum / item.count;
-                    minMax.min = Math.min(minMax.min, item.average);
-                    minMax.max = Math.max(minMax.max, item.average);
                 }
                 
                 this.heatmapData = {
-                    points: heatmapArray,
+                    matrix: heatmapMatrix,
                     D_values: D_values,
                     H_values: H_values,
                     minMax: minMax
                 };
                 
+                // Показываем тепловую карту
+                this.showHeatmap();
+            }
+
+            showHeatmap() {
+                document.getElementById('heatmap-section').style.display = 'block';
+                document.getElementById('three-viz-section').style.display = 'none';
+                
                 this.drawHeatmap();
-                this.addHeatmapInteractivity();
             }
 
             drawHeatmap() {
-                const ctx = this.ctx;
-                const canvas = this.canvas;
-                const data = this.heatmapData;
+                const canvas = document.getElementById('heatmap-canvas');
+                const ctx = canvas.getContext('2d');
                 
+                const container = document.getElementById('heatmap-container');
+                canvas.width = container.clientWidth;
+                canvas.height = container.clientHeight;
+                
+                const data = this.heatmapData;
                 if (!data) return;
                 
+                const cellWidth = canvas.width / data.D_values.length;
+                const cellHeight = canvas.height / data.H_values.length;
+                
+                // Очищаем canvas
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 
-                const D_count = data.D_values.length;
-                const H_count = data.H_values.length;
-                const cellWidth = canvas.width / D_count;
-                const cellHeight = canvas.height / H_count;
-                
-                for (const point of data.points) {
-                    const D_index = data.D_values.indexOf(point.D);
-                    const H_index = data.H_values.indexOf(point.H);
-                    
-                    if (D_index === -1 || H_index === -1) continue;
-                    
-                    const x = D_index * cellWidth;
-                    const y = (H_count - H_index - 1) * cellHeight;
-                    
-                    const normalized = (point.average - data.minMax.min) / (data.minMax.max - data.minMax.min);
-                    const color = this.getColorForValue(normalized);
-                    
-                    ctx.fillStyle = color;
-                    ctx.fillRect(x, y, cellWidth, cellHeight);
-                    
-                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-                    ctx.strokeRect(x, y, cellWidth, cellHeight);
+                // Рисуем ячейки
+                for (let i = 0; i < data.D_values.length; i++) {
+                    for (let j = 0; j < data.H_values.length; j++) {
+                        const value = data.matrix[i][j];
+                        const normalized = (value - data.minMax.min) / (data.minMax.max - data.minMax.min);
+                        const color = this.getColorForValue(normalized);
+                        
+                        ctx.fillStyle = color;
+                        ctx.fillRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
+                        
+                        // Границы
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                        ctx.strokeRect(i * cellWidth, j * cellHeight, cellWidth, cellHeight);
+                    }
                 }
+                
+                // Добавляем обработчики событий
+                this.addHeatmapInteractivity(canvas, ctx, cellWidth, cellHeight);
             }
 
             getColorForValue(value) {
+                // value от 0 до 1
                 if (value < 0.5) {
                     const t = value * 2;
                     const r = Math.floor(139 + (255 - 139) * t);
                     const g = Math.floor(0 + 215 * t);
-                    const b = 0;
-                    return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                    return 'rgb(' + r + ', ' + g + ', 0)';
                 } else {
                     const t = (value - 0.5) * 2;
                     const r = Math.floor(255 - 255 * t);
                     const g = Math.floor(215 + (40 - 215) * t);
-                    const b = 0;
-                    return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                    return 'rgb(' + r + ', ' + g + ', 0)';
                 }
             }
 
-            addHeatmapInteractivity() {
-                const canvas = this.canvas;
+            addHeatmapInteractivity(canvas, ctx, cellWidth, cellHeight) {
                 const tooltip = document.getElementById('heatmap-tooltip');
+                const data = this.heatmapData;
                 
                 canvas.addEventListener('mousemove', (e) => {
-                    if (!this.heatmapData) return;
-                    
                     const rect = canvas.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
                     
-                    const D_count = this.heatmapData.D_values.length;
-                    const H_count = this.heatmapData.H_values.length;
-                    const cellWidth = canvas.width / D_count;
-                    const cellHeight = canvas.height / H_count;
-                    
                     const D_index = Math.floor(x / cellWidth);
-                    const H_index = H_count - 1 - Math.floor(y / cellHeight);
+                    const H_index = Math.floor(y / cellHeight);
                     
-                    if (D_index >= 0 && D_index < D_count && H_index >= 0 && H_index < H_count) {
-                        const D = this.heatmapData.D_values[D_index];
-                        const H = this.heatmapData.H_values[H_index];
+                    if (D_index >= 0 && D_index < data.D_values.length && 
+                        H_index >= 0 && H_index < data.H_values.length) {
                         
-                        const key = D + '_' + H;
-                        const point = this.heatmapData.points.find(p => p.D === D && p.H === H);
+                        const D = data.D_values[D_index];
+                        const H = data.H_values[H_index];
+                        const value = data.matrix[D_index][H_index];
                         
-                        if (point) {
-                            tooltip.style.display = 'block';
-                            tooltip.style.left = (e.clientX + 10) + 'px';
-                            tooltip.style.top = (e.clientY + 10) + 'px';
-                            tooltip.innerHTML = '<div><strong>D:</strong> ' + D.toFixed(1) + ' см</div>' +
-                                              '<div><strong>H:</strong> ' + H.toFixed(2) + ' м</div>' +
-                                              '<div><strong>S(D,H):</strong> ' + point.average.toFixed(2) + '</div>' +
-                                              '<div><strong>Точек по Q:</strong> ' + point.count + '</div>';
-                        }
+                        tooltip.style.display = 'block';
+                        tooltip.style.left = (e.clientX + 10) + 'px';
+                        tooltip.style.top = (e.clientY + 10) + 'px';
+                        tooltip.innerHTML = 
+                            '<div><strong>Диаметр:</strong> ' + D.toFixed(1) + ' см</div>' +
+                            '<div><strong>Высота:</strong> ' + H.toFixed(2) + ' м</div>' +
+                            '<div><strong>S(D,H):</strong> ' + value.toFixed(1) + '</div>';
                     } else {
                         tooltip.style.display = 'none';
                     }
                 });
                 
                 canvas.addEventListener('click', (e) => {
-                    if (!this.heatmapData) return;
-                    
                     const rect = canvas.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
                     
-                    const D_count = this.heatmapData.D_values.length;
-                    const H_count = this.heatmapData.H_values.length;
-                    const cellWidth = canvas.width / D_count;
-                    const cellHeight = canvas.height / H_count;
-                    
                     const D_index = Math.floor(x / cellWidth);
-                    const H_index = H_count - 1 - Math.floor(y / cellHeight);
+                    const H_index = Math.floor(y / cellHeight);
                     
-                    if (D_index >= 0 && D_index < D_count && H_index >= 0 && H_index < H_count) {
-                        const D = this.heatmapData.D_values[D_index];
-                        const H = this.heatmapData.H_values[H_index];
+                    if (D_index >= 0 && D_index < data.D_values.length && 
+                        H_index >= 0 && H_index < data.H_values.length) {
                         
-                        const columnPoints = this.results.filter(r => 
-                            Math.abs(r.D - D) < 0.001 && Math.abs(r.H - H) < 0.001
+                        const D = data.D_values[D_index];
+                        const H = data.H_values[H_index];
+                        
+                        // Находим точку с максимальной оценкой
+                        const points = this.results.filter(r => 
+                            Math.abs(r.D - D) < 0.001 && 
+                            Math.abs(r.H - H) < 0.001
                         );
                         
-                        if (columnPoints.length > 0) {
-                            this.showPointDetails(D, H, columnPoints);
+                        if (points.length > 0) {
+                            const bestPoint = points.reduce((prev, current) => 
+                                prev.classification > current.classification ? prev : current
+                            );
+                            this.showPointDetails(bestPoint);
                         }
                     }
                 });
             }
 
-            showPointDetails(D, H, columnPoints) {
-                this.selectedPoint = { D, H, columnPoints };
+            showPointDetails(point) {
+                const container = document.getElementById('point-details-content');
+                container.innerHTML = '';
                 
-                const bestPoint = columnPoints.reduce((prev, current) => 
-                    (prev.classification > current.classification) ? prev : current
-                );
+                const params = [
+                    { label: 'Диаметр активной зоны', value: point.D.toFixed(1), unit: 'см' },
+                    { label: 'Тепловая мощность', value: point.Q.toFixed(1), unit: 'МВт' },
+                    { label: 'Высота активной зоны', value: point.H.toFixed(2), unit: 'м' },
+                    { label: 'Количество ТВС', value: point.N_TVS.toFixed(0), unit: 'шт' },
+                    { label: 'Число Нуссельта (активная зона)', value: point.Nu_az.toFixed(2), unit: '' },
+                    { label: 'Погонная мощность (активная зона)', value: point.ql0_az.toFixed(0), unit: 'Вт/м' },
+                    { label: 'Расход ТН через активную зону', value: point.G_p.toFixed(2), unit: 'кг/с' },
+                    { label: 'Средняя скорость ТН в активной зоне', value: point.w_az.toFixed(2), unit: 'м/с' },
+                    { label: 'Радиус ЭЯ', value: point.R_EY.toFixed(2), unit: 'см' },
+                    { label: 'Размер ТВС под ключ', value: point.S_kluch.toFixed(2), unit: 'см' },
+                    { label: 'Площадь ЭЯ', value: point.f_EY.toFixed(2), unit: 'см²' },
+                    { label: 'Проходное сечение ТВС', value: point.f_prok.toFixed(2), unit: 'см²' },
+                    { label: 'Гидравлический диаметр ТВС', value: point.d_r.toFixed(2), unit: 'см' }
+                ];
                 
-                document.getElementById('selected-coords').textContent = 
-                    'D=' + D.toFixed(1) + ' см, H=' + H.toFixed(2) + ' м, Q=' + bestPoint.Q.toFixed(1) + ' МВт';
+                let html = '<div class="results-grid">';
+                params.forEach(param => {
+                    html += 
+                        '<div class="result-item">' +
+                        '<div class="result-label">' + param.label + '</div>' +
+                        '<div class="result-value">' + param.value + ' ' + param.unit + '</div>' +
+                        '</div>';
+                });
+                html += '</div>';
                 
-                const scoreColors = {
-                    '-1': '<span style="color: #ff4444">-1 (красная)</span>',
-                    '0': '<span style="color: #ffaa00">0 (желтая)</span>',
-                    '1': '<span style="color: #44ff44">+1 (зеленая)</span>'
-                };
+                // Добавляем оценку
+                let ratingColor, ratingText;
+                if (point.classification === -1) {
+                    ratingColor = '#ff4444';
+                    ratingText = 'Красная (недопустимые параметры)';
+                } else if (point.classification === 0) {
+                    ratingColor = '#ffaa00';
+                    ratingText = 'Желтая (допустимые, но не идеальные)';
+                } else {
+                    ratingColor = '#44ff44';
+                    ratingText = 'Зеленая (идеальные параметры)';
+                }
                 
-                document.getElementById('selected-score').innerHTML = 
-                    scoreColors[bestPoint.classification.toString()];
+                html += 
+                    '<div style="margin-top: 20px; padding: 15px; background: rgba(30, 41, 59, 0.6); border-radius: 6px;">' +
+                    '<div style="color: #a0aec0; margin-bottom: 5px;">Оценка конфигурации:</div>' +
+                    '<div style="color: ' + ratingColor + '; font-size: 18px; font-weight: 600;">' +
+                    '<i class="fas fa-circle"></i> ' + ratingText +
+                    '</div>' +
+                    '</div>';
                 
-                document.getElementById('selected-params').innerHTML = 
-                    'N_TVS: ' + bestPoint.N_TVS.toFixed(2) + '<br>' +
-                    'Nu_az: ' + bestPoint.Nu_az.toFixed(2) + '<br>' +
-                    'ql0_az: ' + bestPoint.ql0_az.toFixed(0) + ' Вт/м<br>' +
-                    'G_p: ' + bestPoint.G_p.toFixed(2) + ' кг/с<br>' +
-                    'w_az: ' + bestPoint.w_az.toFixed(2) + ' м/с';
-                
+                container.innerHTML = html;
                 document.getElementById('point-details').style.display = 'block';
             }
 
@@ -2052,37 +2294,40 @@
                 const tableBody = document.getElementById('topology-results-body');
                 tableBody.innerHTML = '';
                 
-                const displayResults = this.results.slice(0, 100);
+                // Показываем только первые 50 результатов
+                const displayResults = this.results.slice(0, 50);
                 
-                for (const result of displayResults) {
+                displayResults.forEach(result => {
                     const row = document.createElement('tr');
-                    row.innerHTML = '<td>' + result.D.toFixed(1) + '</td>' +
-                                  '<td>' + result.Q.toFixed(1) + '</td>' +
-                                  '<td>' + result.H.toFixed(2) + '</td>' +
-                                  '<td>' + result.N_TVS.toFixed(2) + '</td>' +
-                                  '<td>' + result.Nu_az.toFixed(2) + '</td>' +
-                                  '<td>' + result.ql0_az.toFixed(0) + '</td>' +
-                                  '<td>' + result.G_p.toFixed(2) + '</td>' +
-                                  '<td>' + result.w_az.toFixed(2) + '</td>' +
-                                  '<td>' + result.classification + '</td>';
                     
+                    let ratingColor;
                     if (result.classification === -1) {
-                        row.style.backgroundColor = 'rgba(255, 68, 68, 0.1)';
-                    } else if (result.classification === 1) {
-                        row.style.backgroundColor = 'rgba(68, 255, 68, 0.1)';
+                        ratingColor = '#ff4444';
+                    } else if (result.classification === 0) {
+                        ratingColor = '#ffaa00';
                     } else {
-                        row.style.backgroundColor = 'rgba(255, 170, 0, 0.1)';
+                        ratingColor = '#44ff44';
                     }
                     
+                    row.innerHTML = 
+                        '<td>' + result.D.toFixed(1) + '</td>' +
+                        '<td>' + result.Q.toFixed(1) + '</td>' +
+                        '<td>' + result.H.toFixed(2) + '</td>' +
+                        '<td>' + result.N_TVS.toFixed(0) + '</td>' +
+                        '<td>' + result.Nu_az.toFixed(2) + '</td>' +
+                        '<td>' + result.ql0_az.toFixed(0) + '</td>' +
+                        '<td>' + result.G_p.toFixed(2) + '</td>' +
+                        '<td>' + result.w_az.toFixed(2) + '</td>' +
+                        '<td style="color: ' + ratingColor + '; font-weight: bold;">' + result.classification + '</td>';
+                    
                     tableBody.appendChild(row);
-                }
+                });
                 
-                document.getElementById('topology-results-table').style.display = 'table';
+                document.getElementById('results-table-section').style.display = 'block';
             }
 
             showProgress(show) {
-                const progressBar = document.getElementById('topology-progress');
-                progressBar.style.display = show ? 'block' : 'none';
+                document.getElementById('topology-progress').style.display = show ? 'block' : 'none';
             }
 
             updateProgress(percent) {
@@ -2095,6 +2340,7 @@
                     this.calculationWorker.terminate();
                     this.isCalculating = false;
                     this.showProgress(false);
+                    document.getElementById('stop-btn').style.display = 'none';
                     alert("Расчет остановлен");
                 }
             }
@@ -2165,10 +2411,13 @@
                     content += "  w_az: " + document.getElementById('crit-w_az-min').value + "-" + document.getElementById('crit-w_az-max').value + " / " + document.getElementById('crit-w_az-ideal-min').value + "-" + document.getElementById('crit-w_az-ideal-max').value + "\n\n";
                     
                     content += "РЕЗУЛЬТАТЫ (первые 100 точек)\n";
-                    content += "D(см);Q(МВт);H(м);N_TVS;Nu_az;ql0_az(Вт/м);G_p(кг/с);w_az(м/с);Оценка\n";
+                    content += "Диаметр(см);Мощность(МВт);Высота(м);Кол-во_ТВС;Число_Нуссельта;Погонная_мощность(Вт/м);Расход_ТН(кг/с);Скорость_ТН(м/с);Оценка\n";
                     
                     this.results.slice(0, 100).forEach(result => {
-                        content += result.D.toFixed(1) + ";" + result.Q.toFixed(1) + ";" + result.H.toFixed(2) + ";" + result.N_TVS.toFixed(2) + ";" + result.Nu_az.toFixed(2) + ";" + result.ql0_az.toFixed(0) + ";" + result.G_p.toFixed(2) + ";" + result.w_az.toFixed(2) + ";" + result.classification + "\n";
+                        content += result.D.toFixed(1) + ";" + result.Q.toFixed(1) + ";" + result.H.toFixed(2) + ";" + 
+                                 result.N_TVS.toFixed(0) + ";" + result.Nu_az.toFixed(2) + ";" + 
+                                 result.ql0_az.toFixed(0) + ";" + result.G_p.toFixed(2) + ";" + 
+                                 result.w_az.toFixed(2) + ";" + result.classification + "\n";
                     });
                     
                     const redCount = this.results.filter(r => r.classification === -1).length;
@@ -2194,11 +2443,63 @@
                     alert("Ошибка при экспорте: " + error.message);
                 }
             }
+
+            resetCamera() {
+                if (this.camera) {
+                    this.camera.position.set(5, 5, 5);
+                    this.camera.lookAt(0, 0, 0);
+                }
+            }
+
+            toggleAxes() {
+                if (this.axesHelper) {
+                    this.axesHelper.visible = !this.axesHelper.visible;
+                }
+            }
+
+            toggleGrid() {
+                if (this.gridHelper) {
+                    this.gridHelper.visible = !this.gridHelper.visible;
+                }
+            }
+
+            exportCloud() {
+                if (this.results.length === 0) {
+                    alert("Нет данных для экспорта");
+                    return;
+                }
+                
+                let content = "X(D);Y(Q);Z(H);Classification\n";
+                this.results.forEach(point => {
+                    content += point.D.toFixed(2) + ";" + point.Q.toFixed(2) + ";" + point.H.toFixed(2) + ";" + point.classification + "\n";
+                });
+                
+                const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = "3d_cloud_" + new Date().toISOString().slice(0,10) + ".csv";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
         }
 
+        // Глобальные переменные
         let calculator;
         let topologyAnalyzer;
 
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            calculator = new TVSCalculator();
+            topologyAnalyzer = new TopologyAnalyzer();
+            
+            // Загружаем значения по умолчанию для топологии
+            loadDefaultsTopology();
+        });
+
+        // Функции для кнопок калькулятора
         function calculateGeometry() { calculator.calculateGeometry(); }
         function calculateThermal() { calculator.calculateThermal(); }
         function calculateFuel() { calculator.calculateFuel(); }
@@ -2208,37 +2509,16 @@
         function loadConfig() { calculator.loadConfig(); }
         function exportToTXT() { calculator.exportToTXT(); }
 
-        function calculateTopology() {
-            if (!topologyAnalyzer) {
-                topologyAnalyzer = new TopologyAnalyzer();
-            }
-            topologyAnalyzer.calculateTopology();
-        }
-
-        function stopCalculation() {
-            if (topologyAnalyzer) {
-                topologyAnalyzer.stopCalculation();
-            }
-        }
-
-        function loadDefaultsTopology() {
-            if (!topologyAnalyzer) {
-                topologyAnalyzer = new TopologyAnalyzer();
-            }
-            topologyAnalyzer.loadDefaults();
-        }
-
-        function exportTopologyData() {
-            if (topologyAnalyzer) {
-                topologyAnalyzer.exportTopologyData();
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            calculator = new TVSCalculator();
-            topologyAnalyzer = new TopologyAnalyzer();
-            loadDefaultsTopology();
-        });
+        // Функции для топологии
+        function calculateTopology() { topologyAnalyzer.calculateTopology(); }
+        function stopCalculation() { topologyAnalyzer.stopCalculation(); }
+        function showHeatmap() { topologyAnalyzer.buildHeatmap(); }
+        function loadDefaultsTopology() { topologyAnalyzer.loadDefaults(); }
+        function exportTopologyData() { topologyAnalyzer.exportTopologyData(); }
+        function resetCamera() { topologyAnalyzer.resetCamera(); }
+        function toggleAxes() { topologyAnalyzer.toggleAxes(); }
+        function toggleGrid() { topologyAnalyzer.toggleGrid(); }
+        function exportCloud() { topologyAnalyzer.exportCloud(); }
     </script>
 </body>
 </html>
