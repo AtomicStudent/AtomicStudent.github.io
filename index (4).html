@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Топологический анализ параметров ядерного реактора</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container-fluid p-3">
+        <h2 class="mb-3">Топологический анализ параметров ядерного реактора</h2>
+        
+        <!-- Вкладки -->
+        <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="geometry-tab" data-bs-toggle="tab" data-bs-target="#geometry" 
+                    type="button" role="tab">Геометрический расчет</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="thermal-tab" data-bs-toggle="tab" data-bs-target="#thermal" 
+                    type="button" role="tab">Тепловой расчет</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="topology-tab" data-bs-toggle="tab" data-bs-target="#topology" 
+                    type="button" role="tab">Топологический анализ</button>
+            </li>
+        </ul>
+
+        <div class="tab-content mt-3" id="mainTabsContent">
+            <!-- Геометрический расчет -->
+            <div class="tab-pane fade show active" id="geometry" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Исходные данные</div>
+                            <div class="card-body">
+                                <form id="geometryForm">
+                                    <div class="row g-2">
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Шаг решетки твэлов a, см</label>
+                                            <input type="number" step="0.01" class="form-control form-control-sm" id="geom_a" value="1.5">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Число рядов в ТВС N_rad</label>
+                                            <input type="number" class="form-control form-control-sm" id="geom_N_rad" value="3">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Толщина чехла ТВС δᵤ, см</label>
+                                            <input type="number" step="0.01" class="form-control form-control-sm" id="geom_delta_u" value="0.15">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Натриевый зазор δₐ, см</label>
+                                            <input type="number" step="0.01" class="form-control form-control-sm" id="geom_delta_a" value="0.5">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Диаметр активной зоны Dₐ, см</label>
+                                            <input type="number" step="0.1" class="form-control form-control-sm" id="geom_D_a" value="52">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Число твэлов в ТВС n_tvel</label>
+                                            <input type="number" class="form-control form-control-sm" id="geom_n_tvel" value="37">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="form-label">Диаметр твэла d_tvel, см</label>
+                                            <input type="number" step="0.01" class="form-control form-control-sm" id="geom_d_tvel" value="1.25">
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-primary btn-sm" id="calcGeometryBtn">Рассчитать</button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm" id="loadDefaultGeomBtn">По умолчанию</button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" id="saveConfigBtn">Сохранить конфиг</button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm" id="loadConfigBtn">Загрузить</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Результаты</div>
+                            <div class="card-body" id="geometryResults">
+                                <table class="table table-sm table-bordered">
+                                    <tbody id="geomResultsTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Тепловой расчет -->
+            <div class="tab-pane fade" id="thermal" role="tabpanel">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Исходные данные</div>
+                            <div class="card-body">
+                                <form id="thermalForm">
+                                    <div class="row g-2">
+                                        <!-- компактно основные параметры -->
+                                        <div class="col-sm-6"><label class="form-label">Мощность Qᵣ, МВт</label><input type="number" step="0.1" class="form-control form-control-sm" id="therm_Q_r" value="35"></div>
+                                        <div class="col-sm-6"><label class="form-label">t_in, °C</label><input type="number" step="1" class="form-control form-control-sm" id="therm_t_in" value="300"></div>
+                                        <div class="col-sm-6"><label class="form-label">t_out, °C</label><input type="number" step="1" class="form-control form-control-sm" id="therm_t_out" value="420"></div>
+                                        <div class="col-sm-6"><label class="form-label">H0_az, м</label><input type="number" step="0.1" class="form-control form-control-sm" id="therm_H0_az" value="1.5"></div>
+                                        <div class="col-sm-6"><label class="form-label">H0_bz, м</label><input type="number" step="0.1" class="form-control form-control-sm" id="therm_H0_bz" value="1.5"></div>
+                                        <div class="col-sm-6"><label class="form-label">δ_eff, м</label><input type="number" step="0.01" class="form-control form-control-sm" id="therm_delta_eff" value="0.1"></div>
+                                        <div class="col-sm-6"><label class="form-label">Cp, Дж/кг·К</label><input type="number" step="1" class="form-control form-control-sm" id="therm_Cp" value="1260"></div>
+                                        <div class="col-sm-6"><label class="form-label">ρ_Na, кг/м³</label><input type="number" step="1" class="form-control form-control-sm" id="therm_rho_Na" value="775"></div>
+                                        <div class="col-sm-6"><label class="form-label">λ_Na, Вт/м·К</label><input type="number" step="1" class="form-control form-control-sm" id="therm_lambda_Na" value="75.0"></div>
+                                        <div class="col-sm-6"><label class="form-label">a_Na, м²/с</label><input type="number" step="0.000001" class="form-control form-control-sm" id="therm_a_Na" value="0.000057"></div>
+                                        <div class="col-sm-6"><label class="form-label">f_az</label><input type="number" step="0.001" class="form-control form-control-sm" id="therm_f_az" value="0.9"></div>
+                                        <div class="col-sm-6"><label class="form-label">f_pr</label><input type="number" step="0.001" class="form-control form-control-sm" id="therm_f_pr" value="0.095"></div>
+                                        <div class="col-sm-6"><label class="form-label">f_be</label><input type="number" step="0.001" class="form-control form-control-sm" id="therm_f_be" value="0.005"></div>
+                                        <div class="col-sm-6"><label class="form-label">λ_topl, Вт/м·К</label><input type="number" step="1" class="form-control form-control-sm" id="therm_lambda_topl" value="20"></div>
+                                        <div class="col-sm-6"><label class="form-label">λ_3, Вт/м·К</label><input type="number" step="0.1" class="form-control form-control-sm" id="therm_lambda_3" value="1.5"></div>
+                                    </div>
+                                    <div class="mt-3">
+                                        <button type="button" class="btn btn-primary btn-sm" id="calcThermalBtn">Рассчитать</button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm" id="loadDefaultThermalBtn">По умолчанию</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">Результаты</div>
+                            <div class="card-body" style="max-height:500px; overflow-y:auto;">
+                                <table class="table table-sm table-bordered">
+                                    <tbody id="thermalResultsTable"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Топологический анализ -->
+            <div class="tab-pane fade" id="topology" role="tabpanel">
+                <div class="row mb-3">
+                    <div class="col">
+                        <button class="btn btn-outline-primary btn-sm me-2" id="setupVariationBtn">Варьируемые параметры</button>
+                        <button class="btn btn-outline-primary btn-sm me-2" id="setupCriticalBtn">Критические параметры</button>
+                        <button class="btn btn-success btn-sm me-2" id="startTopologyBtn">Выполнить расчет точек</button>
+                        <button class="btn btn-primary btn-sm" id="buildTopologyBtn" disabled>Построить карту S(D,H)</button>
+                        <span id="topologyProgress" class="ms-3"></span>
+                    </div>
+                </div>
+                <!-- Визуализации -->
+                <ul class="nav nav-pills mb-3" id="vizTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="cloud3d-tab" data-bs-toggle="pill" data-bs-target="#cloud3d" type="button">3D облако</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="heatmap-tab" data-bs-toggle="pill" data-bs-target="#heatmap" type="button">Тепловая карта</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="vizTabsContent">
+                    <div class="tab-pane fade show active" id="cloud3d">
+                        <div class="mb-2">
+                            <label class="me-2">Шаг выборки:</label>
+                            <input type="number" id="cloudStep" value="1" min="1" step="1" class="form-control d-inline-block" style="width:80px;">
+                            <label class="ms-3 me-2">Скрыть красные:</label>
+                            <input type="checkbox" id="hideRedCheckbox">
+                        </div>
+                        <div id="plot3d" style="height:500px;"></div>
+                    </div>
+                    <div class="tab-pane fade" id="heatmap">
+                        <div class="mb-2">
+                            <label class="me-2">Интерполяция:</label>
+                            <select id="interpSelect" class="form-select d-inline-block" style="width:150px;">
+                                <option value="nearest">nearest</option>
+                                <option value="bilinear" selected>bilinear</option>
+                                <option value="bicubic">bicubic</option>
+                            </select>
+                        </div>
+                        <div id="plotHeatmap" style="height:500px;"></div>
+                    </div>
+                </div>
+                <!-- Детализация -->
+                <div class="card mt-3">
+                    <div class="card-header">Детализация точки</div>
+                    <div class="card-body" id="pointDetails">
+                        <p id="pointInfo">Выберите точку на графике</p>
+                        <button class="btn btn-sm btn-outline-secondary" id="showQDistBtn" disabled>Показать распределение по Q</button>
+                        <div id="detailTableContainer" class="mt-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальные окна для диалогов параметров -->
+    <div class="modal fade" id="variationModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Варьируемые параметры</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- D_a -->
+                    <fieldset class="border p-2 mb-2">
+                        <legend class="h6">Диаметр активной зоны Dₐ, см</legend>
+                        <div class="row g-2">
+                            <div class="col"><label class="form-label">Мин</label><input type="number" step="0.1" class="form-control form-control-sm" id="var_D_min" value="10"></div>
+                            <div class="col"><label class="form-label">Макс</label><input type="number" step="0.1" class="form-control form-control-sm" id="var_D_max" value="1000"></div>
+                            <div class="col"><label class="form-label">Шаг</label><input type="number" step="0.1" class="form-control form-control-sm" id="var_D_step" value="0.5"></div>
+                        </div>
+                    </fieldset>
+                    <!-- Q -->
+                    <fieldset class="border p-2 mb-2">
+                        <legend class="h6">Мощность Qᵣ, МВт</legend>
+                        <div class="row g-2">
+                            <div class="col"><label class="form-label">Мин</label><input type="number" step="0.1" class="form-control form-control-sm" id="var_Q_min" value="0.1"></div>
+                            <div class="col"><label class="form-label">Макс</label><input type="number" step="0.1" class="form-control form-control-sm" id="var_Q_max" value="1000"></div>
+                            <div class="col"><label class="form-label">Шаг</label><input type="number" step="0.1" class="form-control form-control-sm" id="var_Q_step" value="0.5"></div>
+                        </div>
+                    </fieldset>
+                    <!-- H -->
+                    <fieldset class="border p-2 mb-2">
+                        <legend class="h6">Высота активной зоны H₀_az, м</legend>
+                        <div class="row g-2">
+                            <div class="col"><label class="form-label">Мин</label><input type="number" step="0.01" class="form-control form-control-sm" id="var_H_min" value="0.5"></div>
+                            <div class="col"><label class="form-label">Макс</label><input type="number" step="0.01" class="form-control form-control-sm" id="var_H_max" value="25"></div>
+                            <div class="col"><label class="form-label">Шаг</label><input type="number" step="0.01" class="form-control form-control-sm" id="var_H_step" value="0.1"></div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-primary" id="applyVariationBtn">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="criticalModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Критические параметры</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- N_TVS -->
+                    <fieldset class="border p-2 mb-2">
+                        <legend class="h6">Количество ТВС N_TVS</legend>
+                        <div class="row g-2">
+                            <div class="col"><label class="form-label">Мин</label><input type="number" step="1" class="form-control form-control-sm" id="crit_N_min" value="7"></div>
+                            <div class="col"><label class="form-label">Макс</label><input type="number" step="1" class="form-control form-control-sm" id="crit_N_max" value="700"></div>
+                            <div class="col-12"><label class="form-label">Идеальные значения (через запятую)</label><input type="text" class="form-control form-control-sm" id="crit_N_ideal" value="1,7,19,37,61,91,127,169,217,271,331,397,469,547,631"></div>
+                        </div>
+                    </fieldset>
+                    <!-- G_p -->
+                    <fieldset class="border p-2 mb-2">
+                        <legend class="h6">Расход G_p, кг/с</legend>
+                        <div class="row g-2">
+                            <div class="col"><label class="form-label">Доп. мин</label><input type="number" step="1" class="form-control form-control-sm" id="crit_G_min" value="50"></div>
+                            <div class="col"><label class="form-label">Доп. макс</label><input type="number" step="1" class="form-control form-control-sm" id="crit_G_max" value="700"></div>
+                            <div class="col"><label class="form-label">Идеал мин</label><input type="number" step="1" class="form-control form-control-sm" id="crit_G_imin" value="250"></div>
+                            <div class="col"><label class="form-label">Идеал макс</label><input type="number" step="1" class="form-control form-control-sm" id="crit_G_imax" value="600"></div>
+                        </div>
+                    </fieldset>
+                    <!-- w_az -->
+                    <fieldset class="border p-2 mb-2">
+                        <legend class="h6">Скорость w_az, м/с</legend>
+                        <div class="row g-2">
+                            <div class="col"><label class="form-label">Доп. мин</label><input type="number" step="0.1" class="form-control form-control-sm" id="crit_w_min" value="1.5"></div>
+                            <div class="col"><label class="form-label">Доп. макс</label><input type="number" step="0.1" class="form-control form-control-sm" id="crit_w_max" value="6.0"></div>
+                            <div class="col"><label class="form-label">Идеал мин</label><input type="number" step="0.1" class="form-control form-control-sm" id="crit_w_imin" value="2.0"></div>
+                            <div class="col"><label class="form-label">Идеал макс</label><input type="number" step="0.1" class="form-control form-control-sm" id="crit_w_imax" value="4.0"></div>
+                        </div>
+                    </fieldset>
+                    <!-- ql0_az -->
+                    <fieldset class="border p-2 mb-2">
+                        <legend class="h6">Линейная плотность ql0_az, Вт/м</legend>
+                        <div class="row g-2">
+                            <div class="col"><label class="form-label">Доп. мин</label><input type="number" step="10" class="form-control form-control-sm" id="crit_q_min" value="10000"></div>
+                            <div class="col"><label class="form-label">Доп. макс</label><input type="number" step="10" class="form-control form-control-sm" id="crit_q_max" value="50000"></div>
+                            <div class="col"><label class="form-label">Идеал мин</label><input type="number" step="10" class="form-control form-control-sm" id="crit_q_imin" value="25000"></div>
+                            <div class="col"><label class="form-label">Идеал макс</label><input type="number" step="10" class="form-control form-control-sm" id="crit_q_imax" value="45000"></div>
+                        </div>
+                    </fieldset>
+                    <!-- T_cl_max -->
+                    <fieldset class="border p-2 mb-2">
+                        <legend class="h6">Макс. температура оболочки T_cl_max, °C</legend>
+                        <div class="row g-2">
+                            <div class="col"><label class="form-label">Доп. мин</label><input type="number" step="1" class="form-control form-control-sm" id="crit_T_min" value="300"></div>
+                            <div class="col"><label class="form-label">Доп. макс</label><input type="number" step="1" class="form-control form-control-sm" id="crit_T_max" value="800"></div>
+                            <div class="col"><label class="form-label">Идеал мин</label><input type="number" step="1" class="form-control form-control-sm" id="crit_T_imin" value="450"></div>
+                            <div class="col"><label class="form-label">Идеал макс</label><input type="number" step="1" class="form-control form-control-sm" id="crit_T_imax" value="650"></div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-primary" id="applyCriticalBtn">Сохранить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модалка для детализации столба по Q -->
+    <div class="modal fade" id="qDistModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="qDistTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="qDistTableContainer"></div>
+                    <div id="qDistPlot" style="height:400px;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
