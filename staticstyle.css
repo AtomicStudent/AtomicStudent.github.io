@@ -1,0 +1,5 @@
+body { font-size: 0.9rem; }
+.card-header { font-weight: bold; }
+.form-control-sm { font-size: 0.8rem; }
+.form-label { margin-bottom: 0; font-size: 0.8rem; }
+.table td, .table th { padding: 0.2rem 0.4rem; vertical-align: middle; }
